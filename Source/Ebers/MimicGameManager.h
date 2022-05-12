@@ -58,10 +58,12 @@ public:
 
 
 	void InitializeWalls();
-	void MoveWalls(float speed);
+	//void MoveWalls(float speed);
 
 
 
 	UFUNCTION(BlueprintCallable)
 		void SpawnWalls();
+
+	/*void MoveWalls(float speed);*/
 };

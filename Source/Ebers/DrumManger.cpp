@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-#include"Drum.h"
 #include "DrumManger.h"
+#include"Drum.h"
+
 
 // Sets default values
 ADrumManger::ADrumManger()

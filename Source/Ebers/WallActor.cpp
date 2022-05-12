@@ -28,6 +28,7 @@ AWallActor::AWallActor()
 void AWallActor::BeginPlay()
 {
 	Super::BeginPlay();
+	
 
 }
 
@@ -35,6 +36,7 @@ void AWallActor::BeginPlay()
 void AWallActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	MoveWall(WallMovementSpeed);
 
 }
 void AWallActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -48,6 +50,17 @@ void AWallActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Oth
 }
 void AWallActor::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+}
+void AWallActor::MoveWall(float speed)
+{
+	UE_LOG(LogTemp, Error, TEXT("moving wall "));
+
+	FVector newlocation = this->GetActorLocation();
+
+		
+		newlocation.X = newlocation.X - speed;
+	SetActorLocation(newlocation);
+		
 }
 //
 //void AWallActor::setMeshTest(UStaticMesh* mesh)

@@ -30,6 +30,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class UBoxComponent* CollisionBox;
 
+	UPROPERTY(EditAnywhere)
+		float WallMovementSpeed;
+
 	/*UPROPERTY(EditAnywhere)
 		AActor* Player;*/
 
@@ -48,4 +51,6 @@ public:
 	// declare overlap end function
 	UFUNCTION()
 		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	
+	void MoveWall(float speed);
 };

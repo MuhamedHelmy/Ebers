@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-#include "WallActor.h"
 #include "MimicGameManager.h"
+#include "WallActor.h"
+
 
 // Sets default values
 AMimicGameManager::AMimicGameManager()
@@ -26,7 +26,7 @@ void AMimicGameManager::BeginPlay()
 	//StartMovingWalls = true;
 
 
-	InitializeWalls();
+	SpawnWalls();
 
 
 
@@ -36,14 +36,9 @@ void AMimicGameManager::BeginPlay()
 void AMimicGameManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//if (StartMovingWalls) {
-			//if (WallsCounter <10) {
-	MoveWalls(WallsMovementSpeed);
-
-	//}
+	
 }
 
-//}
 
 void AMimicGameManager::InitializeWalls()
 {
@@ -65,17 +60,14 @@ void AMimicGameManager::InitializeWalls()
 
 			UStaticMeshComponent* x = Cast<UStaticMeshComponent>(t->Root->GetChildComponent(0));
 
-
 			//	if (MeshesOfTheWalls[i] != nullptr) {
 			x->SetStaticMesh(MeshesOfTheWalls[i]);
 			//}
 
 			// t->SetActorHiddenInGame(true);
 
-
-
 			Walls.Add(t);
-
+			
 
 			spawnLocation.X += OffsetBetweenWalls;
 		}
@@ -94,21 +86,25 @@ void AMimicGameManager::InitializeWalls()
 	}*/
 	//UE_LOG(LogTemp, Warning, TEXT("Location ") , Walls[0]->GetActorLocation());
 }
-void AMimicGameManager::MoveWalls(float speed) {
-	for (int32 i = 0; i < Walls.Num(); i++)
-	{
-		FVector newLocation = Walls[i]->GetActorLocation();
-
-		if (Walls[i]) {
-			newLocation.X = newLocation.X - speed;
-			Walls[i]->SetActorLocation(newLocation);
-		}
-
-
-	}
-
-	//	WallsCounter++;
-}
+//void AMimicGameManager::MoveWalls(float speed) {
+//	for (int32 i = 0; i < Walls.Num(); i++)
+//	{
+//
+//		
+//		//FVector newLocation = Walls[i]->GetActorLocation();
+//
+//		//if (Walls[i]) {
+//		//	newLocation.X = newLocation.X - speed;
+//		//	Walls[i]->SetActorLocation(newLocation);
+//		//}
+//
+//
+//	}
+//
+//	//	WallsCounter++;
+//
+//	
+//}
 
 void AMimicGameManager::SpawnWalls()
 {
