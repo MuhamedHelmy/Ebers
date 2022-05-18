@@ -8,120 +8,59 @@ AMimicGameManager::AMimicGameManager()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	/*Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	SetRootComponent(Root);
-
-	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
-	Mesh->SetupAttachment(Root);*/
+	if (wavesnum != 5) { iterations = wavesnum; }
+	else { iterations = 5; }
 
 }
 
-// Called when the game starts or when spawned
 void AMimicGameManager::BeginPlay()
 {
 	Super::BeginPlay();
-	world = GetWorld();
 
-	//StartMovingWalls = true;
-
-
-	SpawnWalls();
+	FTimerHandle SpawningManager;
 
 
-
-}
-
-// Called every frame
-void AMimicGameManager::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	
-}
-
-
-void AMimicGameManager::InitializeWalls()
-{
-	//spawnLocation.Z = 20;
-	for (size_t i = 0; i < 10; i++)
+	while (iterations > 0)
 	{
-		if (WallClass) {
-
-			FActorSpawnParameters spawnParams;
 
 
-			AActor* temp = world->SpawnActor<AWallActor>(WallClass, spawnLocation, wallRotation, spawnParams);
-
-			AWallActor* t = Cast<AWallActor>(temp);
-
-			/*FVector newLocation = t->GetActorLocation();
-			newLocation.Z += 20 ;
-			t->SetActorLocation(newLocation);*/
-
-			UStaticMeshComponent* x = Cast<UStaticMeshComponent>(t->Root->GetChildComponent(0));
-
-			//	if (MeshesOfTheWalls[i] != nullptr) {
-			x->SetStaticMesh(MeshesOfTheWalls[i]);
-			//}
-
-			// t->SetActorHiddenInGame(true);
-
-			Walls.Add(t);
-			
-
-			spawnLocation.X += OffsetBetweenWalls;
-		}
-
-		UE_LOG(LogTemp, Warning, TEXT("Y Location : %f"), Walls[i]->GetActorLocation().Y);
+		GetWorld()->GetTimerManager().SetTimer(SpawningManager, this, &AMimicGameManager::spawnWAlls, timebetweenSpawning, true);
 
 	}
-	UE_LOG(LogTemp, Warning, TEXT("-------------------------------"));
+}
+void AMimicGameManager::spawnWAlls() {
 
 
 
-
-	/*for (AWallActor* Actor : Walls)
+	for (int32 i = 0; i < SpawnActors.Num(); i++)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Location "), Actor->GetActorLocation());
-	}*/
-	//UE_LOG(LogTemp, Warning, TEXT("Location ") , Walls[0]->GetActorLocation());
-}
-//void AMimicGameManager::MoveWalls(float speed) {
-//	for (int32 i = 0; i < Walls.Num(); i++)
-//	{
-//
-//		
-//		//FVector newLocation = Walls[i]->GetActorLocation();
-//
-//		//if (Walls[i]) {
-//		//	newLocation.X = newLocation.X - speed;
-//		//	Walls[i]->SetActorLocation(newLocation);
-//		//}
-//
-//
-//	}
-//
-//	//	WallsCounter++;
-//
-//	
-//}
+		if (randomGeneration) {
+			float x = FMath::RandRange(0, SpawnActors.Num() - 1);
+			temp = GetWorld()->SpawnActor<AWallActor>(SpawnActors[x], GetActorLocation() + FVector(0, pos, 0), GetActorRotation());
 
-void AMimicGameManager::SpawnWalls()
-{
-	InitializeWalls();
-	/*if (WallClass) {
-
-		if (world) {
-			FActorSpawnParameters spawnParams;
-			spawnParams.Owner = this;
-
-			AActor* temp = world->SpawnActor<AWallActor>(WallClass, spawnLocation, wallRotation, spawnParams);
-			AWallActor* wall = Cast<AWallActor>(temp);
-
-			if (wall) {
-
-			}
 		}
-	}*/
+		else {
+			temp = GetWorld()->SpawnActor<AWallActor>(SpawnActors[i], GetActorLocation() + FVector(0, pos, 0), GetActorRotation());
+
+		}
+		temp->WallMovementSpeed = speed;
+		pos += distance;
+	}
+	iterations--;
+	pos = 0;
+
+	UE_LOG(LogTemp, Error, TEXT("saddsfd %f"), iterations);
 
 }
+
+void AMimicGameManager::returnJason()
+{
+	/*TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
+	JsonObject->SetStringField("key1", string_value);
+	JsonObject->SetNumberField("key2", int_value);
+	JsonObject->SetBoolField("key3", boolean_value);
+
+	TSharedRef<TJsonWriter<>> json_writer = TJsonWriterFactory<>::Create(&data_to_send);
+	FJsonSerializer::Serialize(JsonObject.ToSharedRef(), json_writer);*/
+}
+

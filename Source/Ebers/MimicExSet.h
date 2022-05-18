@@ -1,19 +1,16 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "WallActor.h"
-#include "MimicGameManager.generated.h"
+#include "MimicExSet.generated.h"
 
 UCLASS()
-class EBERS_API AMimicGameManager : public AActor
+class EBERS_API AMimicExSet : public AActor
 {
 	GENERATED_BODY()
-
-public:
-	// Sets default values for this actor's properties
-	AMimicGameManager();
-	UPROPERTY(EditAnywhere)
+		UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<AWallActor>> SpawnActors;
 	UPROPERTY(EditAnywhere)
 		float wavesnum = 5;
@@ -26,8 +23,6 @@ public:
 	UPROPERTY(EditAnywhere)
 		float distance = 100;
 
-	UPROPERTY(EditAnywhere)
-		bool randomGeneration;
 	UPROPERTY(EditAnywhere)
 		float timebetweenSpawning = 5;
 
@@ -42,5 +37,4 @@ protected:
 	virtual void BeginPlay() override;
 	void spawnWAlls();
 	void returnJason();
-
 };
