@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include"EbersPlayer.h"
 #include "DanceGameManager.generated.h"
 
 UCLASS()
@@ -25,7 +26,8 @@ public:
 	float MaxAngle=70;
 	float angle = 0;
 	float angleDirection = 1;
-	
+	void MoveFromCurveToAnother();
+	int CurveNum=0;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class AEbersPlayer> MyEbersPlayer;
 
@@ -34,35 +36,22 @@ public:
 	UPROPERTY(EditAnywhere)
 
 		ACharacter* MyPlayer;
-	//UPROPERTY(EditAnywhere)
-	//	float OffsetBetweenWalls = 500.f;
-
-
-
-	///*UPROPERTY(EditAnywhere)
-	//	bool StartMovingWalls ;*/
-
-	//UPROPERTY(EditAnywhere)
-	//	float WallsMovementSpeed = 2;
-
-
-
-	//UPROPERTY(EditAnywhere)
-	//	TArray<UStaticMesh*> MeshesOfTheWalls;
-	///*UPROPERTY(VisibleAnywhere)
-	//	USceneComponent* Root	;
-
-	//UPROPERTY(VisibleAnywhere)
-	//	USkeletalMeshComponent* Mesh;*/
 
 	UPROPERTY(BlueprintReadWrite)
 		FRotator spawnRotation;
 
+	ACharacter* tempchar;
+	AEbersPlayer* tchar;
+
+	AEbersPlayer* player;
 
      UPROPERTY(EditAnywhere, BlueprintReadWrite)
 
 	TArray<ADanceEnemy*> DanceEnemies;
 
+	 float PlayerLen = 300;
+	 float PlayerLenH=200;
+	 float FarPlayer=100;
 		int EnemyIndex;
 	//int32 WallsCounter = 0;
 protected:

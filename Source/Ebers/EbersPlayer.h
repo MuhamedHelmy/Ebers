@@ -19,9 +19,13 @@ class EBERS_API AEbersPlayer : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AEbersPlayer();
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		UCameraComponent  *mycamera;
-	float me;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	//	UCameraComponent  *mycamera;
+	void DrawLeser();
+	FHitResult hit;
+	FVector StartLaser;
+	FVector EndLaser;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -34,3 +38,5 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
+
+void DrawLeser();
