@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "MimicGameManager.h"
 #include "WallActor.h"
+#include "MimicExSet.h"
 
 
 // Sets default values
@@ -8,120 +9,191 @@ AMimicGameManager::AMimicGameManager()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	/*Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	SetRootComponent(Root);
-
-	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
-	Mesh->SetupAttachment(Root);*/
+	if (wavesnum != 5) { iterations = wavesnum; }
+	else { iterations = 5; }
 
 }
 
-// Called when the game starts or when spawned
 void AMimicGameManager::BeginPlay()
 {
 	Super::BeginPlay();
-	world = GetWorld();
+	temprepet=repeatEx(Exrepeat);
+	switch (setselectionEx)
+	{
+			case SetSelection::NONe :
+			case  SetSelection::Set01:
+		
+				starter = 0;
+				spawnWAllsets();
+				break;
+			case SetSelection::set02 :
+					starter = 1;
+					swapSetOfExersices(starter);
+					spawnWAllsets();
+					break;
+			case SetSelection::set03:
+				starter = 2;
+				swapSetOfExersices(starter);
+				spawnWAllsets();
+				break;
+			case SetSelection::set04:
+				starter = 3;
+				swapSetOfExersices(starter);
+				spawnWAllsets();
+				break;
+			case SetSelection::set05:
+				starter = 4;
+				swapSetOfExersices(starter);
+				spawnWAllsets();
+				break;
+			case SetSelection::randomsel:
+				temprepet = 1;				spawnRandomSets();
+	}
+	
 
-	//StartMovingWalls = true;
+	//FTimerHandle SpawningManager;
+	//	GetWorld()->GetTimerManager().SetTimer(SpawningManager, this, &AMimicGameManager::spawnWAlls, timebetweenSpawning, true);
+
+	
+}
+void AMimicGameManager::spawnWAllsets() {
+	while (iterations>0)
+	{
 
 
-	SpawnWalls();
+		
+			for (int32 i = 0; i < SpawnActors.Num(); i++)
+			{
 
+				int32 Rip;
+				temp = Cast<AMimicExSet>(GetWorld()->SpawnActor<AMimicExSet>(SpawnActors[i], GetActorLocation() + FVector(pos, 0, 0), GetActorRotation()));
+				temp->walls_distance = distance;
 
-
+				if (i == repeatedIndex) {
+				Rip = temprepet;
+				temp->spawnWAlls(speed, temprepet);
+				pos += temp->SpawnActors.Num()*Rip *temp->walls_distance;
+				//
+				UE_LOG(LogTemp,Error,TEXT("repeated index %d"),repeatedIndex)
+				}
+				else
+				{
+					Rip = 1;
+					temp->spawnWAlls(speed, Rip);
+					pos += temp->SpawnActors.Num()*Rip *temp->walls_distance;
+					UE_LOG(LogTemp, Error, TEXT("_________________________________________"))
+				}
+			}
+			iterations--;
+		
+	}
 }
 
-// Called every frame
-void AMimicGameManager::Tick(float DeltaTime)
+void AMimicGameManager::spawnRandomSets()
 {
-	Super::Tick(DeltaTime);
+
+	while (iterations>0)
+	{
+
+		for (int32 i = 0; i < SpawnActors.Num(); i++)
+		{
+
+			float x = FMath::RandRange(0, SpawnActors.Num() - 1);
+			temp = Cast<AMimicExSet>(GetWorld()->SpawnActor<AMimicExSet>(SpawnActors[x],
+				GetActorLocation() + FVector(pos, 0, 0), GetActorRotation()));
+			temp->walls_distance = distance;
+			temp->spawnWAlls(speed, temprepet);
+			pos += temp->SpawnActors.Num()*temprepet *temp->walls_distance;
+
+
+		}
+		iterations--;
+	}
 	
 }
 
 
-void AMimicGameManager::InitializeWalls()
+
+void AMimicGameManager::returnJason()
 {
-	//spawnLocation.Z = 20;
-	for (size_t i = 0; i < 10; i++)
-	{
-		if (WallClass) {
+	/*TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
+	JsonObject->SetStringField("key1", string_value);
+	JsonObject->SetNumberField("key2", int_value);
+	JsonObject->SetBoolField("key3", boolean_value);
 
-			FActorSpawnParameters spawnParams;
-
-
-			AActor* temp = world->SpawnActor<AWallActor>(WallClass, spawnLocation, wallRotation, spawnParams);
-
-			AWallActor* t = Cast<AWallActor>(temp);
-
-			/*FVector newLocation = t->GetActorLocation();
-			newLocation.Z += 20 ;
-			t->SetActorLocation(newLocation);*/
-
-			UStaticMeshComponent* x = Cast<UStaticMeshComponent>(t->Root->GetChildComponent(0));
-
-			//	if (MeshesOfTheWalls[i] != nullptr) {
-			x->SetStaticMesh(MeshesOfTheWalls[i]);
-			//}
-
-			// t->SetActorHiddenInGame(true);
-
-			Walls.Add(t);
-			
-
-			spawnLocation.X += OffsetBetweenWalls;
-		}
-
-		UE_LOG(LogTemp, Warning, TEXT("Y Location : %f"), Walls[i]->GetActorLocation().Y);
-
-	}
-	UE_LOG(LogTemp, Warning, TEXT("-------------------------------"));
-
-
-
-
-	/*for (AWallActor* Actor : Walls)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Location "), Actor->GetActorLocation());
-	}*/
-	//UE_LOG(LogTemp, Warning, TEXT("Location ") , Walls[0]->GetActorLocation());
+	TSharedRef<TJsonWriter<>> json_writer = TJsonWriterFactory<>::Create(&data_to_send);
+	FJsonSerializer::Serialize(JsonObject.ToSharedRef(), json_writer);*/
 }
-//void AMimicGameManager::MoveWalls(float speed) {
-//	for (int32 i = 0; i < Walls.Num(); i++)
-//	{
-//
-//		
-//		//FVector newLocation = Walls[i]->GetActorLocation();
-//
-//		//if (Walls[i]) {
-//		//	newLocation.X = newLocation.X - speed;
-//		//	Walls[i]->SetActorLocation(newLocation);
-//		//}
-//
-//
-//	}
-//
-//	//	WallsCounter++;
-//
-//	
-//}
 
-void AMimicGameManager::SpawnWalls()
+void AMimicGameManager::swapSetOfExersices(int32 num)
 {
-	InitializeWalls();
-	/*if (WallClass) {
+	SpawnActors.Swap(0, num);
 
-		if (world) {
-			FActorSpawnParameters spawnParams;
-			spawnParams.Owner = this;
+	if (num == repeatedIndex) {
+		repeatedIndex = 0;
+	}
+	else if (repeatedIndex == 0) {
+		repeatedIndex = num;
+	}
+	
+}
 
-			AActor* temp = world->SpawnActor<AWallActor>(WallClass, spawnLocation, wallRotation, spawnParams);
-			AWallActor* wall = Cast<AWallActor>(temp);
+int32 AMimicGameManager::repeatEx(int32 num)
+{
 
-			if (wall) {
+	switch (_repeatEx)
+	{
+			case RepeatEX::defval :
+			{
+				repeat = 1;
+				repeatedIndex = -1;
+				break;
+			}
+			case RepeatEX::ReSet01:
+			{
+				repeat = num;
+				repeatedIndex = 0;
+				break;
 
 			}
-		}
-	}*/
+			case RepeatEX::Reset02:
+			{
 
+				repeat = num;
+				repeatedIndex = 1;
+				break;
+
+			}
+			case RepeatEX::Reset03:
+			{
+
+				repeat = num;
+				repeatedIndex = 2;
+				break;
+			}
+			case RepeatEX::Reset04:
+			{
+
+				repeat = num;
+				repeatedIndex = 3;
+				break;
+			}
+			case RepeatEX::Reset05:
+			{
+
+				repeat = num;
+				repeatedIndex = 4;
+				break;
+
+			}
+
+			}
+	
+
+	UE_LOG(LogTemp, Error, TEXT("sdfsdf %d"), repeatedIndex)
+
+	return repeat;
 }
+
+
+
