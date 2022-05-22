@@ -9,8 +9,7 @@ AMimicGameManager::AMimicGameManager()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	if (wavesnum != 5) { iterations = wavesnum; }
-	else { iterations = 5; }
+	
 
 }
 
@@ -57,7 +56,7 @@ void AMimicGameManager::BeginPlay()
 	
 }
 void AMimicGameManager::spawnWAllsets() {
-	while (iterations>0)
+	while (wavesnum>0)
 	{
 
 
@@ -84,7 +83,7 @@ void AMimicGameManager::spawnWAllsets() {
 					UE_LOG(LogTemp, Error, TEXT("_________________________________________"))
 				}
 			}
-			iterations--;
+			wavesnum--;
 		
 	}
 }
@@ -92,7 +91,7 @@ void AMimicGameManager::spawnWAllsets() {
 void AMimicGameManager::spawnRandomSets()
 {
 
-	while (iterations>0)
+	while (wavesnum >0)
 	{
 
 		for (int32 i = 0; i < SpawnActors.Num(); i++)
@@ -107,7 +106,7 @@ void AMimicGameManager::spawnRandomSets()
 
 
 		}
-		iterations--;
+		wavesnum--;
 	}
 	
 }
