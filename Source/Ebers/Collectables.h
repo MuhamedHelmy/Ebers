@@ -3,26 +3,24 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/TriggerVolume.h"
 #include "GameFramework/Actor.h"
-#include "WallActor.generated.h"
-
-
+#include "Collectables.generated.h"
 
 UCLASS()
-class EBERS_API AWallActor : public AActor
+class EBERS_API ACollectables : public AActor
 {
 	GENERATED_BODY()
 
+	
 public:
-	AWallActor();
+	ACollectables();
 	UPROPERTY(VisibleAnywhere)
 		USceneComponent* Root;
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* Mesh;
 	UPROPERTY(EditAnywhere)
 		float WallMovementSpeed;
-	
+
 	virtual void Tick(float DeltaTime) override;
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
@@ -32,6 +30,5 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
 
 };

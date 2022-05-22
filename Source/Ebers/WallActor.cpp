@@ -26,6 +26,9 @@ void AWallActor::Tick(float DeltaTime)
 	updateposition(DeltaTime);
 
 }
+void AWallActor::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+{
+}
 void AWallActor::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 
@@ -34,6 +37,6 @@ void AWallActor::updateposition(float time)
 {
 	FVector newlocation = this->GetActorLocation();
 
-	newlocation.Y = newlocation.Y + WallMovementSpeed;
+	newlocation.X = newlocation.X - WallMovementSpeed;
 	SetActorLocation(newlocation);
 }

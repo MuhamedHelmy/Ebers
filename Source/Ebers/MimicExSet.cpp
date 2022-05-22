@@ -6,37 +6,54 @@
 // Sets default values
 AMimicExSet::AMimicExSet()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	Spawnrotation = GetActorRotation();
+	Spawnrotation.Yaw = 90;
 }
 
 // Called when the game starts or when spawned
 void AMimicExSet::BeginPlay()
 {
 	Super::BeginPlay();
-	
-}
-
-void AMimicExSet::spawnWAlls()
-{
-	for (int32 i = 0; i < SpawnActors.Num(); i++)
-	{
 		
-			temp = GetWorld()->SpawnActor<AWallActor>(SpawnActors[i], GetActorLocation() + FVector(0, pos, 0), GetActorRotation());
-		temp->WallMovementSpeed = speed;
-		pos += distance;
-	}
-	iterations--;
-	pos = 0;
-
-	UE_LOG(LogTemp, Error, TEXT("saddsfd %f"), iterations);
 }
 
-// Called every frame
-void AMimicExSet::Tick(float DeltaTime)
+void AMimicExSet::spawnWAlls(float wallspeed,float rep)
 {
-	Super::Tick(DeltaTime);
+	while (rep>0)
+	{
+		for (counter = 0; counter < SpawnActors.Num(); counter++)
+		{
+
+			 walls = GetWorld()->SpawnActor<AWallActor>(SpawnActors[counter], GetActorLocation() + FVector(_Npos, 0, 0), Spawnrotation);
+			 walls->WallMovementSpeed = wallspeed;
+			_Npos += walls_distance;
+			UE_LOG(LogTemp, Error, TEXT("name : %s"), *walls->GetFName().ToString());
+		
+		}
+	rep--;
+	}
+		
+	
+
 
 }
+
+void AMimicExSet::spawnWAlls(float wallspeed)
+{
+
+	for (counter = 0; counter < SpawnActors.Num(); counter++)
+	{
+
+		walls = GetWorld()->SpawnActor<AWallActor>(SpawnActors[counter], GetActorLocation() + FVector(_Npos, 0, 0), Spawnrotation);
+		walls->WallMovementSpeed = wallspeed;
+		_Npos += walls_distance;
+		UE_LOG(LogTemp, Error, TEXT("name : %s"), *walls->GetFName().ToString());
+
+	}
+}
+
+
+
+
+
 

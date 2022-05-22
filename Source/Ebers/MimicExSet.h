@@ -4,37 +4,48 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "WallActor.h"
 #include "MimicExSet.generated.h"
+
 
 UCLASS()
 class EBERS_API AMimicExSet : public AActor
 {
 	GENERATED_BODY()
+
+public:
+	    AMimicExSet();
+
+#pragma region Uproperties
 		UPROPERTY(EditAnywhere)
-		TArray<TSubclassOf<AWallActor>> SpawnActors;
-	UPROPERTY(EditAnywhere)
-		float wavesnum = 5;
-	UPROPERTY(EditAnywhere)
-		FVector Spawnpos;
-	UPROPERTY(EditAnywhere)
-		FRotator Spawnrotation;
-	UPROPERTY(EditAnywhere)
-		float speed = 5;
-	UPROPERTY(EditAnywhere)
-		float distance = 100;
+		TArray<TSubclassOf<AWallActor>> SpawnActors;    //array of spawning walls
+	    UPROPERTY(EditAnywhere)
+	    float walls_distance=100;                     // the distance between every wall
 
-	UPROPERTY(EditAnywhere)
-		float timebetweenSpawning = 5;
+#pragma endregion Uproperties
 
+#pragma region publicFunctions
+
+	void spawnWAlls(float wallspeed,float rep); // spawn walls with repeating number 
+	void spawnWAlls(float wallspeed);        // spawn walls without repeating 
+#pragma endregion publicFunctions
+
+#pragma  region privatesVariables
 private:
-	float pos = 0;
-	float iterations;
-	AWallActor* temp;
+	float _Npos = 0;
+	int32 iterations;
+	int32 counter;
+	AWallActor* walls;
+	FVector Spawnpos;
+	FRotator Spawnrotation;
+	 float setIterations=1;
 
+#pragma endregion  privatesVariables
 
+#pragma region protectedFunction
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	void spawnWAlls();
 	void returnJason();
+#pragma endregion  protectedFunction
 };
