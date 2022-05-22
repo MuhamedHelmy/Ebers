@@ -22,6 +22,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 
 	bool DestroyedDone=false;
+	bool MatChanged;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

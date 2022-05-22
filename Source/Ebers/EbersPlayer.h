@@ -25,6 +25,8 @@ public:
 	FHitResult hit;
 	FVector StartLaser;
 	FVector EndLaser;
+	UPROPERTY(BlueprintReadWrite)
+	bool LaserChanged;
 
 protected:
 	// Called when the game starts or when spawned
