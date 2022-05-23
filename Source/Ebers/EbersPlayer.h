@@ -7,7 +7,7 @@
 #include "Camera/CameraComponent.h"
 
 #include "GameFramework/Character.h"
-
+#include "Components/SplineComponent.h"
 #include "EbersPlayer.generated.h"
 
 
@@ -19,18 +19,28 @@ class EBERS_API AEbersPlayer : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AEbersPlayer();
+
+	UPROPERTY()
+		USplineComponent* MySpline;
+
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		UCameraComponent  *mycamera;
-	float me;
+		UCameraComponent* mycamera;
+	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+	FVector GetPlayerBodyPartLocation(int32 LegFlag);
+
+	TArray<FVector> GetSplinePointsLocation(FName TagName);
 };

@@ -6,16 +6,43 @@
 #include "GameFramework/Actor.h"
 #include "DrumManger.generated.h"
 class ADrum;
-
+class AEbersPlayer;
 UCLASS()
 class EBERS_API ADrumManger : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
+
+public:
 	ADrumManger();
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+
+	UStaticMeshComponent* DrumMeshComponent;
+
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<ADrum> DrumClass;
+
+	
+	UPROPERTY()
+		AEbersPlayer* PlayerClass;
+
+
+
+	UPROPERTY()
+		ADrum* DrumActor;
+
+	UPROPERTY(EditAnywhere)
+		UStaticMesh* DrumMesh;
+
+	UPROPERTY(EditAnywhere)
+		TArray<UStaticMesh*> MusicTrialMeshes;
+
+
+	//AEbersPlayer* PlayerClass;
+
+
+
+
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		FVector leftDrumLocation;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
@@ -30,12 +57,30 @@ public:
 	FActorSpawnParameters spawnParams;
 
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<class ADrum> drumClass;
+		TSubclassOf<class ADrum> drumClass;*/
+
+
+
 
 protected:
-	// Called when the game starts or when spawned
+
 	virtual void BeginPlay() override;
 
+	void SpawnMusicTrailsAtLocation(TArray<FVector> Locations);
+
+	bool GetScenePlayer();
+
+	TArray<FVector> GetSplinePointsLocations( class USplineComponent * Spline);
+
+
+public :
+
+	TArray<FVector> FirstExcersizeFirstLocation;
+	TArray<FVector> FirstExcersizeSecondLocation;
+
+
+	TArray<FVector> SecondExcersizeFirstLocation;
+	TArray<FVector> SecondExcersizeSecondLocation;
 
 
 };

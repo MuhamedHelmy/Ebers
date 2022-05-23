@@ -12,10 +12,15 @@ UCLASS()
 class EBERS_API ADrum : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	ADrum();
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Companents")
+
+public:
+
+	UPROPERTY(VisibleAnywhere)
+		USceneComponent* Root;
+	UPROPERTY(VisibleAnywhere)
+		UStaticMeshComponent* Mesh;
+
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Companents")
 		USceneComponent* sceneCompanent;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Companents")
 		UStaticMeshComponent* staticMesh;
@@ -23,10 +28,14 @@ public:
 		USphereComponent* collider;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Assets")
 		USoundBase* overlapSound;
-	void changePos();
+	void changePos();*/
 protected:
 	virtual void BeginPlay() override;
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	//void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 
+
+public:
+	ADrum();
+	//void SetMesh(UStaticMesh* mesh);
 };
