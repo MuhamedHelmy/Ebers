@@ -33,13 +33,25 @@ void ADrumManger::BeginPlay()
 		 ExerciseOTwoSplines = PlayerClass->GetComponentsByTag(USplineComponent::StaticClass(), TEXT("ExerciseTwoSpline"));
 	}
 
+	if (ExerciseOneSplines.Num() > 0) {
 
-	FirstExcersizeFirstLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOneSplines[0]));
-	FirstExcersizeSecondLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOneSplines[1]));
+		FirstExcersizeFirstLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOneSplines[0]));
+		FirstExcersizeSecondLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOneSplines[1]));
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("spline not found"));
+	}
+	if (ExerciseOTwoSplines.Num() > 0) {
+		SecondExcersizeFirstLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOTwoSplines[0]));
+		SecondExcersizeSecondLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOTwoSplines[1]));
+
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("spline not found 2 "));
+	}
 
 
-	SecondExcersizeFirstLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOTwoSplines[0]));
-	SecondExcersizeSecondLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOTwoSplines[1]));
+	
 
 	if (ExerciseOneSplines.Num() > 0) {
 
