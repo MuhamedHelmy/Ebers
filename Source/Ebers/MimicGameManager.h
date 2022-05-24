@@ -78,7 +78,7 @@ public:
 #pragma region privateVariables
 private:
 	float pos = 0;
-	float iterations;
+	//float iterations=5;
 	AMimicExSet* temp;
 	int32 starter;
 	int32 repeat ;
