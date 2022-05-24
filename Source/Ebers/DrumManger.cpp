@@ -31,6 +31,7 @@ void ADrumManger::BeginPlay()
 	if (GetScenePlayer()) {
 		 ExerciseOneSplines = PlayerClass->GetComponentsByTag(USplineComponent::StaticClass(), TEXT("ExerciseOneSpline"));
 		 ExerciseOTwoSplines = PlayerClass->GetComponentsByTag(USplineComponent::StaticClass(), TEXT("ExerciseTwoSpline"));
+		 
 	}
 
 	if (ExerciseOneSplines.Num() > 0) {
@@ -57,11 +58,13 @@ void ADrumManger::BeginPlay()
 
 		SpawnMusicTrailsAtLocation(FirstExcersizeFirstLocation);
 		SpawnMusicTrailsAtLocation(FirstExcersizeSecondLocation);
+		UE_LOG(LogTemp, Error, TEXT("helmy shhh"));
 
 	}
 	if (ExerciseOTwoSplines	.Num() > 0) {
 		SpawnMusicTrailsAtLocation(SecondExcersizeFirstLocation);
 		SpawnMusicTrailsAtLocation(SecondExcersizeSecondLocation);
+		UE_LOG(LogTemp, Error, TEXT("helmy simp"));
 	}
 	
 	//GetSplinePointsLocationsAbod(Spline);
@@ -90,6 +93,7 @@ void ADrumManger::SpawnMusicTrailsAtLocation(TArray<FVector> Locations)
 		x = Cast<UStaticMeshComponent>(DrumActor->Root ->GetChildComponent(0));
 		if (x) {
 			x->SetStaticMesh(MusicTrialMeshes[j]);
+			UE_LOG(LogTemp, Error, TEXT("helmy sumbpl"));
 		}
 		if (j < MusicTrialMeshes.Num()) {
 			j++;
@@ -102,15 +106,19 @@ void ADrumManger::SpawnMusicTrailsAtLocation(TArray<FVector> Locations)
 
 bool ADrumManger::GetScenePlayer()
 {
-
+	UE_LOG(LogTemp, Error, TEXT("got the player 0069 "));
 	TArray<AActor*> Found;
-	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "Player", Found);
+	
+		UGameplayStatics::GetAllActorsWithTag(GetWorld(), "Player", Found);
+		UE_LOG(LogTemp, Error, TEXT("got the player 22  %d"), Found.Num());
 	if (Found.Num() > 0) {
 		PlayerClass = Cast<AEbersPlayer>(Found[0]);
 		return true;
+		UE_LOG(LogTemp, Error, TEXT("got the player 11 "));
 	}
 	else {
 		return false;
+		UE_LOG(LogTemp, Error, TEXT("got the player 22 "));
 	}
 	
 }
