@@ -91,7 +91,7 @@ void AMimicGameManager::spawnWAllsets() {
 void AMimicGameManager::spawnRandomSets()
 {
 
-	while (wavesnum >0)
+	while (wavesnum>0)
 	{
 
 		for (int32 i = 0; i < SpawnActors.Num(); i++)
