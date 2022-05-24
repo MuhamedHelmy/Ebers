@@ -67,6 +67,8 @@ public:
 	 FString strInfoForDoctor;
 	 int str_i_ForDoctor;
 
+	 //int MyEnemydirection = 0;
+
 	// bool bTringle;
 	 TArray<FString> strArrInfoForDoctor;
 
