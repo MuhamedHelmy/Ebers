@@ -35,38 +35,30 @@ void ADrumManger::BeginPlay()
 	}
 
 	if (ExerciseOneSplines.Num() > 0) {
-
 		FirstExcersizeFirstLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOneSplines[0]));
 		FirstExcersizeSecondLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOneSplines[1]));
-	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("spline not found"));
-	}
-	if (ExerciseOTwoSplines.Num() > 0) {
-		SecondExcersizeFirstLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOTwoSplines[0]));
-		SecondExcersizeSecondLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOTwoSplines[1]));
-
-	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("spline not found 2 "));
-	}
-
-
-	
-
-	if (ExerciseOneSplines.Num() > 0) {
-
+		
 		SpawnMusicTrailsAtLocation(FirstExcersizeFirstLocation);
 		SpawnMusicTrailsAtLocation(FirstExcersizeSecondLocation);
 		UE_LOG(LogTemp, Error, TEXT("helmy shhh"));
 
 	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("spline1 not found"));
+	}
 	if (ExerciseOTwoSplines	.Num() > 0) {
+
+		SecondExcersizeFirstLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOTwoSplines[0]));
+		SecondExcersizeSecondLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOTwoSplines[1]));
+
 		SpawnMusicTrailsAtLocation(SecondExcersizeFirstLocation);
 		SpawnMusicTrailsAtLocation(SecondExcersizeSecondLocation);
 		UE_LOG(LogTemp, Error, TEXT("helmy simp"));
 	}
-	
+
+	else {
+		UE_LOG(LogTemp, Error, TEXT("spline2 not found "));
+	}
 	//GetSplinePointsLocationsAbod(Spline);
 	//Spline->GetLocationAndTangentAtSplinePoint(0 ,);
 
