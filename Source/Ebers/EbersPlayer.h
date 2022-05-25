@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 
 #include "GameFramework/Character.h"
+
 #include "Components/SplineComponent.h"
 #include "EbersPlayer.generated.h"
 
@@ -19,6 +20,14 @@ class EBERS_API AEbersPlayer : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AEbersPlayer();
+	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	//	UCameraComponent  *mycamera;
+	void DrawLeser();
+	FHitResult hit;
+	FVector StartLaser;
+	FVector EndLaser;
+	UPROPERTY(BlueprintReadWrite)
+	bool LaserChanged;
 
 	UPROPERTY()
 		USplineComponent* MySpline;
@@ -44,3 +53,5 @@ public:
 
 	TArray<FVector> GetSplinePointsLocation(FName TagName);
 };
+
+void DrawLeser();

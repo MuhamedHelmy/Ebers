@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "EnemyMovement.h"
-#include "DanceEnemy.h"
 
+#include "DanceEnemy.h"
 #include <Editor/SceneOutliner/Public/SceneOutlinerVisitorTypes.h>
 
 // Sets default values

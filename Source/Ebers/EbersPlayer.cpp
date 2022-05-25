@@ -29,6 +29,7 @@ void AEbersPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//GetWorld()->LineTraceSingleByChannel(hit, StartLaser, EndLaser, ECollisionChannel::ECC_GameTraceChannel1);
 }
 
 // Called to bind functionality to input
@@ -38,6 +39,30 @@ void AEbersPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 }
 
+void DrawLeser()
+{
+//FVector   Location;
+//FRotator Rotation;
+//
+//OwnerController->GetPlayerViewPoint(Location, Rotation);
+//
+//FVector End = Location + Rotation.Vector() * MaxRange;
+//
+//FHitResult hit;
+//
+//if (GetWorld()->LineTraceSingleByChannel(hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1)) {
+//	FVector ShotDirection = -Rotation.Vector();
+//	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, hit.Location, ShotDirection.Rotation());
+//
+//	if (hit.GetActor() != nullptr) {
+//		FPointDamageEvent DamageEvent(Damage, hit, ShotDirection, nullptr);
+//		hit.GetActor()->TakeDamage(Damage, DamageEvent, OwnerController, this);
+//
+//	}
+//
+//
+//}
+}
 FVector AEbersPlayer::GetPlayerBodyPartLocation(int32 LegFlag)
 {
 
