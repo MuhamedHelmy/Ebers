@@ -7,12 +7,37 @@
 #include"EbersPlayer.h"
 #include "DanceGameManager.generated.h"
 
+UENUM()
+namespace ExerciseTypes {
+	enum Type {
+		Horizontal				UMETA(DisplayName = "Horizontal"),
+		Vertical				UMETA(DisplayName = "Vertical"),
+		HorizontalDown			UMETA(DisplayName = "HorizontalDown"),
+		Triangle				UMETA(DisplayName = "Triangle")
+	};
+}
+
+
+
+USTRUCT()
+struct FDoctorChoice
+{
+	GENERATED_BODY()
+	//UPROPERTY(EditAnywhere)
+public:
+
+	UPROPERTY(EditAnywhere)
+	TEnumAsByte<ExerciseTypes::Type> ExerciseType;
+	UPROPERTY(EditAnywhere)
+		int NumOfRepeating;
+}; 
+
 UCLASS()
 class EBERS_API ADanceGameManager : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ADanceGameManager();
 	UWorld* world;
@@ -23,7 +48,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UMaterial* EnemyMaterial_2;
 
-	class UMaterial* MyEnemyMaterial;
+		class UMaterial* MyEnemyMaterial;
 
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class ADanceEnemy> MyDanceEnemy;
@@ -32,12 +57,12 @@ public:
 		FVector spawnLocation;
 
 	UStaticMeshComponent* EnemyDanceMesh;
+	float MaxAngle = 70;
 
-	float MaxAngle=70;
 	float angle = 0;
 	float angleDirection = 1;
-	void MoveFromCurveToAnother();
-	int CurveNum=0;
+	int CurveNum = -1;
+	
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class AEbersPlayer> MyEbersPlayer;
 
@@ -54,39 +79,65 @@ public:
 	AEbersPlayer* tchar;
 	AEbersPlayer* player;
 
-     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<ADanceEnemy*> DanceEnemies;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TArray<ADanceEnemy*> DanceEnemies;
 
-	 float PlayerLen = 300;
-	 float PlayerLenH=200;
-	 float FarPlayer=100;
-	 int EnemyIndex;
-	 int spanLife_i;
-	 float HorizontalAngle;
-	 int VerticalAngle;
-	 FString strInfoForDoctor;
-	 int str_i_ForDoctor;
+	float PlayerLen = 300;
+	float PlayerLenH = 200;
+	float FarPlayer = 100;
+	int EnemyIndex;
 
-	 //int MyEnemydirection = 0;
+	float HorizontalAngle;
+	int VerticalAngle;
+	FString strInfoForDoctor;
+	int str_i_ForDoctor;
 
-	// bool bTringle;
-	 TArray<FString> strArrInfoForDoctor;
+	int stepAngle = 30;
+	int startSpanTime = 1;
+	int spanLife_i;
+	int stepSpanLife = 1;
 
-	 //int RandMatNum;
-	 
-	 //int32 WallsCounter = 0;
+	int NumofExcHorizontal = 2;
+	int NumofExcVertical = 2;
+	int NumofExcHorizontalDown = 2;
+	int NumofExcTriangle = 2;
+	bool finishCurves = false;
+
+	TArray<FString> strArrInfoForDoctor;
+
+	// Unreal 5.0 onwards supports FText-like formatting
+	UPROPERTY(EditAnywhere)
+		TArray<FDoctorChoice> DoctorChoice;
+
+	int NumOfExercise;
+	int DoctorChoiceIndex;
+	bool bDown;
+	bool bUp;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void SpawnDanceEnemyHorizontal(float maxAngle, bool direction);
-	void SpawnDanceEnemyVertical(float maxAngle, bool direction);
-	void SpawnDanceEnemyTriangle(float maxAngle, bool direction);
-	void SetEnemyMaterial(class UMaterial* mat, int EnemyNum);
-	void RandMaterial(int randNum,int EnemyNum);
+	//void SpawnDanceEnemyHorizontal(float maxAngle, bool direction);
+	//void SpawnDanceEnemyVertical(float maxAngle, bool direction);
+	//void SpawnDanceEnemyTriangle(float maxAngle, bool direction);
+	void SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle, bool direction);
 
-	
+	//void MoveFromCurveToAnother();
+	void MoveFromCurveToAnotherHorizontal();
+	void MoveFromCurveToAnotherVertical();
+	void MoveFromCurveToAnotherHorizontalDown();
+	void MoveFromCurveToAnotherTriangle();
+	void FromStartToDown();
+	void FromDownToStart();
+	void DataForDoctor();
+	void CheckTypeOfExercise();
+	void CheckEnemyDestroyed();
+	void SetEnemyMaterial(class UMaterial* mat, int EnemyNum);
+	void RandMaterial(int randNum, int EnemyNum);
+
+
 };
