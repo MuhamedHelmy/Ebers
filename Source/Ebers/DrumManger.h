@@ -25,8 +25,6 @@ public:
 	UPROPERTY()
 		AEbersPlayer* PlayerClass;
 
-
-
 	UPROPERTY()
 		ADrum* DrumActor;
 
@@ -69,6 +67,8 @@ protected:
 	void SpawnMusicTrailsAtLocation(TArray<FVector> Locations);
 
 	bool GetScenePlayer();
+
+	TArray<FVector> GetSplinePointsLocationsByTag(FName Tag);
 
 	TArray<FVector> GetSplinePointsLocations( class USplineComponent * Spline);
 
