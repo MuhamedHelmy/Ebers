@@ -56,7 +56,8 @@ public:
 	UPROPERTY(EditAnywhere)
 		FVector spawnLocation;
 
-	UStaticMeshComponent* EnemyDanceMesh;
+	//UStaticMeshComponent* EnemyDanceMesh;
+	USkeletalMeshComponent* EnemyDanceMesh;
 	float MaxAngle = 70;
 
 	float angle = 0;
@@ -93,9 +94,9 @@ public:
 	int str_i_ForDoctor;
 
 	int stepAngle = 30;
-	int startSpanTime = 1;
+	int startSpanTime = 20;
 	int spanLife_i;
-	int stepSpanLife = 1;
+	int stepSpanLife = 5;
 
 	int NumofExcHorizontal = 2;
 	int NumofExcVertical = 2;

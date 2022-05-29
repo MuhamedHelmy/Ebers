@@ -75,6 +75,7 @@ void ADanceGameManager::Tick(float DeltaTime)
 				{
 					SetEnemyMaterial(StartMaterial, EnemyIndex);
 					DanceEnemies[EnemyIndex]->canAttack = true;
+					DanceEnemies[EnemyIndex]->bLaserFearAnim = true;
 
 				}
 
@@ -277,7 +278,7 @@ void ADanceGameManager::FromDownToStart() {
 }
 
 void ADanceGameManager::SetEnemyMaterial(class UMaterial* mat, int EnemyNum) {
-	EnemyDanceMesh = Cast <UStaticMeshComponent>(DanceEnemies[EnemyNum]->GetRootComponent());
+	EnemyDanceMesh = Cast <USkeletalMeshComponent>(DanceEnemies[EnemyNum]->GetRootComponent()->GetChildComponent(0));
 	if (mat) {
 
 		if (EnemyDanceMesh) {
@@ -296,7 +297,7 @@ void  ADanceGameManager::DataForDoctor() {
 		strInfoForDoctor = "HorizontalAngle: " + FString::SanitizeFloat(HorizontalAngle) + "  VerticalAngle: " + FString::SanitizeFloat(VerticalAngle);
 		strArrInfoForDoctor.Add(strInfoForDoctor);
 		UE_LOG(LogTemp, Warning, TEXT("----------------str---------------%s"), *strInfoForDoctor);
-		EnemyDanceMesh = Cast <UStaticMeshComponent>(DanceEnemies[EnemyIndex]->GetRootComponent());
+		EnemyDanceMesh = Cast <USkeletalMeshComponent>(DanceEnemies[EnemyIndex]->GetRootComponent()->GetChildComponent(0));
 		SetEnemyMaterial(StartMaterial, EnemyIndex);
 
 	}
@@ -353,6 +354,7 @@ void  ADanceGameManager::CheckEnemyDestroyed() {
 			EnemyIndex++;
 			UE_LOG(LogTemp, Warning, TEXT("----------------indeeeex---------------%d"), EnemyIndex);
 			SetEnemyMaterial(StartMaterial, EnemyIndex);
+			DanceEnemies[EnemyIndex]->bLaserFearAnim = true;
 			DanceEnemies[EnemyIndex]->canAttack = true;
 		}
 		else

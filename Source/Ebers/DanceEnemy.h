@@ -7,7 +7,7 @@
 #include "DanceEnemy.generated.h"
 
 UCLASS()
-class EBERS_API ADanceEnemy : public AActor
+class EBERS_API ADanceEnemy : public APawn
 {
 	GENERATED_BODY()
 	
@@ -23,7 +23,8 @@ public:
 
 	bool DestroyedDone=false;
 	bool MatChanged;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bLaserFearAnim;
 	//int Enemydirection=0;
 protected:
 	// Called when the game starts or when spawned
