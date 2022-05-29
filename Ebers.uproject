@@ -49,6 +49,10 @@
 				"HoloLens",
 				"Android"
 			]
+		},
+		{
+			"Name": "ControlRig",
+			"Enabled": true
 		}
 	],
 	"TargetPlatforms": [
