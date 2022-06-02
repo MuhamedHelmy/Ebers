@@ -26,8 +26,7 @@ public:
 	FHitResult hit;
 	FVector StartLaser;
 	FVector EndLaser;
-	UPROPERTY(BlueprintReadWrite)
-	bool LaserChanged;
+
 
 	UPROPERTY()
 		USplineComponent* MySpline;

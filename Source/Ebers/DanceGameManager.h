@@ -53,8 +53,40 @@ public:
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class ADanceEnemy> MyDanceEnemy;
 
+
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class AArrowEnemyActor> Arrow_EnemyActor;
+
+
 	UPROPERTY(EditAnywhere)
 		FVector spawnLocation;
+
+	UPROPERTY(EditAnywhere)
+		UStaticMesh* HArrowMesh;
+	UPROPERTY(EditAnywhere)
+		UStaticMesh* HArrowCollisionMesh;
+	UPROPERTY(EditAnywhere)
+		UStaticMesh* VArrowMesh;
+	UPROPERTY(EditAnywhere)
+		UStaticMesh* VArrowCollisionMesh;
+	UPROPERTY(EditAnywhere)
+		UStaticMesh* TArrowMesh;
+	UPROPERTY(EditAnywhere)
+		UStaticMesh* TArrowCollisionMesh;
+	UPROPERTY(EditAnywhere)
+		class UMaterial* opacity;
+
+
+	FVector ArrowVerticalVector = FVector(-29.0f, 25.0f, 229.0f);
+	FVector ArrowHorizontalVector = FVector(-41.0f, 23.0f, 226.0f);
+	FVector ArrowTriangleVector = FVector(41.0f, 0.0f, 93.0f);
+	FVector ArrowHorizontalDownVector = FVector(-48.000000, 18.000000, 129.000000);
+
+	FRotator ArrowHorizontalRot = FRotator(0.0f, 180.0f, 90.0f);
+	FRotator ArrowVerticalRot = FRotator( 0.0f,  180.0f, 90.0f);
+	FRotator ArrowTriangleRot = FRotator(0.0f, 0.0f, 0.0f);
+
 
 	//UStaticMeshComponent* EnemyDanceMesh;
 	USkeletalMeshComponent* EnemyDanceMesh;
@@ -94,9 +126,9 @@ public:
 	int str_i_ForDoctor;
 
 	int stepAngle = 30;
-	int startSpanTime = 20;
+	int startSpanTime = 2;
 	int spanLife_i;
-	int stepSpanLife = 5;
+	int stepSpanLife = 2;
 
 	int NumofExcHorizontal = 2;
 	int NumofExcVertical = 2;
@@ -114,6 +146,13 @@ public:
 	int DoctorChoiceIndex;
 	bool bDown;
 	bool bUp;
+
+//	UPROPERTY(EditAnywhere)
+	FActorSpawnParameters spawnParams;
+
+//	AActor ArrowVertical;
+
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -139,6 +178,6 @@ public:
 	void CheckEnemyDestroyed();
 	void SetEnemyMaterial(class UMaterial* mat, int EnemyNum);
 	void RandMaterial(int randNum, int EnemyNum);
-
+	void SpawnArrowEnemy(FVector ArrowVector,FRotator ArrowRot,UStaticMesh* ArrowMesh,UStaticMesh* ArrowCollisionMesh);
 
 };

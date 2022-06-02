@@ -6,6 +6,7 @@
 #include "EbersPlayer.h"
 #include "Math/UnrealMathUtility.h"
 #include <Runtime/Engine/Classes/Kismet/GameplayStatics.h>
+#include <Ebers/ArrowEnemyActor.h>
 
 ADanceGameManager::ADanceGameManager()
 {
@@ -73,7 +74,7 @@ void ADanceGameManager::Tick(float DeltaTime)
 
 				if (DanceEnemies.IsValidIndex(EnemyIndex))
 				{
-					SetEnemyMaterial(StartMaterial, EnemyIndex);
+					//SetEnemyMaterial(StartMaterial, EnemyIndex);
 					DanceEnemies[EnemyIndex]->canAttack = true;
 					DanceEnemies[EnemyIndex]->bLaserFearAnim = true;
 
@@ -97,6 +98,13 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 	else angleDirection = -1;
 
 	UE_LOG(LogTemp, Warning, TEXT("me%f"), angle);
+	
+
+
+	//Arrowtemp->SetActorHiddenInGame(false);
+	//
+	//AArrowEnemyActor* t = Cast<AArrowEnemyActor>(temp);
+
 
 	if (MyDanceEnemy) {
 
@@ -105,14 +113,15 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 			UE_LOG(LogTemp, Warning, TEXT("mmm%f"), angle);
 
 
-			FActorSpawnParameters spawnParams;
 			AActor* temp = world->SpawnActor<ADanceEnemy>(MyDanceEnemy, spawnLocation, spawnRotation, spawnParams);
 			ADanceEnemy* t = Cast<ADanceEnemy>(temp);
+
 			t->SetLifeSpan(startSpanTime + spanLife_i);
 			spanLife_i = spanLife_i + stepSpanLife;
 			DanceEnemies.Add(t);
 			angle += stepAngle * angleDirection;
 
+			UE_LOG(LogTemp, Warning, TEXT("beforelllloc%f"), angle);
 
 			if (type == ExerciseTypes::Type(0)) {
 				spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
@@ -135,36 +144,55 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 				spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
 			}
 
-
+			UE_LOG(LogTemp, Warning, TEXT("llloccc%f"), spawnLocation.X);
 
 		}
 	}
 	angle = MaxAngle * angleDirection;
-	UE_LOG(LogTemp, Warning, TEXT("me2%f"), angle);
 
 	if (type == ExerciseTypes::Type(0)) {
 		spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
+
 		spawnLocation.X = FarPlayer * cos(angle * PI / 180);
+
+
+		SpawnArrowEnemy(ArrowHorizontalVector, ArrowHorizontalRot, HArrowMesh, HArrowCollisionMesh);
+
 	}
 	else if (type == ExerciseTypes::Type(1))
 	{
 		spawnLocation.Z = FarPlayer * sin(angle * PI / 180) + PlayerLenH;
 		spawnLocation.X = FarPlayer * cos(angle * PI / 180);
-
+		SpawnArrowEnemy(ArrowVerticalVector, ArrowVerticalRot, VArrowMesh, VArrowCollisionMesh);
+		
 	}
 	else if (type == ExerciseTypes::Type(2))
 	{
 		spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
 		spawnLocation.X = FarPlayer * cos(angle * PI / 180);
+		SpawnArrowEnemy(ArrowHorizontalDownVector, ArrowHorizontalRot, HArrowMesh, HArrowCollisionMesh);
+
+
 	}
 	else if (type == ExerciseTypes::Type(3))
 	{
 		spawnLocation.Z = FarPlayer * cos(angle * PI / 180) + PlayerLenH - 100;
 		spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
+
+		SpawnArrowEnemy(ArrowTriangleVector, ArrowTriangleRot, TArrowMesh, TArrowCollisionMesh);
 	}
+
 }
 
+void ADanceGameManager::SpawnArrowEnemy(FVector ArrowVector, FRotator ArrowRot, UStaticMesh* ArrowMesh, UStaticMesh *ArrowCollisionMesh) {
 
+	AArrowEnemyActor* Arrowtemp = world->SpawnActor<AArrowEnemyActor>(Arrow_EnemyActor, ArrowVector, ArrowRot, spawnParams);
+	Arrowtemp->Arrow->SetStaticMesh(ArrowMesh);
+	Arrowtemp->ArrowCollision->SetStaticMesh(ArrowCollisionMesh);
+	Arrowtemp->Arrow->SetMaterial(0, opacity);
+	Arrowtemp->ArrowCollision->SetMaterial(0, opacity);
+
+}
 
 void ADanceGameManager::MoveFromCurveToAnotherHorizontal() {
 	EnemyIndex = 0;
@@ -264,6 +292,9 @@ void ADanceGameManager::MoveFromCurveToAnotherTriangle() {
 }
 
 void ADanceGameManager::FromStartToDown() {
+	spawnLocation.Z = PlayerLenH;
+	spawnLocation.X = 100.0f;
+	spawnLocation.Y = 0.0f;
 	SpawnDanceEnemy(ExerciseTypes::Type(1), 60, false);
 
 }
@@ -298,7 +329,7 @@ void  ADanceGameManager::DataForDoctor() {
 		strArrInfoForDoctor.Add(strInfoForDoctor);
 		UE_LOG(LogTemp, Warning, TEXT("----------------str---------------%s"), *strInfoForDoctor);
 		EnemyDanceMesh = Cast <USkeletalMeshComponent>(DanceEnemies[EnemyIndex]->GetRootComponent()->GetChildComponent(0));
-		SetEnemyMaterial(StartMaterial, EnemyIndex);
+		//SetEnemyMaterial(StartMaterial, EnemyIndex);
 
 	}
 
@@ -353,7 +384,7 @@ void  ADanceGameManager::CheckEnemyDestroyed() {
 		if (DanceEnemies.IsValidIndex(EnemyIndex + 1) && DanceEnemies[EnemyIndex + 1]) {
 			EnemyIndex++;
 			UE_LOG(LogTemp, Warning, TEXT("----------------indeeeex---------------%d"), EnemyIndex);
-			SetEnemyMaterial(StartMaterial, EnemyIndex);
+			//SetEnemyMaterial(StartMaterial, EnemyIndex);
 			DanceEnemies[EnemyIndex]->bLaserFearAnim = true;
 			DanceEnemies[EnemyIndex]->canAttack = true;
 		}
