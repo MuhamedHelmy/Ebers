@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Camera/CameraComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "DrumManger.generated.h"
 class ADrum;
 class AEbersPlayer;
@@ -21,7 +23,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<ADrum> DrumClass;
 
-	
+	/*UPROPERTY(EditAnywhere)
+		UMaterialInterface* DisolveMaterial;*/
+
 	UPROPERTY()
 		AEbersPlayer* PlayerClass;
 
@@ -34,7 +38,8 @@ public:
 	UPROPERTY(EditAnywhere)
 		TArray<UStaticMesh*> MusicTrialMeshes;
 
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UCameraComponent* mycamera = nullptr;
 	//AEbersPlayer* PlayerClass;
 
 
@@ -63,6 +68,9 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
+	
+	virtual void Tick(float DeltaTime) override;
+
 
 	void SpawnMusicTrailsAtLocation(TArray<FVector> Locations);
 
@@ -71,8 +79,12 @@ protected:
 	TArray<FVector> GetSplinePointsLocationsByTag(FName Tag);
 
 	TArray<FVector> GetSplinePointsLocations( class USplineComponent * Spline);
-
-
+	/*UFUNCTION()
+		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);*/
+	void TimerFunction();
+	
 public :
 
 	TArray<FVector> FirstExcersizeFirstLocation;

@@ -49,9 +49,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
-	FVector GetPlayerBodyPartLocation(int32 LegFlag);
+	//FVector GetPlayerBodyPartLocation(int32 LegFlag);
 
-	TArray<FVector> GetSplinePointsLocation(FName TagName);
+	//TArray<FVector> GetSplinePointsLocation(FName TagName);
 };
 
 void DrawLeser();

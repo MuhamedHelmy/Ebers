@@ -8,74 +8,52 @@
 // Sets default values
 ADrumManger::ADrumManger()
 {
-
-
+	PrimaryActorTick.bCanEverTick = true;
+	
 }
 
 // Called when the game starts or when spawned
 void ADrumManger::BeginPlay()
 {
 	Super::BeginPlay();
+	//UMaterialInstanceDynamic* DynMaterial = UMaterialInstanceDynamic::Create(DisolveMaterial, this);
+
+
 
 	GetScenePlayer();
+	//DisolveMaterial->set
+		//UE_LOG(LogTemp, Warning, TEXT("Musssssssssssssstagfa %s") , *DisolveMaterial->GetFlags());
+	//TArray<UActorComponent* > Found;
 	
+	//TArray<AActor* > Found;
+	//Found = PlayerClass->GetComponentsByTag(UActorComponent::StaticClass(), TEXT("Camera"));
+	//UGameplayStatics::GetAllActorsWithTag(GetWorld(), "Player");
+	//mycamera =  Cast<UCameraComponent>(Found[0]);
+
+		//UE_LOG(LogTemp, Warning, TEXT("Camera Location  : %s"), *mycamera->GetComponentLocation().ToString());
 
 	
-	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("EOneLeft"));
+	
 	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("EOneRight"));
 	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("ETwoLeft"));
 	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("ETwoRight"));
+	FTimerHandle FuzeTimerHandle;
+	GetWorldTimerManager().SetTimer(FuzeTimerHandle, this, &ADrumManger::TimerFunction, 2.0f, false , 3.0f);
 
-
-	/*TArray<UActorComponent*> ExerciseOneSplines;
-	TArray<UActorComponent*> ExerciseOTwoSplines;
-
-
-	if (GetScenePlayer()) {
-		 ExerciseOneSplines = PlayerClass->GetComponentsByTag(USplineComponent::StaticClass(), TEXT("ExerciseOneSpline"));
-		 ExerciseOTwoSplines = PlayerClass->GetComponentsByTag(USplineComponent::StaticClass(), TEXT("ExerciseTwoSpline"));	 
-	}
-
-	if (ExerciseOneSplines.Num() > 0) {
-		FirstExcersizeFirstLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOneSplines[0]));
-		FirstExcersizeSecondLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOneSplines[1]));
-		
-		SpawnMusicTrailsAtLocation(FirstExcersizeFirstLocation);
-		SpawnMusicTrailsAtLocation(FirstExcersizeSecondLocation);
-		
-
-	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("spline1 not found"));
-	}
-	if (ExerciseOTwoSplines	.Num() > 0) {
-
-		SecondExcersizeFirstLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOTwoSplines[0]));
-		SecondExcersizeSecondLocation = GetSplinePointsLocations(Cast<USplineComponent>(ExerciseOTwoSplines[1]));
-
-		SpawnMusicTrailsAtLocation(SecondExcersizeFirstLocation);
-		SpawnMusicTrailsAtLocation(SecondExcersizeSecondLocation);
-		
-	}
-
-	else {
-		UE_LOG(LogTemp, Error, TEXT("spline2 not found "));
-	}*/
-	//GetSplinePointsLocationsAbod(Spline);
-	//Spline->GetLocationAndTangentAtSplinePoint(0 ,);
-
-
-	/**/
-	//DrumActor = Cast<ADrum>(GetWorld()->SpawnActor<ADrum>(DrumClass, PlayerSplinePoints[0]  , FRotator(0,0,0) ));
-	//UE_LOG(LogTemp, Warning, TEXT("Location %s"), *PlayerSplinePoints[0].ToString());
-
-
-
-	//AActor* left = GetWorld()->SpawnActor<ADrum>(drumClass, leftDrumLocation, leftDrumRotationation, spawnParams);
-	//AActor* right = GetWorld()->SpawnActor<ADrum>(drumClass, RightDrumLocation, RightDrumRotationation, spawnParams);
 
 
 }
+void ADrumManger::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	//GetWorld()->LineTraceSingleByChannel(hit, StartLaser, EndLaser, ECollisionChannel::ECC_GameTraceChannel1);
+
+	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("ETwoLeft"));
+	
+	
+}
+
 
 void ADrumManger::SpawnMusicTrailsAtLocation(TArray<FVector> Locations)
 {
@@ -83,31 +61,24 @@ void ADrumManger::SpawnMusicTrailsAtLocation(TArray<FVector> Locations)
 	UStaticMeshComponent* x;
 	for (int32 i = 0; i < Locations.Num(); i++)
 	{
-		UE_LOG(LogTemp, Error, TEXT("yasser %s"), *Locations[i].ToString());
-
-
-		//Locations[i].Z -= 70;
+		
 		DrumActor = GetWorld()->SpawnActor<ADrum>(DrumClass , Locations[i] , FRotator(0, 0, 0));
-
-		UE_LOG(LogTemp, Error, TEXT("5allleeeeeeeeeed %s"), *DrumActor->GetActorLocation().ToString());
-		UE_LOG(LogTemp, Error, TEXT("5allleeeeeeeeeed2222 %s"), *Locations[i].ToString());
 
 		x = Cast<UStaticMeshComponent>(DrumActor->Root ->GetChildComponent(0));
 
-		UE_LOG(LogTemp, Error, TEXT("5allleeeeeeeeeed %s"), *DrumActor->GetActorLocation().ToString());
-		UE_LOG(LogTemp, Error, TEXT("5allleeeeeeeeeed2222 %s"), *Locations[i].ToString());
-
-		UE_LOG(LogTemp, Error, TEXT(""));
 		if (x) {
-			x->SetStaticMesh(MusicTrialMeshes[j]);
-			
+			if (j < MusicTrialMeshes.Num()) {
+				x->SetStaticMesh(MusicTrialMeshes[j]);
+				j++;
+			}
+			else if (j == MusicTrialMeshes.Num()) {
+				j = 0;
+			}
+			else {
+				UE_LOG(LogTemp, Warning, TEXT("Music trail array is empty"));
+			}
 		}
-		if (j < MusicTrialMeshes.Num()) {
-			j++;
-		}
-		else {
-			j = 0;
-		}
+		
 	}
 }
 
@@ -124,8 +95,9 @@ bool ADrumManger::GetScenePlayer()
 		
 	}
 	else {
+		UE_LOG(LogTemp, Error, TEXT("Player Not Found "));
 		return false;
-		UE_LOG(LogTemp, Error, TEXT("got the player 22 "));
+		
 	}
 	
 }
@@ -139,39 +111,50 @@ TArray<FVector> ADrumManger::GetSplinePointsLocationsByTag(FName Tag)
 		if (Splines.Num() > 0) {
 			Locations = GetSplinePointsLocations(Cast<USplineComponent>(Splines[0]));
 
-			UE_LOG(LogTemp, Error, TEXT("Saraaaaaa3 * %s *  found"), *Locations[0].ToString());
+			//UE_LOG(LogTemp, Error, TEXT("Saraaaaaa3 * %s *  found"), *Locations[0].ToString());
 			return Locations;
 		}
 		else {
-			UE_LOG(LogTemp, Error, TEXT("Spline By The Tag * %s *  was not found"), *Tag.ToString());
+			//UE_LOG(LogTemp, Error, TEXT("Spline By The Tag * %s *  was not found"), *Tag.ToString());
 			return TArray<FVector>();
 		}
 	}
 	else {
-		UE_LOG(LogTemp, Error, TEXT("Player was not found"));
+		//UE_LOG(LogTemp, Error, TEXT("Player was not found"));
 		return TArray<FVector>();
 	}
 
 	
 }
 
-
-
 TArray<FVector> ADrumManger::GetSplinePointsLocations( USplineComponent* Spline)
 {
 	TArray<FVector> Locations;
-	
 	FVector TempLocation;
-
 	FVector Tangent;
 	for (int32 i = 0; i < Spline->GetNumberOfSplinePoints()  ; i++)
 	{
 		Spline->GetLocationAndTangentAtSplinePoint(i , TempLocation , Tangent  , ESplineCoordinateSpace::Type::World);
 		Locations.Add(TempLocation);
 	}
-	
 	return  Locations;
 }
+
+
+
+
+void ADrumManger::TimerFunction()
+{
+	UE_LOG(LogTemp, Error, TEXT("helmy X/O"));
+	SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("EOneLeft"));
+
+
+}
+
+
+//void ADrumManger::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+//{
+//}
 
 
 

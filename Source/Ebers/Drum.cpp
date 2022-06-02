@@ -13,8 +13,9 @@ ADrum::ADrum()
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Root);
 
-
-
+	//Mesh->OnComponentBeginOverlap.AddDynamic(this  , &ADrum::OnOverlap);
+	
+	 
 	UE_LOG(LogTemp, Error, TEXT("drum initiated !!! "));
 	/*sceneCompanent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComapanent"));
 	RootComponent = sceneCompanent;
@@ -29,17 +30,40 @@ ADrum::ADrum()
 
 }
 
+
 // Called when the game starts or when spawned
 void ADrum::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	Mesh->OnComponentBeginOverlap.AddDynamic(this, &ADrum::OnCollision);
 
 	//collider->OnComponentBeginOverlap.AddDynamic(this, &ADrum::OnOverlapBegin);
 
 
 }
+
+
+void ADrum::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Error, TEXT("AAAAAAAAAAAAAAAAH : %s ") , * OtherActor->GetFName().ToString());
+}
+
+
+
+
+
+//
+//void ADrum::OnOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+//{
+//
+//}
+
+
+
+
+
+
 //void ADrum::SetMesh(UStaticMesh* mesh)
 //{
 //	if (mesh) {
