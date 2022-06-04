@@ -35,7 +35,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UCameraComponent* mycamera;
 	
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		bool IsInCurve=true;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

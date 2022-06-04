@@ -23,7 +23,6 @@ USTRUCT()
 struct FDoctorChoice
 {
 	GENERATED_BODY()
-	//UPROPERTY(EditAnywhere)
 public:
 
 	UPROPERTY(EditAnywhere)
@@ -43,12 +42,6 @@ public:
 	UWorld* world;
 	UPROPERTY(EditAnywhere)
 		class UMaterial* StartMaterial;
-	UPROPERTY(EditAnywhere)
-		class UMaterial* EnemyMaterial;
-	UPROPERTY(EditAnywhere)
-		class UMaterial* EnemyMaterial_2;
-
-		class UMaterial* MyEnemyMaterial;
 
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class ADanceEnemy> MyDanceEnemy;
@@ -80,15 +73,13 @@ public:
 
 	FVector ArrowVerticalVector = FVector(-29.0f, 25.0f, 229.0f);
 	FVector ArrowHorizontalVector = FVector(-41.0f, 23.0f, 226.0f);
-	FVector ArrowTriangleVector = FVector(41.0f, 0.0f, 93.0f);
+	FVector ArrowTriangleVector = FVector( 106.0f, 0.0f, 93.0f);
 	FVector ArrowHorizontalDownVector = FVector(-48.000000, 18.000000, 129.000000);
 
 	FRotator ArrowHorizontalRot = FRotator(0.0f, 180.0f, 90.0f);
 	FRotator ArrowVerticalRot = FRotator( 0.0f,  180.0f, 90.0f);
 	FRotator ArrowTriangleRot = FRotator(0.0f, 0.0f, 0.0f);
 
-
-	//UStaticMeshComponent* EnemyDanceMesh;
 	USkeletalMeshComponent* EnemyDanceMesh;
 	float MaxAngle = 70;
 
@@ -108,6 +99,8 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		FRotator spawnRotation;
 
+	FActorSpawnParameters spawnParams;
+
 	ACharacter* tempchar;
 	AEbersPlayer* tchar;
 	AEbersPlayer* player;
@@ -126,34 +119,26 @@ public:
 	int str_i_ForDoctor;
 
 	int stepAngle = 30;
-	int startSpanTime = 2;
+	int startSpanTime = 20;
 	int spanLife_i;
-	int stepSpanLife = 2;
-
-	int NumofExcHorizontal = 2;
-	int NumofExcVertical = 2;
-	int NumofExcHorizontalDown = 2;
-	int NumofExcTriangle = 2;
-	bool finishCurves = false;
+	int stepSpanLife = 5;
 
 	TArray<FString> strArrInfoForDoctor;
-
-	// Unreal 5.0 onwards supports FText-like formatting
 	UPROPERTY(EditAnywhere)
 		TArray<FDoctorChoice> DoctorChoice;
 
-	int NumOfExercise;
 	int DoctorChoiceIndex;
 	bool bDown;
 	bool bUp;
 
-//	UPROPERTY(EditAnywhere)
-	FActorSpawnParameters spawnParams;
+	AArrowEnemyActor* Arrowtemp;
 
-//	AActor ArrowVertical;
+	float ArrowLifeSpan = 15;
 
-
-
+	UPROPERTY(EditAnywhere)
+		class UMaterial* ArrowInCurveMaterial;
+	UPROPERTY(EditAnywhere)
+		class UMaterial* ArrowNotInCurveMaterial;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -177,7 +162,6 @@ public:
 	void CheckTypeOfExercise();
 	void CheckEnemyDestroyed();
 	void SetEnemyMaterial(class UMaterial* mat, int EnemyNum);
-	void RandMaterial(int randNum, int EnemyNum);
 	void SpawnArrowEnemy(FVector ArrowVector,FRotator ArrowRot,UStaticMesh* ArrowMesh,UStaticMesh* ArrowCollisionMesh);
 
 };

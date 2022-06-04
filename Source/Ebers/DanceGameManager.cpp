@@ -20,7 +20,6 @@ void ADanceGameManager::BeginPlay()
 {
 	Super::BeginPlay();
 	world = GetWorld();
-	MyEnemyMaterial = EnemyMaterial;
 	CharacterRef = Cast<AEbersPlayer>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
 }
@@ -28,6 +27,7 @@ void ADanceGameManager::BeginPlay()
 void ADanceGameManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 	if (DoctorChoice.IsValidIndex(DoctorChoiceIndex)) 
 	{
 
@@ -72,7 +72,7 @@ void ADanceGameManager::Tick(float DeltaTime)
 
 				}
 
-				if (DanceEnemies.IsValidIndex(EnemyIndex))
+				if (DanceEnemies.IsValidIndex(EnemyIndex)&& DanceEnemies[EnemyIndex])
 				{
 					//SetEnemyMaterial(StartMaterial, EnemyIndex);
 					DanceEnemies[EnemyIndex]->canAttack = true;
@@ -84,7 +84,30 @@ void ADanceGameManager::Tick(float DeltaTime)
 
 
 	}
+	else {
+		if (Arrowtemp) Arrowtemp->Destroy();
 
+	}
+
+	if (Arrowtemp)
+	{
+		if (CharacterRef->IsInCurve)
+		{
+			if (Arrowtemp->Arrow->GetMaterial(0) != ArrowInCurveMaterial)
+			{
+				Arrowtemp->Arrow->SetMaterial(0, ArrowInCurveMaterial);
+			}
+
+		}
+		else
+		{
+			if (Arrowtemp->Arrow->GetMaterial(0) != ArrowNotInCurveMaterial)
+			{
+				Arrowtemp->Arrow->SetMaterial(0, ArrowNotInCurveMaterial);
+
+			}
+		}
+	}
 }
 
 
@@ -97,7 +120,7 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 	if (direction)angleDirection = 1;
 	else angleDirection = -1;
 
-	UE_LOG(LogTemp, Warning, TEXT("me%f"), angle);
+	//UE_LOG(LogTemp, Warning, TEXT("me%f"), angle);
 	
 
 
@@ -110,7 +133,7 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 
 		while (angle != (MaxAngle + stepAngle) * angleDirection)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("mmm%f"), angle);
+			////UE_LOG(LogTemp, Warning, TEXT("mmm%f"), angle);
 
 
 			AActor* temp = world->SpawnActor<ADanceEnemy>(MyDanceEnemy, spawnLocation, spawnRotation, spawnParams);
@@ -121,7 +144,7 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 			DanceEnemies.Add(t);
 			angle += stepAngle * angleDirection;
 
-			UE_LOG(LogTemp, Warning, TEXT("beforelllloc%f"), angle);
+			//UE_LOG(LogTemp, Warning, TEXT("beforelllloc%f"), angle);
 
 			if (type == ExerciseTypes::Type(0)) {
 				spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
@@ -144,7 +167,7 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 				spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
 			}
 
-			UE_LOG(LogTemp, Warning, TEXT("llloccc%f"), spawnLocation.X);
+			//UE_LOG(LogTemp, Warning, TEXT("llloccc%f"), spawnLocation.X);
 
 		}
 	}
@@ -157,20 +180,60 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 
 
 		SpawnArrowEnemy(ArrowHorizontalVector, ArrowHorizontalRot, HArrowMesh, HArrowCollisionMesh);
+		
+		if (direction) 
+		{
+		
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, -1.0f));
+		}
+		else
+		{
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, 1.0f));
+
+		}
 
 	}
 	else if (type == ExerciseTypes::Type(1))
 	{
 		spawnLocation.Z = FarPlayer * sin(angle * PI / 180) + PlayerLenH;
 		spawnLocation.X = FarPlayer * cos(angle * PI / 180);
+		if (direction)
+		{
+			ArrowVerticalVector = FVector(-37.0f, -21.0f, 229.0f);
+
+		}
+		else
+		{
+			ArrowVerticalVector = FVector(-29.0f, 25.0f, 229.0f);
+
+		}
 		SpawnArrowEnemy(ArrowVerticalVector, ArrowVerticalRot, VArrowMesh, VArrowCollisionMesh);
-		
+		if (direction)
+		{
+
+			Arrowtemp->SetActorScale3D(FVector(1.0f, -1.0f, -1.0f));
+		}
+		else
+		{
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, 1.0f));
+
+		}
 	}
 	else if (type == ExerciseTypes::Type(2))
 	{
 		spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
 		spawnLocation.X = FarPlayer * cos(angle * PI / 180);
 		SpawnArrowEnemy(ArrowHorizontalDownVector, ArrowHorizontalRot, HArrowMesh, HArrowCollisionMesh);
+		if (direction)
+		{
+
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, -1.0f));
+		}
+		else
+		{
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, 1.0f));
+
+		}
 
 
 	}
@@ -180,17 +243,29 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 		spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
 
 		SpawnArrowEnemy(ArrowTriangleVector, ArrowTriangleRot, TArrowMesh, TArrowCollisionMesh);
+		if (direction)
+		{
+
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, 1.0f));
+		}
+		else
+		{
+			Arrowtemp->SetActorScale3D(FVector(1.0f, -1.0f, 1.0f));
+
+		}
 	}
 
 }
 
 void ADanceGameManager::SpawnArrowEnemy(FVector ArrowVector, FRotator ArrowRot, UStaticMesh* ArrowMesh, UStaticMesh *ArrowCollisionMesh) {
-
-	AArrowEnemyActor* Arrowtemp = world->SpawnActor<AArrowEnemyActor>(Arrow_EnemyActor, ArrowVector, ArrowRot, spawnParams);
+	
+	if(Arrowtemp) Arrowtemp->Destroy();
+	Arrowtemp = world->SpawnActor<AArrowEnemyActor>(Arrow_EnemyActor, ArrowVector, ArrowRot, spawnParams);
 	Arrowtemp->Arrow->SetStaticMesh(ArrowMesh);
 	Arrowtemp->ArrowCollision->SetStaticMesh(ArrowCollisionMesh);
 	Arrowtemp->Arrow->SetMaterial(0, opacity);
 	Arrowtemp->ArrowCollision->SetMaterial(0, opacity);
+	//Arrowtemp->SetLifeSpan(ArrowLifeSpan);
 
 }
 
@@ -379,18 +454,18 @@ void  ADanceGameManager::CheckTypeOfExercise() {
 void  ADanceGameManager::CheckEnemyDestroyed() {
 	if ((DanceEnemies[EnemyIndex] == nullptr || DanceEnemies[EnemyIndex]->DestroyedDone || DanceEnemies[EnemyIndex]->GetLifeSpan() == 0) && CharacterRef)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("----------------NOOOOOOOOOOOOOO--------------"));
+		//UE_LOG(LogTemp, Warning, TEXT("----------------NOOOOOOOOOOOOOO--------------"));
 
 		if (DanceEnemies.IsValidIndex(EnemyIndex + 1) && DanceEnemies[EnemyIndex + 1]) {
 			EnemyIndex++;
-			UE_LOG(LogTemp, Warning, TEXT("----------------indeeeex---------------%d"), EnemyIndex);
+			//UE_LOG(LogTemp, Warning, TEXT("----------------indeeeex---------------%d"), EnemyIndex);
 			//SetEnemyMaterial(StartMaterial, EnemyIndex);
 			DanceEnemies[EnemyIndex]->bLaserFearAnim = true;
 			DanceEnemies[EnemyIndex]->canAttack = true;
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("----------------WHHHHHHHHHHHHHY---------------"));
+			//UE_LOG(LogTemp, Warning, TEXT("----------------WHHHHHHHHHHHHHY---------------"));
 
 			EnemyIndex++;
 		}

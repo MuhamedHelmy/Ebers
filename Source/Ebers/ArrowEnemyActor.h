@@ -14,13 +14,17 @@ class EBERS_API AArrowEnemyActor : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AArrowEnemyActor();
+	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* Arrow;
+	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* ArrowCollision;
+	//UBoxComponent* CollisionMesh;
 	//UPROPERTY(EditAnywhere)
 	//	UStaticMesh* ArrowMesh;
 	//UPROPERTY(EditAnywhere)
 	//	UStaticMesh* ArrowCollisionMesh;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool HitCurve = true;
 
 protected:
 	// Called when the game starts or when spawned

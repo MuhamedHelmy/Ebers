@@ -11,7 +11,10 @@ AArrowEnemyActor::AArrowEnemyActor()
 	RootComponent = CreateDefaultSubobject<USceneComponent>("SceneComponent");
 	Arrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Arrow"));
 	ArrowCollision = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ArrowCollision"));
+	//CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CollisionMesh"));
 	Arrow->SetupAttachment(RootComponent);
+	///CollisionMesh->SetupAttachment(RootComponent);
+
 	ArrowCollision->SetupAttachment(RootComponent);
 }
 
@@ -20,10 +23,8 @@ void AArrowEnemyActor::BeginPlay()
 {
 
 	Super::BeginPlay();
-	////Arrow->SetStaticMesh(ArrowMesh);
-	//Arrow->SetMaterialByName("Opacity",0);
-	////ArrowCollision->SetStaticMesh("Horizontal_Verticall_Arrow");
-	//Arrow->SetStaticMesh (Cast <UStaticMesh>(GetDefaultSubobjectByName(TEXT("Horizontal_Verticall_Arrow"))));
+	//Arrow->SetStaticMesh(ArrowMesh);
+	//ArrowCollision->SetStaticMesh(ArrowCollisionMesh);
 	//
 
 }
