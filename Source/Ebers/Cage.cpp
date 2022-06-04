@@ -40,7 +40,6 @@ void ACage::Tick(float DeltaTime)
 
 void ACage::setDisolveValue(float DisolveValue)
 {
-
 	CageDoorDynamicMat->SetScalarParameterValue("Disolve", DisolveValue);
 }
 

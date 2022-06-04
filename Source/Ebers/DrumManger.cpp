@@ -16,31 +16,49 @@ ADrumManger::ADrumManger()
 void ADrumManger::BeginPlay()
 {
 	Super::BeginPlay();
-	//UMaterialInstanceDynamic* DynMaterial = UMaterialInstanceDynamic::Create(DisolveMaterial, this);
+	
 
 
 
 	GetScenePlayer();
-	//DisolveMaterial->set
-		//UE_LOG(LogTemp, Warning, TEXT("Musssssssssssssstagfa %s") , *DisolveMaterial->GetFlags());
-	//TArray<UActorComponent* > Found;
-	
-	//TArray<AActor* > Found;
-	//Found = PlayerClass->GetComponentsByTag(UActorComponent::StaticClass(), TEXT("Camera"));
-	//UGameplayStatics::GetAllActorsWithTag(GetWorld(), "Player");
-	//mycamera =  Cast<UCameraComponent>(Found[0]);
-
-		//UE_LOG(LogTemp, Warning, TEXT("Camera Location  : %s"), *mycamera->GetComponentLocation().ToString());
-
 	
 	
 	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("EOneRight"));
 	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("ETwoLeft"));
 	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("ETwoRight"));
-	FTimerHandle FuzeTimerHandle;
-	GetWorldTimerManager().SetTimer(FuzeTimerHandle, this, &ADrumManger::TimerFunction, 2.0f, false , 3.0f);
+	// 
+	/*FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumManger::TimerFunction, 2.0f, true , 3.0f);*/
+
+		/*SplinesTagsQueue.Enqueue("EOneLeft");
+		SplinesTagsQueue.Enqueue("EOneRight");
+		SplinesTagsQueue.Enqueue("ETwoLeft");
+		SplinesTagsQueue.Enqueue("ETwoRight");*/
 
 
+				
+		if (SplineTagsArray.Num() > 0) { // Initializing the queue with the splines added from the BP
+			for (int32 i = 0; i < SplineTagsArray.Num(); i++)
+			{
+				SplinesTagsQueue.Enqueue(SplineTagsArray[i]);
+			}
+		}
+		else {
+			UE_LOG(LogTemp, Warning, TEXT("Tag array is empty !! Enter some tags !"));
+		}
+
+
+
+
+
+		/*for (int32 i = 0; i < 4 ; i++)
+		{
+			FName xx;
+			SplinesTagsQueue.Peek(xx);
+			UE_LOG(LogTemp, Warning, TEXT("Queue test : %s"), *xx.ToString()  );
+			SplinesTagsQueue.Pop();	
+		}*/
+	
 
 }
 void ADrumManger::Tick(float DeltaTime)
@@ -51,6 +69,21 @@ void ADrumManger::Tick(float DeltaTime)
 
 	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("ETwoLeft"));
 	
+	if (SpawnNextExercise) {
+		
+		if (!SplinesTagsQueue.IsEmpty()) {
+			SplinesTagsQueue.Peek(TagName);
+			TArray<FVector> Locations = GetSplinePointsLocationsByTag(TagName);
+			SpawnMusicTrailsAtLocation(Locations);
+			SplinesTagsQueue.Pop();
+			UE_LOG(LogTemp, Warning, TEXT("yyy"));
+		}
+
+		SpawnNextExercise = false;
+	}
+
+
+
 	
 }
 
@@ -61,24 +94,27 @@ void ADrumManger::SpawnMusicTrailsAtLocation(TArray<FVector> Locations)
 	UStaticMeshComponent* x;
 	for (int32 i = 0; i < Locations.Num(); i++)
 	{
-		
-		DrumActor = GetWorld()->SpawnActor<ADrum>(DrumClass , Locations[i] , FRotator(0, 0, 0));
+		if (Locations.Num() -1 != i ) {
+			DrumActor = GetWorld()->SpawnActor<ADrum>(DrumClass, Locations[i], FRotator(0, 0, 0));
 
-		x = Cast<UStaticMeshComponent>(DrumActor->Root ->GetChildComponent(0));
+			x = Cast<UStaticMeshComponent>(DrumActor->Root->GetChildComponent(0));
 
-		if (x) {
-			if (j < MusicTrialMeshes.Num()) {
-				x->SetStaticMesh(MusicTrialMeshes[j]);
-				j++;
-			}
-			else if (j == MusicTrialMeshes.Num()) {
-				j = 0;
-			}
-			else {
-				UE_LOG(LogTemp, Warning, TEXT("Music trail array is empty"));
+			if (x) {
+				if (j < MusicTrialMeshes.Num()) {
+					x->SetStaticMesh(MusicTrialMeshes[j]);
+					j++;
+				}
+				else if (j == MusicTrialMeshes.Num()) {
+					j = 0;
+				}
+				else {
+					UE_LOG(LogTemp, Warning, TEXT("Music trail array is empty"));
+				}
 			}
 		}
-		
+		else {
+			DrumNPC = GetWorld()->SpawnActor<ADrumNPC>(DrumNPCClass, Locations[i], FRotator(0, 0, 0));
+		}
 	}
 }
 
@@ -146,9 +182,14 @@ TArray<FVector> ADrumManger::GetSplinePointsLocations( USplineComponent* Spline)
 void ADrumManger::TimerFunction()
 {
 	UE_LOG(LogTemp, Error, TEXT("helmy X/O"));
-	SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("EOneLeft"));
+	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("EOneLeft"));
+	SpawnNextExercise = true;
 
+}
 
+void ADrumManger::SetSpawnNextExercise(bool set)
+{
+	SpawnNextExercise = set;
 }
 
 

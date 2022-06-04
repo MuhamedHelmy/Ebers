@@ -6,9 +6,11 @@
 #include "GameFramework/Actor.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include <Ebers/DrumNPC.h>
 #include "DrumManger.generated.h"
 class ADrum;
 class AEbersPlayer;
+class ADrumNPC;
 UCLASS()
 class EBERS_API ADrumManger : public AActor
 {
@@ -22,6 +24,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<ADrum> DrumClass;
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<ADrumNPC> DrumNPCClass;
 
 	/*UPROPERTY(EditAnywhere)
 		UMaterialInterface* DisolveMaterial;*/
@@ -31,6 +35,9 @@ public:
 
 	UPROPERTY()
 		ADrum* DrumActor;
+
+	UPROPERTY()
+		ADrumNPC* DrumNPC;
 
 	UPROPERTY(EditAnywhere)
 		UStaticMesh* DrumMesh;
@@ -95,4 +102,16 @@ public :
 	TArray<FVector> SecondExcersizeSecondLocation;
 
 
+	UPROPERTY(EditAnyWhere)
+		TArray<FName> SplineTagsArray;
+	UFUNCTION()
+	void SetSpawnNextExercise(bool set);
+
+private :
+	TQueue<FName> SplinesTagsQueue;
+	FName TagName;
+	bool SpawnNextExercise = true ;
+
+
+	
 };
