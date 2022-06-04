@@ -25,6 +25,7 @@ public:
 	bool MatChanged;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bLaserFearAnim;
+
 	//int Enemydirection=0;
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	//	SWidget* MyWidget;

@@ -21,15 +21,21 @@ void ADanceGameManager::BeginPlay()
 	Super::BeginPlay();
 	world = GetWorld();
 	CharacterRef = Cast<AEbersPlayer>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	//if (LaserScore && LaserScore->GetRootComponent()->GetChildComponent(0)) {
+	//	LaserScoreWidgetComponent = Cast<SCompoundWidget>(LaserScore->GetRootComponent()->GetChildComponent(0));
+	//
+	//	//LaserScoreWidget = LaserScoreWidgetComponent->WIDGET;
+	//}
 
+	
 }
 // Called every frame
 void ADanceGameManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if (DoctorChoice.IsValidIndex(DoctorChoiceIndex)) 
-	{
+	if (!EndGame) {
+		if (DoctorChoice.IsValidIndex(DoctorChoiceIndex))
+		{
 
 			if (DanceEnemies.IsValidIndex(EnemyIndex) && DanceEnemies[EnemyIndex])
 			{
@@ -42,11 +48,11 @@ void ADanceGameManager::Tick(float DeltaTime)
 			{
 				EnemyIndex = 0;
 				CurveNum++;
-				if (CurveNum < 3&& DoctorChoice[DoctorChoiceIndex].NumOfRepeating>0)
+				if (CurveNum < 3 && DoctorChoice[DoctorChoiceIndex].NumOfRepeating>0)
 				{
-					
-					CheckTypeOfExercise(); 
-				
+
+					CheckTypeOfExercise();
+
 				}
 				else
 				{
@@ -63,7 +69,7 @@ void ADanceGameManager::Tick(float DeltaTime)
 						{
 							DoctorChoiceIndex++;
 						}
-						else 
+						else
 						{
 							CheckTypeOfExercise();
 							bUp = true;
@@ -72,7 +78,7 @@ void ADanceGameManager::Tick(float DeltaTime)
 
 				}
 
-				if (DanceEnemies.IsValidIndex(EnemyIndex)&& DanceEnemies[EnemyIndex])
+				if (DanceEnemies.IsValidIndex(EnemyIndex) && DanceEnemies[EnemyIndex])
 				{
 					//SetEnemyMaterial(StartMaterial, EnemyIndex);
 					DanceEnemies[EnemyIndex]->canAttack = true;
@@ -83,27 +89,36 @@ void ADanceGameManager::Tick(float DeltaTime)
 			}
 
 
-	}
-	else {
-		if (Arrowtemp) Arrowtemp->Destroy();
-
-	}
-
-	if (Arrowtemp)
-	{
-		if (CharacterRef->IsInCurve)
-		{
-			if (Arrowtemp->Arrow->GetMaterial(0) != ArrowInCurveMaterial)
-			{
-				Arrowtemp->Arrow->SetMaterial(0, ArrowInCurveMaterial);
-			}
-
 		}
-		else
+		else {
+			if (Arrowtemp) {
+				Arrowtemp->Destroy();
+				Arrowtemp = nullptr;
+			}
+			EndGame = true;
+		}
+
+		if (Arrowtemp)
 		{
-			if (Arrowtemp->Arrow->GetMaterial(0) != ArrowNotInCurveMaterial)
+			if (CharacterRef->IsInCurve)
 			{
-				Arrowtemp->Arrow->SetMaterial(0, ArrowNotInCurveMaterial);
+				if (Arrowtemp->Arrow->GetMaterial(0) != ArrowInCurveMaterial)
+				{
+					Arrowtemp->Arrow->SetMaterial(0, ArrowInCurveMaterial);
+				}
+
+			}
+			else
+			{
+				if (Arrowtemp->Arrow->GetMaterial(0) != ArrowNotInCurveMaterial)
+				{
+					Arrowtemp->Arrow->SetMaterial(0, ArrowNotInCurveMaterial);
+				}
+				if (pointsScore > 0)
+				{
+					pointsScore -= 2;
+				}
+				UE_LOG(LogTemp, Warning, TEXT("pointsScore %f"), pointsScore);
 
 			}
 		}
@@ -135,7 +150,7 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 		{
 			////UE_LOG(LogTemp, Warning, TEXT("mmm%f"), angle);
 
-
+			totalScore += 50;
 			AActor* temp = world->SpawnActor<ADanceEnemy>(MyDanceEnemy, spawnLocation, spawnRotation, spawnParams);
 			ADanceEnemy* t = Cast<ADanceEnemy>(temp);
 
@@ -452,6 +467,11 @@ void  ADanceGameManager::CheckTypeOfExercise() {
 }
 
 void  ADanceGameManager::CheckEnemyDestroyed() {
+	if (DanceEnemies[EnemyIndex]->DestroyedDone) {
+		pointsScore += 50;
+		UE_LOG(LogTemp, Warning, TEXT("----------------pointsScore--------------%f"),pointsScore);
+
+	}
 	if ((DanceEnemies[EnemyIndex] == nullptr || DanceEnemies[EnemyIndex]->DestroyedDone || DanceEnemies[EnemyIndex]->GetLifeSpan() == 0) && CharacterRef)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("----------------NOOOOOOOOOOOOOO--------------"));

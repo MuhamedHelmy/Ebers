@@ -5,6 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include"EbersPlayer.h"
+//#include "Blueprint/UserWidget.h"
+#include <Runtime/UMG/Public/Components/TextBlock.h>
+//#include "../../../../Epic Games/UE_4.27/Engine/Plugins/Experimental/CommonUI/Source/CommonUI/Public/CommonTextBlock.h"
+
 #include "DanceGameManager.generated.h"
 
 UENUM()
@@ -119,9 +123,9 @@ public:
 	int str_i_ForDoctor;
 
 	int stepAngle = 30;
-	int startSpanTime = 20;
+	int startSpanTime = 40;
 	int spanLife_i;
-	int stepSpanLife = 5;
+	int stepSpanLife = 10;
 
 	TArray<FString> strArrInfoForDoctor;
 	UPROPERTY(EditAnywhere)
@@ -139,6 +143,29 @@ public:
 		class UMaterial* ArrowInCurveMaterial;
 	UPROPERTY(EditAnywhere)
 		class UMaterial* ArrowNotInCurveMaterial;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AActor* LaserScore;
+
+	//UPROPERTY( BlueprintReadWrite)
+	//SCompoundWidget* LaserScoreWidgetComponent;
+	//UPROPERTY( BlueprintReadWrite, meta = (BindWidget))
+	//	UTextBlock* MyTxt_Score;
+
+	//UPROPERTY(BlueprintReadWrite)
+	//	 UTextBlock* MyTxt_Score;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//	FText MyTxt_Score;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float pointsScore;
+	//SWidget* LaserScoreWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float totalScore;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool EndGame;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
