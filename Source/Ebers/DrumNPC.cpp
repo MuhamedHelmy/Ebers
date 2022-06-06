@@ -41,11 +41,10 @@ void ADrumNPC::Tick(float DeltaTime)
 }
 void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
-	// spawn next set 
-	//ADrumManager* DManager;
-	
-	
 	DManager->SetSpawnNextExercise(true);
+
+
+	Destroy();
 }
 
 

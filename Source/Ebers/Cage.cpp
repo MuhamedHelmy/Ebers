@@ -3,6 +3,7 @@
 
 
 #include "Cage.h"
+#include <Runtime/Engine/Classes/Components/BoxComponent.h>
 
 // Sets default values
 ACage::ACage()
@@ -10,9 +11,15 @@ ACage::ACage()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
+	/*Root = CreateDefaultSubobject<UBoxComponent>("Root");
+	RootComponent = Root;*/
+
+	/*CageBodyComponent = CreateDefaultSubobject<UStaticMeshComponent>("Cage");
+	CageBodyComponent->AttachTo(RootComponent);*/
+
 	CageDoorMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("CageDoor");
 	RootComponent = CageDoorMeshComponent;
-
+	
 
 }
 
@@ -20,14 +27,19 @@ ACage::ACage()
 void ACage::BeginPlay()
 {
 	Super::BeginPlay();
+
+
+
 	CageDoorMaterial = CageDoorMeshComponent->GetMaterial(0);
 
-	UE_LOG(LogTemp, Error, TEXT("Door Material : %s"), *CageDoorMaterial->GetFName().ToString());
+	//UE_LOG(LogTemp, Error, TEXT("Door Material : %s"), *CageDoorMaterial->GetFName().ToString());
 
 	CageDoorDynamicMat = UMaterialInstanceDynamic::Create(CageDoorMaterial , this);
 
 	CageDoorMeshComponent->SetMaterial(0,CageDoorDynamicMat );
 	
+
+	//setDisolveValue(-1.f );
 }
 
 // Called every frame
@@ -40,6 +52,8 @@ void ACage::Tick(float DeltaTime)
 
 void ACage::setDisolveValue(float DisolveValue)
 {
+	UE_LOG(LogTemp, Error, TEXT("Disolve Value : %f"), DisolveValue);
 	CageDoorDynamicMat->SetScalarParameterValue("Disolve", DisolveValue);
 }
+
 

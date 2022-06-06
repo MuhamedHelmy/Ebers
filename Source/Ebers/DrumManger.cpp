@@ -27,8 +27,8 @@ void ADrumManger::BeginPlay()
 	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("ETwoLeft"));
 	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("ETwoRight"));
 	// 
-	/*FTimerHandle TimerHandle;
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumManger::TimerFunction, 2.0f, true , 3.0f);*/
+	 
+	
 
 		/*SplinesTagsQueue.Enqueue("EOneLeft");
 		SplinesTagsQueue.Enqueue("EOneRight");
@@ -70,14 +70,17 @@ void ADrumManger::Tick(float DeltaTime)
 	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("ETwoLeft"));
 	
 	if (SpawnNextExercise) {
-		
+
+		CurrentExerciseCount++;
+
 		if (!SplinesTagsQueue.IsEmpty()) {
 			SplinesTagsQueue.Peek(TagName);
 			TArray<FVector> Locations = GetSplinePointsLocationsByTag(TagName);
 			SpawnMusicTrailsAtLocation(Locations);
 			SplinesTagsQueue.Pop();
-			UE_LOG(LogTemp, Warning, TEXT("yyy"));
+			UE_LOG(LogTemp, Error, TEXT("Next Exercise Spawned !!!"));
 		}
+		GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumManger::DisolveDoor, 1.0f, false, 2.0f);
 
 		SpawnNextExercise = false;
 	}
@@ -97,18 +100,20 @@ void ADrumManger::SpawnMusicTrailsAtLocation(TArray<FVector> Locations)
 		if (Locations.Num() -1 != i ) {
 			DrumActor = GetWorld()->SpawnActor<ADrum>(DrumClass, Locations[i], FRotator(0, 0, 0));
 
-			x = Cast<UStaticMeshComponent>(DrumActor->Root->GetChildComponent(0));
+			if (DrumActor) {
+				x = Cast<UStaticMeshComponent>(DrumActor->Root->GetChildComponent(0));
 
-			if (x) {
-				if (j < MusicTrialMeshes.Num()) {
-					x->SetStaticMesh(MusicTrialMeshes[j]);
-					j++;
-				}
-				else if (j == MusicTrialMeshes.Num()) {
-					j = 0;
-				}
-				else {
-					UE_LOG(LogTemp, Warning, TEXT("Music trail array is empty"));
+				if (x) {
+					if (j < MusicTrialMeshes.Num()) {
+						x->SetStaticMesh(MusicTrialMeshes[j]);
+						j++;
+					}
+					else if (j == MusicTrialMeshes.Num()) {
+						j = 0;
+					}
+					else {
+						UE_LOG(LogTemp, Warning, TEXT("Music trail array is empty"));
+					}
 				}
 			}
 		}
@@ -179,18 +184,42 @@ TArray<FVector> ADrumManger::GetSplinePointsLocations( USplineComponent* Spline)
 
 
 
-void ADrumManger::TimerFunction()
+void ADrumManger::DisolveDoor()
 {
-	UE_LOG(LogTemp, Error, TEXT("helmy X/O"));
+	//UE_LOG(LogTemp, Error, TEXT("helmy X/O"));
 	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("EOneLeft"));
-	SpawnNextExercise = true;
+	//SpawnNextExercise = true;
+	bool gotCage = GetCage();
+	if (gotCage) {
+		UpdateCageDisolve(DisolveStep *  CurrentExerciseCount);
+		//UE_LOG(LogTemp, Warning, TEXT("Disolve Step =  %f  => %d") , DisolveStep , CurrentExerciseCount);
+	}
+}
 
+bool ADrumManger::GetCage()
+{
+	TArray<AActor*> Found;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "Cage", Found);
+	if (Found.Num() > 0) {
+		Cage = Cast<ACage>(Found[0]);
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 void ADrumManger::SetSpawnNextExercise(bool set)
 {
 	SpawnNextExercise = set;
 }
+
+void ADrumManger::UpdateCageDisolve(float Disolve)
+{
+	Cage->setDisolveValue(Disolve);
+}
+
+
 
 
 //void ADrumManger::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

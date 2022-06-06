@@ -7,10 +7,12 @@
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include <Ebers/DrumNPC.h>
+#include <Ebers/Cage.h>
 #include "DrumManger.generated.h"
 class ADrum;
 class AEbersPlayer;
 class ADrumNPC;
+class ACage;
 UCLASS()
 class EBERS_API ADrumManger : public AActor
 {
@@ -38,6 +40,9 @@ public:
 
 	UPROPERTY()
 		ADrumNPC* DrumNPC;
+
+	UPROPERTY()
+		ACage* Cage;
 
 	UPROPERTY(EditAnywhere)
 		UStaticMesh* DrumMesh;
@@ -90,7 +95,9 @@ protected:
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
 		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);*/
-	void TimerFunction();
+	void DisolveDoor();
+
+	bool GetCage();
 	
 public :
 
@@ -107,10 +114,16 @@ public :
 	UFUNCTION()
 	void SetSpawnNextExercise(bool set);
 
+	UFUNCTION()
+		void UpdateCageDisolve(float Disolve);
+
 private :
 	TQueue<FName> SplinesTagsQueue;
 	FName TagName;
 	bool SpawnNextExercise = true ;
+	FTimerHandle TimerHandle;
+	float DisolveStep = -0.1f;
+	int32 CurrentExerciseCount = 0;
 
 
 	

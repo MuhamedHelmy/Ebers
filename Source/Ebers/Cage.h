@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "Cage.generated.h"
+
+
 
 UCLASS()
 class EBERS_API ACage : public AActor
@@ -22,16 +25,21 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	UFUNCTION()
 	void setDisolveValue(float DisolveValue ); 
+
+	
 
 private :
 		/*UPROPERTY(EditAnywhere)
 			UStaticMesh* CageDoorMesh;*/
 
 	UPROPERTY(VisibleAnywhere)
-		UStaticMeshComponent* CageDoorMeshComponent; 
-
+		UStaticMeshComponent* CageDoorMeshComponent;
+	//UPROPERTY(VisibleAnywhere)
+	//	UStaticMeshComponent* CageBodyComponent;
+	/*UPROPERTY(VisibleAnywhere)
+		class UBoxComponent* Root;*/
 
 	UMaterialInterface *CageDoorMaterial; 
 	UMaterialInstanceDynamic* CageDoorDynamicMat;

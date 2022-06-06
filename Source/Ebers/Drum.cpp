@@ -47,6 +47,8 @@ void ADrum::BeginPlay()
 void ADrum::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
 	UE_LOG(LogTemp, Error, TEXT("AAAAAAAAAAAAAAAAH : %s ") , * OtherActor->GetFName().ToString());
+
+	Destroy();
 }
 
 
