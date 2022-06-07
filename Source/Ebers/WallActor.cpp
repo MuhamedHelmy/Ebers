@@ -55,7 +55,7 @@ void AWallActor::Tick(float DeltaTime)
 	}
 	if ((dist <-1))
 	{
-		Destroy(this);
+		Destroy();
 	}
 }
 
