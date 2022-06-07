@@ -5,7 +5,6 @@
 
 #include "CoreMinimal.h"
 #include "Camera/CameraComponent.h"
-
 #include "GameFramework/Character.h"
 
 #include "Components/SplineComponent.h"
@@ -35,8 +34,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UCameraComponent* mycamera;
-	
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite , meta = (BindWidget))
+	int32 MimicScore;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
