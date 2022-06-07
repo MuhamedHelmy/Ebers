@@ -3,6 +3,7 @@
 #include "Kismet/GameplayStatics.h"
 
 
+
 // Sets default values
 ADrum::ADrum()
 {
@@ -38,6 +39,7 @@ void ADrum::BeginPlay()
 
 	Mesh->OnComponentBeginOverlap.AddDynamic(this, &ADrum::OnCollision);
 
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrum::Kill, 4.f, false, 4.0f);
 	//collider->OnComponentBeginOverlap.AddDynamic(this, &ADrum::OnOverlapBegin);
 
 
@@ -48,6 +50,11 @@ void ADrum::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 {
 	//UE_LOG(LogTemp, Error, TEXT("Trail have hit  : %s ") , * OtherActor->GetFName().ToString());
 
+	Destroy();
+}
+
+void ADrum::Kill()
+{
 	Destroy();
 }
 

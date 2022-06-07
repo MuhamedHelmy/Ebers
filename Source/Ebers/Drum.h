@@ -40,6 +40,9 @@ protected:
 		void OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex,
 			bool bFromSweep, const FHitResult& Hit);
 
+	FTimerHandle TimerHandle;
+
+	void Kill();
 public:
 	ADrum();
 	//void SetMesh(UStaticMesh* mesh);
