@@ -14,11 +14,17 @@ class EBERS_API ADanceEnemy : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ADanceEnemy();
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float DanceEnemyHealth = 10;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//float DanceEnemyHealth = 10;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 
 	bool canAttack = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+
+	bool DestroyedDone=false;
+	bool MatChanged;
+	
+	//int Enemydirection=0;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

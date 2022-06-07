@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include"EbersPlayer.h"
 #include "DanceGameManager.generated.h"
 
 UCLASS()
@@ -15,6 +16,14 @@ public:
 	// Sets default values for this actor's properties
 	ADanceGameManager();
 	UWorld* world;
+	UPROPERTY(EditAnywhere)
+		class UMaterial* StartMaterial;
+	UPROPERTY(EditAnywhere)
+		class UMaterial* EnemyMaterial;
+	UPROPERTY(EditAnywhere)
+		class UMaterial* EnemyMaterial_2;
+
+	class UMaterial* MyEnemyMaterial;
 
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class ADanceEnemy> MyDanceEnemy;
@@ -22,10 +31,13 @@ public:
 	UPROPERTY(EditAnywhere)
 		FVector spawnLocation;
 
+	UStaticMeshComponent* EnemyDanceMesh;
+
 	float MaxAngle=70;
 	float angle = 0;
 	float angleDirection = 1;
-	
+	void MoveFromCurveToAnother();
+	int CurveNum=0;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class AEbersPlayer> MyEbersPlayer;
 
@@ -34,37 +46,35 @@ public:
 	UPROPERTY(EditAnywhere)
 
 		ACharacter* MyPlayer;
-	//UPROPERTY(EditAnywhere)
-	//	float OffsetBetweenWalls = 500.f;
-
-
-
-	///*UPROPERTY(EditAnywhere)
-	//	bool StartMovingWalls ;*/
-
-	//UPROPERTY(EditAnywhere)
-	//	float WallsMovementSpeed = 2;
-
-
-
-	//UPROPERTY(EditAnywhere)
-	//	TArray<UStaticMesh*> MeshesOfTheWalls;
-	///*UPROPERTY(VisibleAnywhere)
-	//	USceneComponent* Root	;
-
-	//UPROPERTY(VisibleAnywhere)
-	//	USkeletalMeshComponent* Mesh;*/
 
 	UPROPERTY(BlueprintReadWrite)
 		FRotator spawnRotation;
 
+	ACharacter* tempchar;
+	AEbersPlayer* tchar;
+	AEbersPlayer* player;
 
      UPROPERTY(EditAnywhere, BlueprintReadWrite)
-
 	TArray<ADanceEnemy*> DanceEnemies;
 
-		int EnemyIndex;
-	//int32 WallsCounter = 0;
+	 float PlayerLen = 300;
+	 float PlayerLenH=200;
+	 float FarPlayer=100;
+	 int EnemyIndex;
+	 int spanLife_i;
+	 float HorizontalAngle;
+	 int VerticalAngle;
+	 FString strInfoForDoctor;
+	 int str_i_ForDoctor;
+
+	 //int MyEnemydirection = 0;
+
+	// bool bTringle;
+	 TArray<FString> strArrInfoForDoctor;
+
+	 //int RandMatNum;
+	 
+	 //int32 WallsCounter = 0;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -75,6 +85,8 @@ public:
 	void SpawnDanceEnemyHorizontal(float maxAngle, bool direction);
 	void SpawnDanceEnemyVertical(float maxAngle, bool direction);
 	void SpawnDanceEnemyTriangle(float maxAngle, bool direction);
+	void SetEnemyMaterial(class UMaterial* mat, int EnemyNum);
+	void RandMaterial(int randNum,int EnemyNum);
 
 	
 };

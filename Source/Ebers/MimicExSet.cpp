@@ -14,43 +14,60 @@ AMimicExSet::AMimicExSet()
 void AMimicExSet::BeginPlay()
 {
 	Super::BeginPlay();
-		
+ 
 }
+
+
 
 void AMimicExSet::spawnWAlls(float wallspeed,float rep)
 {
 	while (rep>0)
 	{
-		for (counter = 0; counter < SpawnActors.Num(); counter++)
+		for (counter = 0; counter < wallsShapes.Num(); counter++)
 		{
-
-			 walls = GetWorld()->SpawnActor<AWallActor>(SpawnActors[counter], GetActorLocation() + FVector(_Npos, 0, 0), Spawnrotation);
+			 walls = GetWorld()->SpawnActor<AWallActor>(wallsShapes[counter], GetActorLocation() + FVector(_Npos, 0, 0), Spawnrotation);
 			 walls->WallMovementSpeed = wallspeed;
-			_Npos += walls_distance;
-			UE_LOG(LogTemp, Error, TEXT("name : %s"), *walls->GetFName().ToString());
-		
+			 _Npos += walls_distance;
+		     wallArray.Add_GetRef(walls);
+			 if(wallArray.Num()!=0)
+				 UE_LOG(LogTemp, Error, TEXT("name : "));
 		}
 	rep--;
 	}
-		
 	
-
+	
 
 }
 
 void AMimicExSet::spawnWAlls(float wallspeed)
 {
 
-	for (counter = 0; counter < SpawnActors.Num(); counter++)
+	for (counter = 0; counter < wallsShapes.Num(); counter++)
 	{
 
-		walls = GetWorld()->SpawnActor<AWallActor>(SpawnActors[counter], GetActorLocation() + FVector(_Npos, 0, 0), Spawnrotation);
+		walls = GetWorld()->SpawnActor<AWallActor>(wallsShapes[counter], GetActorLocation() + FVector(_Npos, 0, 0), Spawnrotation);
 		walls->WallMovementSpeed = wallspeed;
-		_Npos += walls_distance;
-		UE_LOG(LogTemp, Error, TEXT("name : %s"), *walls->GetFName().ToString());
-
+		_Npos += walls_distance; 
+		wallArray.Add_GetRef(walls);
+	
 	}
 }
+FString AMimicExSet::GetEXerciseName(AWallActor * wall) {
+	    FString exnam;
+		for (int32 i = 0;i < wallArray.Num();i++)
+		{
+			if (wallArray[i]->GetFName().ToString() == wall->GetFName().ToString()) {
+				exnam = GetFName().ToString();
+				UE_LOG(LogTemp, Error, TEXT("name : %s"), *exnam);
+			}
+		}
+	return exnam;
+
+}
+
+
+
+
 
 
 
