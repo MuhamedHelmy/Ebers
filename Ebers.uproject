@@ -36,6 +36,15 @@
 			"Enabled": true
 		},
 		{
+			"Name": "OculusVR",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"Win32",
+				"Win64",
+				"Android"
+			]
+		},
+		{
 			"Name": "OpenXRHandTracking",
 			"Enabled": false,
 			"SupportedTargetPlatforms": [
@@ -69,12 +78,15 @@
 			]
 		},
 		{
-			"Name": "OculusOpenXR",
+			"Name": "MixedRealityCaptureFramework",
+			"Enabled": true
+		},
+		{
+			"Name": "WindowsMixedReality",
 			"Enabled": true,
 			"SupportedTargetPlatforms": [
-				"Win32",
 				"Win64",
-				"Android"
+				"HoloLens"
 			]
 		}
 	],
