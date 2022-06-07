@@ -115,7 +115,7 @@ public :
 	void SetSpawnNextExercise(bool set);
 
 	UFUNCTION()
-		void UpdateCageDisolve(float Disolve);
+		void UpdateCageDisolve(float Disolve , float OldDisolveValue);
 
 private :
 	TQueue<FName> SplinesTagsQueue;

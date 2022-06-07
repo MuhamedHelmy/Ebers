@@ -16,7 +16,7 @@ ADrum::ADrum()
 	//Mesh->OnComponentBeginOverlap.AddDynamic(this  , &ADrum::OnOverlap);
 	
 	 
-	UE_LOG(LogTemp, Error, TEXT("drum initiated !!! "));
+	//UE_LOG(LogTemp, Error, TEXT("drum initiated !!! "));
 	/*sceneCompanent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComapanent"));
 	RootComponent = sceneCompanent;
 
@@ -46,7 +46,7 @@ void ADrum::BeginPlay()
 
 void ADrum::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Error, TEXT("AAAAAAAAAAAAAAAAH : %s ") , * OtherActor->GetFName().ToString());
+	//UE_LOG(LogTemp, Error, TEXT("Trail have hit  : %s ") , * OtherActor->GetFName().ToString());
 
 	Destroy();
 }

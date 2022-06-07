@@ -26,7 +26,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	UFUNCTION()
-	void setDisolveValue(float DisolveValue ); 
+	void setDisolveValue(float newDis  , float oldDis);
 
 	
 
@@ -43,4 +43,9 @@ private :
 
 	UMaterialInterface *CageDoorMaterial; 
 	UMaterialInstanceDynamic* CageDoorDynamicMat;
+
+
+	bool startdesolve = false;
+	float DisolveValue; 
+	float  OldDisolveValue;
 };

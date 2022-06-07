@@ -44,7 +44,7 @@ void ADrumManger::BeginPlay()
 			}
 		}
 		else {
-			UE_LOG(LogTemp, Warning, TEXT("Tag array is empty !! Enter some tags !"));
+		//	UE_LOG(LogTemp, Warning, TEXT("Tag array is empty !! Enter some tags !"));
 		}
 
 
@@ -78,9 +78,9 @@ void ADrumManger::Tick(float DeltaTime)
 			TArray<FVector> Locations = GetSplinePointsLocationsByTag(TagName);
 			SpawnMusicTrailsAtLocation(Locations);
 			SplinesTagsQueue.Pop();
-			UE_LOG(LogTemp, Error, TEXT("Next Exercise Spawned !!!"));
+			//UE_LOG(LogTemp, Error, TEXT("Next Exercise Spawned : Exercise Cound ===> %d") , CurrentExerciseCount);
 		}
-		GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumManger::DisolveDoor, 1.0f, false, 2.0f);
+		GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumManger::DisolveDoor, 0.2f, false, 2.0f);
 
 		SpawnNextExercise = false;
 	}
@@ -112,7 +112,7 @@ void ADrumManger::SpawnMusicTrailsAtLocation(TArray<FVector> Locations)
 						j = 0;
 					}
 					else {
-						UE_LOG(LogTemp, Warning, TEXT("Music trail array is empty"));
+						//UE_LOG(LogTemp, Warning, TEXT("Music trail array is empty"));
 					}
 				}
 			}
@@ -191,7 +191,7 @@ void ADrumManger::DisolveDoor()
 	//SpawnNextExercise = true;
 	bool gotCage = GetCage();
 	if (gotCage) {
-		UpdateCageDisolve(DisolveStep *  CurrentExerciseCount);
+		UpdateCageDisolve(DisolveStep *  CurrentExerciseCount , DisolveStep * (CurrentExerciseCount-1));
 		//UE_LOG(LogTemp, Warning, TEXT("Disolve Step =  %f  => %d") , DisolveStep , CurrentExerciseCount);
 	}
 }
@@ -214,9 +214,9 @@ void ADrumManger::SetSpawnNextExercise(bool set)
 	SpawnNextExercise = set;
 }
 
-void ADrumManger::UpdateCageDisolve(float Disolve)
+void ADrumManger::UpdateCageDisolve(float Disolve ,float OldDisolveValue)
 {
-	Cage->setDisolveValue(Disolve);
+	Cage->setDisolveValue(Disolve , OldDisolveValue);
 }
 
 
