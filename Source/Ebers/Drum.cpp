@@ -15,7 +15,7 @@ ADrum::ADrum()
 
 
 
-	//UE_LOG(LogTemp, Error, TEXT("drum initiated !!! "));
+	UE_LOG(LogTemp, Error, TEXT("drum initiated !!! "));
 	/*sceneCompanent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComapanent"));
 	RootComponent = sceneCompanent;
 

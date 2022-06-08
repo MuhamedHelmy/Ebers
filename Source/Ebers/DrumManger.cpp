@@ -19,8 +19,15 @@ ADrumManger::ADrumManger()
 void ADrumManger::BeginPlay()
 {
 	Super::BeginPlay();
+
+	
 	TArray<UActorComponent*> ExerciseOneSplines;
 	TArray<UActorComponent*> ExerciseOTwoSplines;
+
+
+
+
+
 	if (GetScenePlayer()) {
 		 ExerciseOneSplines = PlayerClass->GetComponentsByTag(USplineComponent::StaticClass(), TEXT("ExerciseOneSpline"));
 		 ExerciseOTwoSplines = PlayerClass->GetComponentsByTag(USplineComponent::StaticClass(), TEXT("ExerciseTwoSpline"));

@@ -17,6 +17,7 @@ void AEbersPlayer::BeginPlay()
 	Super::BeginPlay();
 
 	//MimicScore = 50;
+	
 	//FName x = "ExerciseOneRightLeg";
 		
 		//UE_LOG(LogTemp, Error, TEXT("first %s"), *GetSplinePointsLocation(x)[0].ToString());
