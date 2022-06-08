@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "MimicExSet.h"
 #include "WallActor.h"
+#include "Collectables.h"
 #include "MimicGameManager.generated.h"
 UENUM()
 enum SetSelection {
@@ -56,6 +57,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<AMimicExSet>> mimcEXsets;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ACollectables>collectables;
 #pragma  endregion Tsubclass
 
 #pragma region UPROPERTIES
@@ -83,6 +86,7 @@ public:
 private:
 	float pos = 0;
 	AMimicExSet* temp;
+	ACollectables* tempcollectables;
 	//float iterations=5;
 	int32 starter;
 	int32 repeat;

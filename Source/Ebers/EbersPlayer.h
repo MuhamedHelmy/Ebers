@@ -29,12 +29,14 @@ public:
 
 	UPROPERTY()
 		USplineComponent* MySpline;
-
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UCameraComponent* mycamera;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite , meta = (BindWidget))
 	int32 MimicScore;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	int32 coins;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		USkeletalMeshComponent * rightHandMesh;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
