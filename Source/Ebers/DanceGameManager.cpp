@@ -33,8 +33,12 @@ void ADanceGameManager::BeginPlay()
 void ADanceGameManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-		if (bPause) {
 
+	if (!EndGame)
+	{
+		if (bPause)
+		{
+			//Hide For Pause
 			for (int i = 0; i < DanceEnemies.Num(); i++)
 			{
 				if (DanceEnemies.IsValidIndex(i) && DanceEnemies[i])
@@ -49,7 +53,8 @@ void ADanceGameManager::Tick(float DeltaTime)
 		}
 		else
 		{
-			if (!DoneShow) 
+			//Show For Pause
+			if (!DoneShow)
 			{
 				for (int i = 0; i < DanceEnemies.Num(); i++)
 				{
@@ -63,101 +68,101 @@ void ADanceGameManager::Tick(float DeltaTime)
 				}
 				DoneShow = true;
 			}
-		}
-	if (!EndGame) {
-		if (DoctorChoice.IsValidIndex(DoctorChoiceIndex))
-		{
+			// Game
 
-			if (DanceEnemies.IsValidIndex(EnemyIndex) && DanceEnemies[EnemyIndex])
+			if (DoctorChoice.IsValidIndex(DoctorChoiceIndex))
 			{
 
-				DataForDoctor();
-				CheckEnemyDestroyed(); //During each curve
-
-			}
-			else
-			{
-				EnemyIndex = 0;
-				CurveNum++;
-				if (CurveNum < 3 && DoctorChoice[DoctorChoiceIndex].NumOfRepeating>0)
+				if (DanceEnemies.IsValidIndex(EnemyIndex) && DanceEnemies[EnemyIndex])
 				{
 
-					CheckTypeOfExercise();
+					DataForDoctor();
+					CheckEnemyDestroyed(); //During each curve
 
 				}
 				else
 				{
-					CurveNum = -1;
-
-					if (DoctorChoice[DoctorChoiceIndex].NumOfRepeating > 1)
+					EnemyIndex = 0;
+					CurveNum++;
+					if (CurveNum < 3 && DoctorChoice[DoctorChoiceIndex].NumOfRepeating>0)
 					{
-						DoctorChoice[DoctorChoiceIndex].NumOfRepeating--;
+
+						CheckTypeOfExercise();
 
 					}
 					else
 					{
-						if (!bDown)
+						CurveNum = -1;
+
+						if (DoctorChoice[DoctorChoiceIndex].NumOfRepeating > 1)
 						{
-							DoctorChoiceIndex++;
+							DoctorChoice[DoctorChoiceIndex].NumOfRepeating--;
+
 						}
 						else
 						{
-							CheckTypeOfExercise();
-							bUp = true;
+							if (!bDown)
+							{
+								DoctorChoiceIndex++;
+							}
+							else
+							{
+								CheckTypeOfExercise();
+								bUp = true;
+							}
 						}
+
+					}
+
+					if (DanceEnemies.IsValidIndex(EnemyIndex) && DanceEnemies[EnemyIndex])
+					{
+						//SetEnemyMaterial(StartMaterial, EnemyIndex);
+						DanceEnemies[EnemyIndex]->canAttack = true;
+						DanceEnemies[EnemyIndex]->bLaserFearAnim = true;
+
 					}
 
 				}
-
-				if (DanceEnemies.IsValidIndex(EnemyIndex) && DanceEnemies[EnemyIndex])
-				{
-					//SetEnemyMaterial(StartMaterial, EnemyIndex);
-					DanceEnemies[EnemyIndex]->canAttack = true;
-					DanceEnemies[EnemyIndex]->bLaserFearAnim = true;
-
+			}
+			else {
+				if (Arrowtemp) {
+					Arrowtemp->Destroy();
+					Arrowtemp = nullptr;
 				}
-
+				EndGame = true;
 			}
 
-
-		}
-		else {
-			if (Arrowtemp) {
-				Arrowtemp->Destroy();
-				Arrowtemp = nullptr;
-			}
-			EndGame = true;
-		}
-
-		if (Arrowtemp)
-		{
-			if (CharacterRef->IsInCurve)
-			{
-				if (Arrowtemp->Arrow->GetMaterial(0) != ArrowInCurveMaterial)
-				{
-					Arrowtemp->Arrow->SetMaterial(0, ArrowInCurveMaterial);
-
-				}
-
-			}
-			else
-			{
-				if (Arrowtemp->Arrow->GetMaterial(0) != ArrowNotInCurveMaterial)
-				{
-					Arrowtemp->Arrow->SetMaterial(0, ArrowNotInCurveMaterial);
-
-				}
-				if (pointsScore > 0)
-				{
-					pointsScore -= 1;
-				}
-				UE_LOG(LogTemp, Warning, TEXT("pointsScore %f"), pointsScore);
-
-			}
+			//Game Change Curve Material and decrease the points if out of curve
+			HandleInsideAndOutsideCurve();
 		}
 	}
 }
+void ADanceGameManager::HandleInsideAndOutsideCurve() {
+	if (Arrowtemp)
+	{
+		if (CharacterRef->IsInCurve)
+		{
+			if (Arrowtemp->Arrow->GetMaterial(0) != ArrowInCurveMaterial)
+			{
+				Arrowtemp->Arrow->SetMaterial(0, ArrowInCurveMaterial);
 
+			}
+		}
+		else
+		{
+			if (Arrowtemp->Arrow->GetMaterial(0) != ArrowNotInCurveMaterial)
+			{
+				Arrowtemp->Arrow->SetMaterial(0, ArrowNotInCurveMaterial);
+
+			}
+			if (pointsScore > 0)
+			{
+				pointsScore -= 1;
+			}
+			UE_LOG(LogTemp, Warning, TEXT("pointsScore %f"), pointsScore);
+		}
+	}
+}
 
 
 void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle, bool direction)

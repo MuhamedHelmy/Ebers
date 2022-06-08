@@ -168,6 +168,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bPause;
 	bool DoneShow;
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -192,5 +194,5 @@ public:
 	void CheckEnemyDestroyed();
 	void SetEnemyMaterial(class UMaterial* mat, int EnemyNum);
 	void SpawnArrowEnemy(FVector ArrowVector,FRotator ArrowRot,UStaticMesh* ArrowMesh,UStaticMesh* ArrowCollisionMesh);
-
+	void HandleInsideAndOutsideCurve();
 };
