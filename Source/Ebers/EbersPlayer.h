@@ -6,7 +6,6 @@
 #include "CoreMinimal.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
-
 #include "Components/SplineComponent.h"
 #include "EbersPlayer.generated.h"
 
@@ -28,10 +27,8 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool LaserChanged;
 
-	UPROPERTY()
-		USplineComponent* MySpline;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		UCameraComponent* mycamera;
+	
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite , meta = (BindWidget))
 	int32 MimicScore;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
@@ -44,8 +41,6 @@ public:
 		USplineComponent* MySpline;
 
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		UCameraComponent* mycamera;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		bool IsInCurve=true;
