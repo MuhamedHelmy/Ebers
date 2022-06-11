@@ -1,3 +1,4 @@
+#include "DrumNPC.h"
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
@@ -31,6 +32,8 @@ void ADrumNPC::BeginPlay()
 	if (Found.Num() > 0) {
 		DManager = Cast<ADrumManger>(Found[0]);
 	}
+
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, 4.f, false, 4.0f);
 }
 
 // Called every frame
@@ -43,10 +46,16 @@ void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 {
 	UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
 	DManager->SetSpawnNextExercise(true);
-
+	DManager->AddToScore(5.f);
+	
 
 	Destroy();
 }
 
+void ADrumNPC::Kill()
+{
+	DManager->SetSpawnNextExercise(true);
+	Destroy();
+}
 
 

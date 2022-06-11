@@ -117,6 +117,9 @@ public :
 	UFUNCTION()
 		void UpdateCageDisolve(float Disolve , float OldDisolveValue);
 
+	UFUNCTION()
+		void AddToScore(float v);
+
 private :
 	TQueue<FName> SplinesTagsQueue;
 	FName TagName;
@@ -124,6 +127,9 @@ private :
 	FTimerHandle TimerHandle;
 	float DisolveStep = -0.1f;
 	int32 CurrentExerciseCount = 0;
+
+	float Score = 0.0f;
+
 
 
 	

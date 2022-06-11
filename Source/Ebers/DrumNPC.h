@@ -42,4 +42,7 @@ public:
 	UPROPERTY()
 		ADrumManger* DManager;
 
+private :
+	FTimerHandle TimerHandle;
+	void Kill();
 };

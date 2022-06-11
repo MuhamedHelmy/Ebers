@@ -86,7 +86,7 @@ void ADrumManger::Tick(float DeltaTime)
 	}
 
 
-
+	//UE_LOG(LogTemp, Error, TEXT("Score ===> %f")  , Score);
 	
 }
 
@@ -217,6 +217,11 @@ void ADrumManger::SetSpawnNextExercise(bool set)
 void ADrumManger::UpdateCageDisolve(float Disolve ,float OldDisolveValue)
 {
 	Cage->setDisolveValue(Disolve , OldDisolveValue);
+}
+
+void ADrumManger::AddToScore(float v)
+{
+	Score += v;
 }
 
 
