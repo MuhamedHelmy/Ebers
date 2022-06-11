@@ -4,15 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Camera/CameraComponent.h"
-#include "Kismet/GameplayStatics.h"
-#include <Ebers/DrumNPC.h>
-#include <Ebers/Cage.h>
 #include "DrumManger.generated.h"
 class ADrum;
 class AEbersPlayer;
-class ADrumNPC;
-class ACage;
 UCLASS()
 class EBERS_API ADrumManger : public AActor
 {
@@ -26,23 +20,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<ADrum> DrumClass;
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<ADrumNPC> DrumNPCClass;
 
-	/*UPROPERTY(EditAnywhere)
-		UMaterialInterface* DisolveMaterial;*/
-
+	
 	UPROPERTY()
 		AEbersPlayer* PlayerClass;
 
+
+
 	UPROPERTY()
 		ADrum* DrumActor;
-
-	UPROPERTY()
-		ADrumNPC* DrumNPC;
-
-	UPROPERTY()
-		ACage* Cage;
 
 	UPROPERTY(EditAnywhere)
 		UStaticMesh* DrumMesh;
@@ -50,8 +36,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		TArray<UStaticMesh*> MusicTrialMeshes;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		UCameraComponent* mycamera = nullptr;
+
 	//AEbersPlayer* PlayerClass;
 
 
@@ -80,25 +65,14 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
-	
-	virtual void Tick(float DeltaTime) override;
-
 
 	void SpawnMusicTrailsAtLocation(TArray<FVector> Locations);
 
 	bool GetScenePlayer();
 
-	TArray<FVector> GetSplinePointsLocationsByTag(FName Tag);
-
 	TArray<FVector> GetSplinePointsLocations( class USplineComponent * Spline);
-	/*UFUNCTION()
-		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	UFUNCTION()
-		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);*/
-	void DisolveDoor();
 
-	bool GetCage();
-	
+
 public :
 
 	TArray<FVector> FirstExcersizeFirstLocation;
@@ -109,22 +83,4 @@ public :
 	TArray<FVector> SecondExcersizeSecondLocation;
 
 
-	UPROPERTY(EditAnyWhere)
-		TArray<FName> SplineTagsArray;
-	UFUNCTION()
-	void SetSpawnNextExercise(bool set);
-
-	UFUNCTION()
-		void UpdateCageDisolve(float Disolve , float OldDisolveValue);
-
-private :
-	TQueue<FName> SplinesTagsQueue;
-	FName TagName;
-	bool SpawnNextExercise = true ;
-	FTimerHandle TimerHandle;
-	float DisolveStep = -0.1f;
-	int32 CurrentExerciseCount = 0;
-
-
-	
 };

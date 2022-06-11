@@ -6,7 +6,6 @@
 #include "CoreMinimal.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
-
 #include "Components/SplineComponent.h"
 #include "EbersPlayer.generated.h"
 
@@ -28,14 +27,23 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool LaserChanged;
 
+	
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite , meta = (BindWidget))
+	int32 MimicScore;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	int32 coins;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		USkeletalMeshComponent * rightHandMesh;
+
+
 	UPROPERTY()
 		USplineComponent* MySpline;
 
 
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		UCameraComponent* mycamera;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite , meta = (BindWidget))
-	int32 MimicScore;
+		bool IsInCurve=true;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -48,9 +56,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
-	//FVector GetPlayerBodyPartLocation(int32 LegFlag);
+	FVector GetPlayerBodyPartLocation(int32 LegFlag);
 
-	//TArray<FVector> GetSplinePointsLocation(FName TagName);
+	TArray<FVector> GetSplinePointsLocation(FName TagName);
 };
 
 void DrawLeser();

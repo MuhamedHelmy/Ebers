@@ -10,7 +10,6 @@ AMimicGameManager::AMimicGameManager()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
 
 
 }
@@ -37,20 +36,30 @@ void AMimicGameManager::spawnWAllsets() {
 		{
 
 			int32 Rip;
-			temp = Cast<AMimicExSet>(GetWorld()->SpawnActor<AMimicExSet>(mimcEXsets[i], GetActorLocation() + FVector(pos, 0, 0), GetActorRotation()));
+			float collectablesdis = 0;
+			temp = Cast<AMimicExSet>(GetWorld()->SpawnActor<AMimicExSet>(mimcEXsets[i], GetActorLocation() + FVector(0,pos, 0), GetActorRotation()));
 			temp->walls_distance = distance;
 			Spawnedwalles.Add(temp);
 			if (i == repeatedIndex) {
 				Rip = temprepet;
 				temp->spawnWAlls(speed, temprepet);
+				collectablesdis+=pos+distance/2;
+				tempcollectables = Cast<ACollectables>(GetWorld()->SpawnActor<ACollectables>(collectables, GetActorLocation() + FVector(collectablesdis, 0, 150)
+					, GetActorRotation()));
+				//pos += temp->walls_distance;
 				pos += temp->wallsShapes.Num()*Rip *temp->walls_distance;
+
 				
 			}
 			else
 			{
 				Rip = 1;
 				temp->spawnWAlls(speed, Rip);
+			    collectablesdis+= pos + distance / 2;
+				tempcollectables = Cast<ACollectables>(GetWorld()->SpawnActor<ACollectables>(collectables, GetActorLocation() + FVector(collectablesdis, 0, 150)
+					, GetActorRotation()));
 				pos += temp->wallsShapes.Num()*Rip *temp->walls_distance;
+
 			}
 		}
 		wavesnum--;

@@ -7,7 +7,7 @@
 #include "DanceEnemy.generated.h"
 
 UCLASS()
-class EBERS_API ADanceEnemy : public AActor
+class EBERS_API ADanceEnemy : public APawn
 {
 	GENERATED_BODY()
 	
@@ -23,8 +23,12 @@ public:
 
 	bool DestroyedDone=false;
 	bool MatChanged;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bLaserFearAnim;
+
 	//int Enemydirection=0;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//	SWidget* MyWidget;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -32,5 +36,5 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	
 };

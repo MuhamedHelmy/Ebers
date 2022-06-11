@@ -30,6 +30,7 @@ void AWallActor::BeginPlay()
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "Player", player);
 	if (player.Num() > 0) {
 		mypalyer = Cast<AEbersPlayer>(player[0]);
+		
 	}
 }
 
@@ -37,7 +38,7 @@ void AWallActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	updateposition(DeltaTime);
-	float dist = (GetActorLocation().X - mypalyer->GetActorLocation().X);
+	/*float dist = (GetActorLocation().X - mypalyer->GetActorLocation().X);
 	if (dist <=-1) {
 		if (!righthandcollision || !lefthandcolllision) {
 			mypalyer->MimicScore = 0;
@@ -56,13 +57,13 @@ void AWallActor::Tick(float DeltaTime)
 	if ((dist <-1))
 	{
 		Destroy();
-	}
+	}*/
 }
 
 void AWallActor::updateposition(float time)
 {
 	FVector newlocation = this->GetActorLocation();
-	newlocation.X = newlocation.X - WallMovementSpeed;
+	newlocation.Y = newlocation.Y - WallMovementSpeed;
 	SetActorLocation(newlocation);
 }
 void AWallActor::leftHandOnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
