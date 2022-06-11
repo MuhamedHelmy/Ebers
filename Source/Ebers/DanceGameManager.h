@@ -160,6 +160,7 @@ public:
 	//	FText MyTxt_Score;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float pointsScore;
+		int temppointsScore;
 	//SWidget* LaserScoreWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float totalScore;

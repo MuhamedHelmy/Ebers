@@ -27,7 +27,7 @@ void ADanceGameManager::BeginPlay()
 	//	//LaserScoreWidget = LaserScoreWidgetComponent->WIDGET;
 	//}
 
-	
+
 }
 // Called every frame
 void ADanceGameManager::Tick(float DeltaTime)
@@ -157,7 +157,9 @@ void ADanceGameManager::HandleInsideAndOutsideCurve() {
 			}
 			if (pointsScore > 0)
 			{
-				pointsScore -= 1;
+				temppointsScore -= 1;
+				if (temppointsScore % 50 == 0)
+					pointsScore = temppointsScore;
 			}
 			UE_LOG(LogTemp, Warning, TEXT("pointsScore %f"), pointsScore);
 		}
@@ -165,7 +167,7 @@ void ADanceGameManager::HandleInsideAndOutsideCurve() {
 }
 
 
-void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle, bool direction)
+void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type, float maxAngle, bool direction)
 {
 
 	spanLife_i = 0;
@@ -174,7 +176,7 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 	else angleDirection = -1;
 
 	//UE_LOG(LogTemp, Warning, TEXT("me%f"), angle);
-	
+
 
 
 	//Arrowtemp->SetActorHiddenInGame(false);
@@ -246,10 +248,10 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 
 		}
 		SpawnArrowEnemy(ArrowHorizontalVector, ArrowHorizontalRot, HArrowMesh, HArrowCollisionMesh);
-		
-		if (direction) 
+
+		if (direction)
 		{
-		
+
 			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, -1.0f));
 		}
 		else
@@ -323,9 +325,9 @@ void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle,
 
 }
 
-void ADanceGameManager::SpawnArrowEnemy(FVector ArrowVector, FRotator ArrowRot, UStaticMesh* ArrowMesh, UStaticMesh *ArrowCollisionMesh) {
-	
-	if(Arrowtemp) Arrowtemp->Destroy();
+void ADanceGameManager::SpawnArrowEnemy(FVector ArrowVector, FRotator ArrowRot, UStaticMesh* ArrowMesh, UStaticMesh* ArrowCollisionMesh) {
+
+	if (Arrowtemp) Arrowtemp->Destroy();
 	Arrowtemp = world->SpawnActor<AArrowEnemyActor>(Arrow_EnemyActor, ArrowVector, ArrowRot, spawnParams);
 	Arrowtemp->Arrow->SetStaticMesh(ArrowMesh);
 	Arrowtemp->ArrowCollision->SetStaticMesh(ArrowCollisionMesh);
@@ -343,13 +345,13 @@ void ADanceGameManager::MoveFromCurveToAnotherHorizontal() {
 	case 0:
 		spawnLocation.Z = PlayerLenH;
 		spawnLocation.X = 100.0f;
-		SpawnDanceEnemy(ExerciseTypes::Type(0),90, true);
+		SpawnDanceEnemy(ExerciseTypes::Type(0), 90, true);
 		break;
 	case 1:
-		SpawnDanceEnemy(ExerciseTypes::Type(0),90, false);
+		SpawnDanceEnemy(ExerciseTypes::Type(0), 90, false);
 		break;
 	case 2:
-		SpawnDanceEnemy(ExerciseTypes::Type(0),0, true);
+		SpawnDanceEnemy(ExerciseTypes::Type(0), 0, true);
 		break;
 	default:
 		break;
@@ -369,13 +371,13 @@ void ADanceGameManager::MoveFromCurveToAnotherVertical() {
 		spawnLocation.X = 100.0f;
 		spawnLocation.Y = 0.0f;
 		angle = 0;
-		SpawnDanceEnemy(ExerciseTypes::Type(1),60, true);
+		SpawnDanceEnemy(ExerciseTypes::Type(1), 60, true);
 		break;
 	case 1:
-		SpawnDanceEnemy(ExerciseTypes::Type(1),60, false);
+		SpawnDanceEnemy(ExerciseTypes::Type(1), 60, false);
 		break;
 	case 2:
-		SpawnDanceEnemy(ExerciseTypes::Type(1),0, true);
+		SpawnDanceEnemy(ExerciseTypes::Type(1), 0, true);
 		break;
 
 	default:
@@ -484,7 +486,7 @@ void  ADanceGameManager::CheckTypeOfExercise() {
 	else if (DoctorChoice[DoctorChoiceIndex].ExerciseType == ExerciseTypes::Type(1))
 		MoveFromCurveToAnotherVertical();
 	else if (DoctorChoice[DoctorChoiceIndex].ExerciseType == ExerciseTypes::Type(2)) {
-		if (DoctorChoice[DoctorChoiceIndex].NumOfRepeating == 1 && bDown&&bUp)
+		if (DoctorChoice[DoctorChoiceIndex].NumOfRepeating == 1 && bDown && bUp)
 		{
 
 			FromDownToStart();
@@ -497,16 +499,16 @@ void  ADanceGameManager::CheckTypeOfExercise() {
 		else if (!bDown)
 		{
 
-			DoctorChoice[DoctorChoiceIndex].NumOfRepeating+=1;
+			DoctorChoice[DoctorChoiceIndex].NumOfRepeating += 1;
 			FromStartToDown();
 			bDown = true;
 			CurveNum = 3;
-		 }
+		}
 		else
 		{
 
-		MoveFromCurveToAnotherHorizontalDown();
-		
+			MoveFromCurveToAnotherHorizontalDown();
+
 		}
 
 	}
@@ -524,6 +526,7 @@ void  ADanceGameManager::CheckEnemyDestroyed() {
 		//UE_LOG(LogTemp, Warning, TEXT("----------------NOOOOOOOOOOOOOO--------------"));
 		if (DanceEnemies[EnemyIndex]->DestroyedDone) {
 			pointsScore += 50;
+			temppointsScore = pointsScore;
 			UE_LOG(LogTemp, Warning, TEXT("----------------pointsScore--------------%f"), pointsScore);
 			//DanceEnemies[EnemyIndex]->DestroyedDone = false;
 		}
