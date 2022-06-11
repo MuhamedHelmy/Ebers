@@ -15,7 +15,10 @@ ADrumNPC::ADrumNPC()
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Root);
 
-	
+	//Mesh->OnComponentBeginOverlap.AddDynamic(this  , &ADrum::OnOverlap);
+
+
+	//UE_LOG(LogTemp, Error, TEXT("Doumy initiated !!! "));
 }
 
 // Called when the game starts or when spawned
@@ -23,38 +26,10 @@ void ADrumNPC::BeginPlay()
 {
 	Super::BeginPlay();
 	Mesh->OnComponentBeginOverlap.AddDynamic(this, &ADrumNPC::OnCollision);
-
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, 8.f, false, 8.0f);
-
 	TArray<AActor*> Found;
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "DrumManager", Found);
 	if (Found.Num() > 0) {
 		DManager = Cast<ADrumManger>(Found[0]);
-	}
-}
-
-void ADrumNPC::Kill()
-{
-	DManager->SpawnNextExercise = true;
-	if (ExerciseSide == EExerciseSide::Right) {
-		/*UE_LOG(LogTemp, Error, TEXT("This is a right exercise "));
-		UE_LOG(LogTemp, Error, TEXT("------------------------------------ "));*/
-	}
-	else {
-		/*UE_LOG(LogTemp, Error, TEXT("This is a LEFT exercise "));
-		UE_LOG(LogTemp, Error, TEXT("------------------------------------ "));*/
-	}
-	Destroy();
-}
-
-void ADrumNPC::SetExerciseSide(bool isRight)
-{
-	
-	if (isRight) {
-		ExerciseSide = EExerciseSide::Right;
-	}
-	else {
-		ExerciseSide = EExerciseSide::Left;
 	}
 }
 
@@ -67,17 +42,8 @@ void ADrumNPC::Tick(float DeltaTime)
 void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
 	UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
-	if (ExerciseSide == EExerciseSide::Right) {
-		/*UE_LOG(LogTemp, Error, TEXT("This is a right exercise "));
-		UE_LOG(LogTemp, Error, TEXT("------------------------------------ "));*/
-	}
-	else {
-		/*UE_LOG(LogTemp, Error, TEXT("This is a LEFT exercise "));
-		UE_LOG(LogTemp, Error, TEXT("------------------------------------ "));*/
-	}
 	DManager->SetSpawnNextExercise(true);
 
-	DManager->AddToScore(5.f);
 
 	Destroy();
 }

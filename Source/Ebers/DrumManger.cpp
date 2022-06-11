@@ -84,10 +84,8 @@ void ADrumManger::Tick(float DeltaTime)
 
 		SpawnNextExercise = false;
 	}
-	
 
-	//UE_LOG(LogTemp, Error, TEXT("Score is  ===> %f") , Score);
-	
+
 
 	
 }
@@ -96,18 +94,18 @@ void ADrumManger::Tick(float DeltaTime)
 void ADrumManger::SpawnMusicTrailsAtLocation(TArray<FVector> Locations)
 {
 	int32 j = 0;
-	UStaticMeshComponent* TrailMeshComponent;
+	UStaticMeshComponent* x;
 	for (int32 i = 0; i < Locations.Num(); i++)
 	{
 		if (Locations.Num() -1 != i ) {
 			DrumActor = GetWorld()->SpawnActor<ADrum>(DrumClass, Locations[i], FRotator(0, 0, 0));
 
 			if (DrumActor) {
-				TrailMeshComponent = Cast<UStaticMeshComponent>(DrumActor->Root->GetChildComponent(0));
+				x = Cast<UStaticMeshComponent>(DrumActor->Root->GetChildComponent(0));
 
-				if (TrailMeshComponent) {
+				if (x) {
 					if (j < MusicTrialMeshes.Num()) {
-						TrailMeshComponent->SetStaticMesh(MusicTrialMeshes[j]);
+						x->SetStaticMesh(MusicTrialMeshes[j]);
 						j++;
 					}
 					else if (j == MusicTrialMeshes.Num()) {
@@ -121,8 +119,6 @@ void ADrumManger::SpawnMusicTrailsAtLocation(TArray<FVector> Locations)
 		}
 		else {
 			DrumNPC = GetWorld()->SpawnActor<ADrumNPC>(DrumNPCClass, Locations[i], FRotator(0, 0, 0));
-			DrumNPC->SetExerciseSide(isRightExercise);
-			isRightExercise = (!isRightExercise);
 		}
 	}
 }
@@ -221,16 +217,6 @@ void ADrumManger::SetSpawnNextExercise(bool set)
 void ADrumManger::UpdateCageDisolve(float Disolve ,float OldDisolveValue)
 {
 	Cage->setDisolveValue(Disolve , OldDisolveValue);
-}
-
-void ADrumManger::AddToScore(float v)
-{
-	Score += v;
-}
-
-float ADrumManger::GetScore()
-{
-	return Score;
 }
 
 
