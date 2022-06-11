@@ -7,7 +7,7 @@
 AMimicExSet::AMimicExSet()
 {
 	Spawnrotation = GetActorRotation();
-	Spawnrotation.Yaw = 90;
+	Spawnrotation.Yaw = -180;            //the wall rotation
 }
 
 // Called when the game starts or when spawned
@@ -25,7 +25,7 @@ void AMimicExSet::spawnWAlls(float wallspeed,float rep)
 	{
 		for (counter = 0; counter < wallsShapes.Num(); counter++)
 		{
-			 walls = GetWorld()->SpawnActor<AWallActor>(wallsShapes[counter], GetActorLocation() + FVector(_Npos, 0, 0), Spawnrotation);
+			 walls = GetWorld()->SpawnActor<AWallActor>(wallsShapes[counter], GetActorLocation() + FVector(0,_Npos, 0), Spawnrotation);
 			 walls->WallMovementSpeed = wallspeed;
 			 _Npos += walls_distance;
 		     wallArray.Add_GetRef(walls);

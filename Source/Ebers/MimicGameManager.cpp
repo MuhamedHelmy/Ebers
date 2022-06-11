@@ -37,7 +37,7 @@ void AMimicGameManager::spawnWAllsets() {
 
 			int32 Rip;
 			float collectablesdis = 0;
-			temp = Cast<AMimicExSet>(GetWorld()->SpawnActor<AMimicExSet>(mimcEXsets[i], GetActorLocation() + FVector(pos, 0, 0), GetActorRotation()));
+			temp = Cast<AMimicExSet>(GetWorld()->SpawnActor<AMimicExSet>(mimcEXsets[i], GetActorLocation() + FVector(0,pos, 0), GetActorRotation()));
 			temp->walls_distance = distance;
 			Spawnedwalles.Add(temp);
 			if (i == repeatedIndex) {
