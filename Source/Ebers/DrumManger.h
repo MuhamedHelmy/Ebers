@@ -13,6 +13,24 @@ class ADrum;
 class AEbersPlayer;
 class ADrumNPC;
 class ACage;
+
+USTRUCT(BlueprintType)
+struct FAccuracy {
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float RightHandAccuracy;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float LeftHandAccuracy;
+
+	FAccuracy() {
+		RightHandAccuracy = 0.0f;
+		LeftHandAccuracy = 0.0f;
+	}
+
+		
+};
+
 UCLASS()
 class EBERS_API ADrumManger : public AActor
 {
@@ -53,8 +71,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UCameraComponent* mycamera = nullptr;
 	//AEbersPlayer* PlayerClass;
-
-
+	
 
 
 	/*UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
@@ -108,6 +125,8 @@ public :
 	TArray<FVector> SecondExcersizeFirstLocation;
 	TArray<FVector> SecondExcersizeSecondLocation;
 
+	UPROPERTY(EditAnywhere)
+		bool SpawnNextExercise = true;
 
 	UPROPERTY(EditAnyWhere)
 		TArray<FName> SplineTagsArray;
@@ -116,15 +135,24 @@ public :
 
 	UFUNCTION()
 		void UpdateCageDisolve(float Disolve , float OldDisolveValue);
-
+	UFUNCTION()
+	void AddToScore(float v);
+	UFUNCTION(BlueprintCallable , meta = (BindWidget))
+		float GetScore();
 private :
 	TQueue<FName> SplinesTagsQueue;
 	FName TagName;
-	bool SpawnNextExercise = true ;
+	
 	FTimerHandle TimerHandle;
 	float DisolveStep = -0.1f;
 	int32 CurrentExerciseCount = 0;
 
+	FAccuracy FPlayerAccuracy;
+
+
+	float Score = 0.0f;
+
+	bool isRightExercise = true;
 
 	
 };

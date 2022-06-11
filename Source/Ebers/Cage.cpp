@@ -51,7 +51,7 @@ void ACage::Tick(float DeltaTime)
 		FHashedMaterialParameterInfo test;
 		//CageDoorDynamicMat->GetScalarParameterValue(,);
 		CageDoorDynamicMat->SetScalarParameterValue("Disolve", FMath::Lerp(OldDisolveValue , DisolveValue , 0.001f * DeltaTime));
-		UE_LOG(LogTemp , Error , TEXT("SARAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+		//UE_LOG(LogTemp , Error , TEXT("SARAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
 		/*if (xx) {
 
 		}*/

@@ -8,6 +8,13 @@
 #include "DrumNPC.generated.h"
 
 class ADrumManger;
+
+UENUM(BlueprintType)
+enum EExerciseSide {
+	Right	UMETA(DisplayName = "RightSide"),
+	Left	UMETA(DisplayNmae = "LeftSide")
+};
+
 UCLASS()
 class EBERS_API ADrumNPC : public AActor
 {
@@ -23,12 +30,11 @@ public:
 		USkeletalMeshComponent* Mesh;
 
 
+private:
+	FTimerHandle TimerHandle;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	EExerciseSide ExerciseSide;
 
-	//ADrumManager* GetManager();
 
 public:
 	// Called every frame
@@ -42,4 +48,13 @@ public:
 	UPROPERTY()
 		ADrumManger* DManager;
 
+	UFUNCTION()
+		void SetExerciseSide(bool isRight);
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	void Kill();
+	//ADrumManager* GetManager();
+	
 };
