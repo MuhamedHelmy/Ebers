@@ -22,7 +22,8 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		USkeletalMeshComponent* Mesh;
 
-
+	UPROPERTY(EditAnywhere)
+		USkeletalMesh* Koko;
 
 protected:
 	// Called when the game starts or when spawned

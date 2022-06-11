@@ -26,6 +26,8 @@ ADrumNPC::ADrumNPC()
 void ADrumNPC::BeginPlay()
 {
 	Super::BeginPlay();
+	Mesh->SetSkeletalMesh(Koko);
+	Mesh->SetRelativeScale3D(GetActorScale() * 5.0f);
 	Mesh->OnComponentBeginOverlap.AddDynamic(this, &ADrumNPC::OnCollision);
 	TArray<AActor*> Found;
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "DrumManager", Found);
