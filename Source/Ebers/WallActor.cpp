@@ -39,7 +39,10 @@ void AWallActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	updateposition(DeltaTime);
-	/*float dist = (GetActorLocation().X - mypalyer->GetActorLocation().X);
+	float dist = (GetActorLocation().Y - mypalyer->GetActorLocation().Y);
+
+	//UE_LOG(LogTemp , Error  , TEXT ("Player dist ===>> %f "), (GetActorLocation().Y - mypalyer->GetActorLocation().Y));
+
 	if (dist <=-1) {
 		if (!righthandcollision || !lefthandcolllision) {
 			mypalyer->MimicScore = 0;
@@ -58,7 +61,7 @@ void AWallActor::Tick(float DeltaTime)
 	if ((dist <-1))
 	{
 		Destroy();
-	}*/
+	}
 }
 
 void AWallActor::updateposition(float time)
