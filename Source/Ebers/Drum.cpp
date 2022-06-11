@@ -3,6 +3,7 @@
 #include "Kismet/GameplayStatics.h"
 
 
+
 // Sets default values
 ADrum::ADrum()
 {
@@ -13,9 +14,10 @@ ADrum::ADrum()
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Root);
 
-
-
-	UE_LOG(LogTemp, Error, TEXT("drum initiated !!! "));
+	//Mesh->OnComponentBeginOverlap.AddDynamic(this  , &ADrum::OnOverlap);
+	
+	 
+	//UE_LOG(LogTemp, Error, TEXT("drum initiated !!! "));
 	/*sceneCompanent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComapanent"));
 	RootComponent = sceneCompanent;
 
@@ -29,17 +31,48 @@ ADrum::ADrum()
 
 }
 
+
 // Called when the game starts or when spawned
 void ADrum::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Mesh->OnComponentBeginOverlap.AddDynamic(this, &ADrum::OnCollision);
 
-
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrum::Kill, 4.f, false, 4.0f);
 	//collider->OnComponentBeginOverlap.AddDynamic(this, &ADrum::OnOverlapBegin);
 
 
 }
+
+
+void ADrum::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
+{
+	//UE_LOG(LogTemp, Error, TEXT("Trail have hit  : %s ") , * OtherActor->GetFName().ToString());
+
+	Destroy();
+}
+
+void ADrum::Kill()
+{
+	Destroy();
+}
+
+
+
+
+
+//
+//void ADrum::OnOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+//{
+//
+//}
+
+
+
+
+
+
 //void ADrum::SetMesh(UStaticMesh* mesh)
 //{
 //	if (mesh) {

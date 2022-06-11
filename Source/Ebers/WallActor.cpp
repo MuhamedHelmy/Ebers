@@ -32,6 +32,7 @@ void AWallActor::BeginPlay()
 		mypalyer = Cast<AEbersPlayer>(player[0]);
 		
 	}
+	
 }
 
 void AWallActor::Tick(float DeltaTime)
