@@ -39,7 +39,7 @@ void ADrum::BeginPlay()
 
 	Mesh->OnComponentBeginOverlap.AddDynamic(this, &ADrum::OnCollision);
 
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrum::Kill, 4.f, false, 4.0f);
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrum::Kill, 5.f, false, 5.0f);
 	//collider->OnComponentBeginOverlap.AddDynamic(this, &ADrum::OnOverlapBegin);
 
 

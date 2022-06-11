@@ -26,8 +26,13 @@ ADrumNPC::ADrumNPC()
 void ADrumNPC::BeginPlay()
 {
 	Super::BeginPlay();
-	Mesh->SetSkeletalMesh(Koko);
-	Mesh->SetRelativeScale3D(GetActorScale() * 5.0f);
+
+
+	//Mesh->SetSkeletalMesh(Koko);
+
+//	Mesh->SetRelativeScale3D(GetActorScale() * 0.125f);
+	//Mesh->SetAnimation(IDLEAnim);
+
 	Mesh->OnComponentBeginOverlap.AddDynamic(this, &ADrumNPC::OnCollision);
 	TArray<AActor*> Found;
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "DrumManager", Found);
@@ -35,7 +40,7 @@ void ADrumNPC::BeginPlay()
 		DManager = Cast<ADrumManger>(Found[0]);
 	}
 
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, 4.f, false, 4.0f);
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, 5.0f, false, 5.0f);
 }
 
 // Called every frame

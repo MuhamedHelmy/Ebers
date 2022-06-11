@@ -120,6 +120,13 @@ public :
 	UFUNCTION()
 		void AddToScore(float v);
 
+
+	UFUNCTION( BlueprintCallable, meta = (BindWidget))
+		float GetScore();
+
+	UPROPERTY(EditAnywhere , BlueprintReadWrite, meta = (BindWidget))
+		float Score = 0.0f;
+
 private :
 	TQueue<FName> SplinesTagsQueue;
 	FName TagName;
@@ -128,7 +135,7 @@ private :
 	float DisolveStep = -0.1f;
 	int32 CurrentExerciseCount = 0;
 
-	float Score = 0.0f;
+	
 
 
 

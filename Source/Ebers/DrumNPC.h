@@ -25,6 +25,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		USkeletalMesh* Koko;
 
+	UPROPERTY(EditAnywhere)
+		UAnimationAsset* IDLEAnim;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

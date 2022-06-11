@@ -224,6 +224,11 @@ void ADrumManger::AddToScore(float v)
 	Score += v;
 }
 
+float ADrumManger::GetScore()
+{
+	return Score;
+}
+
 
 
 
