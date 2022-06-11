@@ -51,12 +51,20 @@ void ADrumNPC::Tick(float DeltaTime)
 }
 void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
-	DManager->SetSpawnNextExercise(true);
-	DManager->AddToScore(5.f);
+
+	
+	if ( (OtherComponent->GetFName().ToString() == "RightHand") || (OtherComponent->GetFName().ToString() == "LeftHand")) {
+		UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
+		DManager->SetSpawnNextExercise(true);
+		DManager->AddToScore(5.f);
+
+		
+		Destroy();
+	}
 	
 
-	Destroy();
+
+	
 }
 
 void ADrumNPC::Kill()
