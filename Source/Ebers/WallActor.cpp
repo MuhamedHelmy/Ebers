@@ -41,7 +41,7 @@ void AWallActor::Tick(float DeltaTime)
 	updateposition(DeltaTime);
 	float dist = (GetActorLocation().Y - mypalyer->GetActorLocation().Y);
 
-	//UE_LOG(LogTemp , Error  , TEXT ("Player dist ===>> %f "), (GetActorLocation().Y - mypalyer->GetActorLocation().Y));
+	UE_LOG(LogTemp , Error  , TEXT ("Player dist ===>> %f "), (GetActorLocation().Y - mypalyer->GetActorLocation().Y));
 
 	if (dist <=-1) {
 		if (!righthandcollision || !lefthandcolllision) {
