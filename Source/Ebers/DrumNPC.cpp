@@ -30,7 +30,7 @@ void ADrumNPC::BeginPlay()
 
 	//Mesh->SetSkeletalMesh(Koko);
 
-//	Mesh->SetRelativeScale3D(GetActorScale() * 0.125f);
+	//Mesh->SetRelativeScale3D(GetActorScale() * 2.0f);
 	//Mesh->SetAnimation(IDLEAnim);
 
 	Mesh->OnComponentBeginOverlap.AddDynamic(this, &ADrumNPC::OnCollision);
