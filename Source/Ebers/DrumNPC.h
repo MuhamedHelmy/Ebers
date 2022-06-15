@@ -7,6 +7,8 @@
 #include "DrumManger.h"
 #include "DrumNPC.generated.h"
 
+class UNiagaraSystem;
+class USoundBase;
 class ADrumManger;
 UCLASS()
 class EBERS_API ADrumNPC : public AActor
@@ -22,12 +24,22 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		USkeletalMeshComponent* Mesh;
 
+	UPROPERTY(EditAnywhere)
+		USkeletalMesh* Koko;
 
-
+	UPROPERTY(EditAnywhere)
+		UAnimationAsset* IDLEAnim;
+	UPROPERTY()
+		ADrumManger* DManager;
+protected:
+	UPROPERTY(EditDefaultsOnly)
+		UNiagaraSystem* NS_HitExplosion;
+	UPROPERTY(EditDefaultsOnly)
+		USoundBase* SB_HitSound;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	
 	//ADrumManager* GetManager();
 
 public:
@@ -39,8 +51,7 @@ public:
 
 	/*UPROPERTY()
 		ADrumManger* DrumManager;*/
-	UPROPERTY()
-		ADrumManger* DManager;
+	
 
 private :
 	FTimerHandle TimerHandle;

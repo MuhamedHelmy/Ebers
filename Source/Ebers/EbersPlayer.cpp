@@ -15,6 +15,8 @@ AEbersPlayer::AEbersPlayer()
 void AEbersPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	//MimicScore = 50;
 	
 	
 	//FName x = "ExerciseOneRightLeg";
@@ -24,10 +26,13 @@ void AEbersPlayer::BeginPlay()
 
 }
 
+
+
 // Called every frame
 void AEbersPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	//MimicScore = 200;
 
 	//GetWorld()->LineTraceSingleByChannel(hit, StartLaser, EndLaser, ECollisionChannel::ECC_GameTraceChannel1);
 

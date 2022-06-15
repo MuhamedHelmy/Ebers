@@ -5,13 +5,12 @@
 #include "DanceEnemy.h"
 #include "EbersPlayer.h"
 #include "Math/UnrealMathUtility.h"
-
 #include <Runtime/Engine/Classes/Kismet/GameplayStatics.h>
-//#include "../../../../Epic Games/UE_4.27/Engine/Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraDataInterface.h"
-// Sets default values
+#include <Ebers/ArrowEnemyActor.h>
+
 ADanceGameManager::ADanceGameManager()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
@@ -21,392 +20,439 @@ void ADanceGameManager::BeginPlay()
 {
 	Super::BeginPlay();
 	world = GetWorld();
-
-	spawnLocation.Z = PlayerLenH;
-	spawnLocation.X = 100.0f;
-	MyEnemyMaterial = EnemyMaterial;
-
-
-
-	//UE_LOG(LogTemp, Warning, TEXT("----------------BeginPlayGameDance---------------"));
 	CharacterRef = Cast<AEbersPlayer>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	//UE_LOG(LogTemp, Warning, TEXT("hiiiiii : %f"), getplayerpawn);
-	//if(GetWorld()->GetFirstPlayerController()->GetActorLocation())
-	//if (CharacterRef) {
-	//	UE_LOG(LogTemp, Warning, TEXT("----------------MyCharacter---------------"));
-
-	//	spawnLocation.X = CharacterRef->mycamera->GetComponentLocation().X + 100;
-	//	spawnLocation.Y = 0;
-	//	spawnLocation.Z = CharacterRef->mycamera->GetComponentLocation().Z + 100;
-
+	//if (LaserScore && LaserScore->GetRootComponent()->GetChildComponent(0)) {
+	//	LaserScoreWidgetComponent = Cast<SCompoundWidget>(LaserScore->GetRootComponent()->GetChildComponent(0));
+	//
+	//	//LaserScoreWidget = LaserScoreWidgetComponent->WIDGET;
 	//}
 
-	//DanceEnemies[EnemyIndex]->canAttack = true;
 
 }
 // Called every frame
 void ADanceGameManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//if (CharacterRef) {
 
-	//	spawnLocation.Z = CharacterRef->mycamera->GetComponentLocation().Z + 100;
-	//	UE_LOG(LogTemp, Warning, TEXT("----------------caaaam---------------"));
-
-	//}
-	//if (GetWorld()->GetFirstPlayerController()->GetCharacter()) {
-	//	 tempchar = GetWorld()->GetFirstPlayerController()->GetCharacter();
-	//	 tchar = Cast<AEbersPlayer>(tempchar);
-	//	if (tchar) {
-	//		//MyEbersPlayer = Cast<TSubclassOf<class AEbersPlayer>>(GetWorld()->GetFirstPlayerController()->GetCharacter());
-	//		if (tchar->mycamera) {
-	//			UE_LOG(LogTemp, Warning, TEXT("----------------MyyyyyyPlayer---------------%f"), tchar->mycamera->GetComponentLocation().Z);
-	//			PlayerLen = tchar->mycamera->GetComponentLocation().Z;
-	//		}
-	//	}
-	//}
-	// 
-	// 
-	
-	//SpawnDanceEnemyHorizontal(90, true);
-	//spawnLocation.Z = PlayerLenH;
-	//spawnLocation.X = 100.0f;
-	//spawnLocation.Y = 0.0f;
-	//angle = 0;
-
-	//SpawnDanceEnemyVertical(60, true);
-	//SpawnDanceEnemyVertical(60, false);
-	//SpawnDanceEnemyVertical(60, true);
-
-	//spawnLocation.Z = 100; //Down
-	//spawnLocation.X = 100.0f;
-	//spawnLocation.Y = 0.0f;
-	//angle = 0;
-
-	//SpawnDanceEnemyHorizontal(90, true);
-	//SpawnDanceEnemyHorizontal(90, false);
-	//SpawnDanceEnemyHorizontal(90, true);
-
-	//spawnLocation.Z = PlayerLenH;
-	//spawnLocation.X = 100.0f;
-	//spawnLocation.Y = 0.0f;
-	//angle = 0;
-
-
-
-	//SpawnDanceEnemyTriangle(90, true);
-	//SpawnDanceEnemyTriangle(90, false);
-	//SpawnDanceEnemyTriangle(90, true);
-
-
-	//if (DanceEnemies.IsValidIndex(EnemyIndex))
-
-	if (CurveNum<=12) {
-
-
-		if (DanceEnemies.IsValidIndex(EnemyIndex))
+	if (!EndGame)
+	{
+		if (bPause)
 		{
-					//if (DanceEnemies[EnemyIndex]){
-					//		if (DanceEnemies[EnemyIndex]->MatChanged == CharacterRef->LaserChanged)
-					//		{
-					//			//	UE_LOG(LogTemp, Warning, TEXT("----------------indeeeex---------------%d"), EnemyIndex);
-					//			DanceEnemies[EnemyIndex]->canAttack = true;
-					//			//EnemyDanceMesh = Cast <UStaticMeshComponent>(DanceEnemies[EnemyIndex]->GetRootComponent());
-					//			//if (StartMaterial) {
-					//			//	if (EnemyDanceMesh) {
-					//			//		EnemyDanceMesh->SetMaterial(0, StartMaterial);
-					//			//	}
-					//		}
-					//		else
-					//			DanceEnemies[EnemyIndex]->canAttack = false;
-					//}
+			//Hide For Pause
+			for (int i = 0; i < DanceEnemies.Num(); i++)
+			{
+				if (DanceEnemies.IsValidIndex(i) && DanceEnemies[i])
+				{
+					DanceEnemies[i]->SetActorHiddenInGame(true);
+				}
+			}
+			if (Arrowtemp) {
+				Arrowtemp->SetActorHiddenInGame(true);
+			}
+			DoneShow = false;
+		}
+		else
+		{
+			//Show For Pause
+			if (!DoneShow)
+			{
+				for (int i = 0; i < DanceEnemies.Num(); i++)
+				{
+					if (DanceEnemies.IsValidIndex(i) && DanceEnemies[i])
+					{
+						DanceEnemies[i]->SetActorHiddenInGame(false);
+					}
+				}
+				if (Arrowtemp) {
+					Arrowtemp->SetActorHiddenInGame(false);
+				}
+				DoneShow = true;
+			}
+			// Game
 
-					if (DanceEnemies[EnemyIndex]) {
+			if (DoctorChoice.IsValidIndex(DoctorChoiceIndex))
+			{
 
-						DanceEnemies[EnemyIndex]->canAttack = true;
+				if (DanceEnemies.IsValidIndex(EnemyIndex) && DanceEnemies[EnemyIndex])
+				{
 
-						if (DanceEnemies[EnemyIndex]->GetLifeSpan() == 0) 
+					DataForDoctor();
+					CheckEnemyDestroyed(); //During each curve
+
+				}
+				else
+				{
+					EnemyIndex = 0;
+					CurveNum++;
+					if (CurveNum < 3 && DoctorChoice[DoctorChoiceIndex].NumOfRepeating>0)
+					{
+
+						CheckTypeOfExercise();
+
+					}
+					else
+					{
+						CurveNum = -1;
+
+						if (DoctorChoice[DoctorChoiceIndex].NumOfRepeating > 1)
 						{
-							HorizontalAngle =round( (asin(DanceEnemies[EnemyIndex]->GetActorLocation().Y / FarPlayer))*180/PI );
-							VerticalAngle =round( (asin((round(DanceEnemies[EnemyIndex]->GetActorLocation().Z- PlayerLenH)) / FarPlayer))*180/PI );
-							strInfoForDoctor = "HorizontalAngle: " + FString::SanitizeFloat(HorizontalAngle) + "  VerticalAngle: " + FString::SanitizeFloat(VerticalAngle);
-							strArrInfoForDoctor.Add(strInfoForDoctor);
-							UE_LOG(LogTemp, Warning, TEXT("----------------str---------------%s"), *strInfoForDoctor);
-							EnemyDanceMesh = Cast <UStaticMeshComponent>(DanceEnemies[EnemyIndex]->GetRootComponent());
-							if (StartMaterial) {
-								if (EnemyDanceMesh) {
-									EnemyDanceMesh->SetMaterial(0, StartMaterial);
-								}
+							DoctorChoice[DoctorChoiceIndex].NumOfRepeating--;
+
+						}
+						else
+						{
+							if (!bDown)
+							{
+								DoctorChoiceIndex++;
 							}
-							//str_i_ForDoctor++;
+							else
+							{
+								CheckTypeOfExercise();
+								bUp = true;
+							}
 						}
 
 					}
 
-					if (DanceEnemies[EnemyIndex]==nullptr || DanceEnemies[EnemyIndex]->DestroyedDone|| DanceEnemies[EnemyIndex]->GetLifeSpan()==0)
+					if (DanceEnemies.IsValidIndex(EnemyIndex) && DanceEnemies[EnemyIndex])
 					{
-						
-							if (CharacterRef)
-							{
-									if (DanceEnemies.IsValidIndex(EnemyIndex + 1))
-									{
-										if (DanceEnemies[EnemyIndex + 1]) 
-										{
-												EnemyIndex += 1;
-												UE_LOG(LogTemp, Warning, TEXT("----------------indeeeex---------------%d"), EnemyIndex);
-												//	DanceEnemies[EnemyIndex]->canAttack = true;
-												EnemyDanceMesh = Cast <UStaticMeshComponent>(DanceEnemies[EnemyIndex]->GetRootComponent());
-												if (StartMaterial) {
-													if (EnemyDanceMesh) {
-														EnemyDanceMesh->SetMaterial(0, StartMaterial);
-													}
-												}
-										}
-									}
-									else {
-										EnemyIndex += 1;
-									}
-							}
+						//SetEnemyMaterial(StartMaterial, EnemyIndex);
+						DanceEnemies[EnemyIndex]->canAttack = true;
+						DanceEnemies[EnemyIndex]->bLaserFearAnim = true;
+
 					}
 
+				}
+			}
+			else {
+				if (Arrowtemp) {
+					Arrowtemp->Destroy();
+					Arrowtemp = nullptr;
+				}
+				EndGame = true;
 			}
 
-		else {
-			EnemyIndex = 0;
-
-			//SpawnDanceEnemyHorizontal(90, false);
-			MoveFromCurveToAnother();
-			if (DanceEnemies.IsValidIndex(EnemyIndex)) 
-			SetEnemyMaterial(StartMaterial, EnemyIndex);
-			if (DanceEnemies.IsValidIndex(EnemyIndex)) {
-
-				DanceEnemies[EnemyIndex]->canAttack = true;
-				CurveNum++;
-			}
-			else
-				UE_LOG(LogTemp, Warning, TEXT("----------------win---------------"));
-
+			//Game Change Curve Material and decrease the points if out of curve
+			HandleInsideAndOutsideCurve();
 		}
-
-		}
-
 	}
-	
-
-
-void ADanceGameManager::SpawnDanceEnemyHorizontal(float maxAngle,bool direction)
-{
-	//if (direction) MyEnemydirection = 1;
-	//else MyEnemydirection = 2;
-
-	PlayerLenH = 200;
-	spanLife_i = 0;
-	//spawnLocation.Z = 20;
-	MaxAngle = maxAngle;
-	if (direction)angleDirection = 1;
-	else angleDirection = -1;
-	if (MyDanceEnemy) {
-
-	while (abs(angle)<=MaxAngle)
+}
+void ADanceGameManager::HandleInsideAndOutsideCurve() {
+	if (Arrowtemp)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%f"), angle);
+		if (CharacterRef->IsInCurve)
+		{
+			if (Arrowtemp->Arrow->GetMaterial(0) != ArrowInCurveMaterial)
+			{
+				Arrowtemp->Arrow->SetMaterial(0, ArrowInCurveMaterial);
 
-			
-			FActorSpawnParameters spawnParams;
+			}
+		}
+		else
+		{
+			if (Arrowtemp->Arrow->GetMaterial(0) != ArrowNotInCurveMaterial)
+			{
+				Arrowtemp->Arrow->SetMaterial(0, ArrowNotInCurveMaterial);
 
-
-			AActor* temp = world->SpawnActor<ADanceEnemy>(MyDanceEnemy, spawnLocation, spawnRotation, spawnParams);
-
-			ADanceEnemy* t = Cast<ADanceEnemy>(temp);
-
-			t->SetLifeSpan(10+ spanLife_i);
-			spanLife_i = spanLife_i + 2;
-			//t->Enemydirection = MyEnemydirection;
-			DanceEnemies.Add(t);
-			angle += 30 * angleDirection;
-
-			spawnLocation.Y = FarPlayer * sin(angle*PI/180);
-			spawnLocation.X = FarPlayer * cos(angle * PI / 180);
-			//if (DanceEnemies.Num() - 1 > 0) {
-			//	RandMaterial(FMath::RandRange(0, 1), DanceEnemies.Num() - 1);
-			//}
-
-
+			}
+			if (pointsScore > 0)
+			{
+				temppointsScore -= 1;
+				if (temppointsScore % 50 == 0)
+					pointsScore = temppointsScore;
+			}
+			UE_LOG(LogTemp, Warning, TEXT("pointsScore %f"), pointsScore);
 		}
 	}
-	angle = MaxAngle * angleDirection;
-	spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
-	spawnLocation.X = FarPlayer * cos(angle * PI / 180);
 }
 
-void ADanceGameManager::SpawnDanceEnemyVertical(float maxAngle, bool direction)
-{
-	//if (direction) MyEnemydirection = 3;
-	//else MyEnemydirection = 4;
 
-	PlayerLenH = 200;
-	//spawnLocation.Z = 20;
+void ADanceGameManager::SpawnDanceEnemy(ExerciseTypes::Type type, float maxAngle, bool direction)
+{
+
 	spanLife_i = 0;
 	MaxAngle = maxAngle;
 	if (direction)angleDirection = 1;
 	else angleDirection = -1;
+
+	//UE_LOG(LogTemp, Warning, TEXT("me%f"), angle);
+
+
+
+	//Arrowtemp->SetActorHiddenInGame(false);
+	//
+	//AArrowEnemyActor* t = Cast<AArrowEnemyActor>(temp);
+
+
 	if (MyDanceEnemy) {
 
-		while (abs(angle) <= MaxAngle)
+		while (angle != (MaxAngle + stepAngle) * angleDirection)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("%f"), angle);
+			////UE_LOG(LogTemp, Warning, TEXT("mmm%f"), angle);
 
-
-			FActorSpawnParameters spawnParams;
-
+			totalScore += 50;
+			UE_LOG(LogTemp, Warning, TEXT("totalScore%f"), totalScore);
 
 			AActor* temp = world->SpawnActor<ADanceEnemy>(MyDanceEnemy, spawnLocation, spawnRotation, spawnParams);
-
 			ADanceEnemy* t = Cast<ADanceEnemy>(temp);
 
-			t->SetLifeSpan(10 + spanLife_i);
-			spanLife_i = spanLife_i + 2;
-			//t->Enemydirection = MyEnemydirection;
-
+			t->SetLifeSpan(startSpanTime + spanLife_i);
+			spanLife_i = spanLife_i + stepSpanLife;
 			DanceEnemies.Add(t);
-			angle += 30 * angleDirection;
+			angle += stepAngle * angleDirection;
 
-			spawnLocation.Z = FarPlayer * sin(angle * PI / 180)+ PlayerLenH;
-			spawnLocation.X = FarPlayer * cos(angle * PI / 180);
-			//if (DanceEnemies.Num() - 1 > 0) {
-			//	RandMaterial(FMath::RandRange(0, 1), DanceEnemies.Num() - 1);
-			//}
+			//UE_LOG(LogTemp, Warning, TEXT("beforelllloc%f"), angle);
+
+			if (type == ExerciseTypes::Type(0)) {
+				spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
+				spawnLocation.X = FarPlayer * cos(angle * PI / 180);
+			}
+			else if (type == ExerciseTypes::Type(1))
+			{
+				spawnLocation.Z = FarPlayer * sin(angle * PI / 180) + PlayerLenH;
+				spawnLocation.X = FarPlayer * cos(angle * PI / 180);
+
+			}
+			else if (type == ExerciseTypes::Type(2))
+			{
+				spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
+				spawnLocation.X = FarPlayer * cos(angle * PI / 180);
+			}
+			else if (type == ExerciseTypes::Type(3))
+			{
+				spawnLocation.Z = FarPlayer * cos(angle * PI / 180) + PlayerLenH - 100;
+				spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
+			}
+
+			//UE_LOG(LogTemp, Warning, TEXT("llloccc%f"), spawnLocation.X);
 
 		}
 	}
 	angle = MaxAngle * angleDirection;
-	spawnLocation.Z = FarPlayer * sin(angle * PI / 180)+ PlayerLenH;
-	spawnLocation.X = FarPlayer * cos(angle * PI / 180);
-}
 
-void ADanceGameManager::SpawnDanceEnemyTriangle(float maxAngle, bool direction)
-{
-	//if (direction) MyEnemydirection = 3;
-	//else MyEnemydirection = 4;
+	if (type == ExerciseTypes::Type(0)) {
+		spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
 
+		spawnLocation.X = FarPlayer * cos(angle * PI / 180);
 
-	//PlayerLenH = 100;
-	//bTringle = true;
-	spanLife_i = 0;
-	//spawnLocation.Z = 20;
-	MaxAngle = maxAngle;
-	if (direction)angleDirection = 1;
-	else angleDirection = -1;
-	if (MyDanceEnemy) {
-
-		while (abs(angle) <= MaxAngle)
+		if (direction)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("%f"), angle);
+			ArrowHorizontalVector = FVector(-41.000000, -27.000000, 226.00000);
 
 
-			FActorSpawnParameters spawnParams;
 
+		}
+		else
+		{
+			ArrowHorizontalVector = FVector(-41.000000, 23.000000, 226.000000);
 
-			AActor* temp = world->SpawnActor<ADanceEnemy>(MyDanceEnemy, spawnLocation, spawnRotation, spawnParams);
+		}
+		SpawnArrowEnemy(ArrowHorizontalVector, ArrowHorizontalRot, HArrowMesh, HArrowCollisionMesh);
 
-			ADanceEnemy* t = Cast<ADanceEnemy>(temp);
+		if (direction)
+		{
 
-			t->SetLifeSpan(10 + spanLife_i);
-			spanLife_i = spanLife_i + 2;
-			//t->Enemydirection = MyEnemydirection;
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, -1.0f));
+		}
+		else
+		{
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, 1.0f));
 
-			DanceEnemies.Add(t);
-			angle += 30 * angleDirection;
+		}
 
-			spawnLocation.Z = FarPlayer * cos(angle * PI / 180) + PlayerLenH - 100;
-			spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
+	}
+	else if (type == ExerciseTypes::Type(1))
+	{
+		spawnLocation.Z = FarPlayer * sin(angle * PI / 180) + PlayerLenH;
+		spawnLocation.X = FarPlayer * cos(angle * PI / 180);
+		if (direction)
+		{
+			ArrowVerticalVector = FVector(-37.0f, -21.0f, 229.0f);
 
-			UE_LOG(LogTemp, Warning, TEXT("----------------tttttttttttttttttttttttttttt---------------"));
-			//if (DanceEnemies.Num() - 1 > 0) {
-			//	RandMaterial(FMath::RandRange(0, 1), DanceEnemies.Num() - 1);
-			//}
+		}
+		else
+		{
+			ArrowVerticalVector = FVector(-29.0f, 25.0f, 229.0f);
+
+		}
+		SpawnArrowEnemy(ArrowVerticalVector, ArrowVerticalRot, VArrowMesh, VArrowCollisionMesh);
+		if (direction)
+		{
+
+			Arrowtemp->SetActorScale3D(FVector(1.0f, -1.0f, -1.0f));
+		}
+		else
+		{
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, 1.0f));
+
 		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("----------------tttttttttttttttttttttttttttt---------------"));
+	else if (type == ExerciseTypes::Type(2))
+	{
+		spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
+		spawnLocation.X = FarPlayer * cos(angle * PI / 180);
+		SpawnArrowEnemy(ArrowHorizontalDownVector, ArrowHorizontalRot, HArrowMesh, HArrowCollisionMesh);
+		if (direction)
+		{
 
-	angle = MaxAngle * angleDirection;
-	spawnLocation.Z = FarPlayer * cos(angle * PI / 180) + PlayerLenH - 100;
-	spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, -1.0f));
+		}
+		else
+		{
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, 1.0f));
+
+		}
+
+
+	}
+	else if (type == ExerciseTypes::Type(3))
+	{
+		spawnLocation.Z = FarPlayer * cos(angle * PI / 180) + PlayerLenH - 100;
+		spawnLocation.Y = FarPlayer * sin(angle * PI / 180);
+
+		SpawnArrowEnemy(ArrowTriangleVector, ArrowTriangleRot, TArrowMesh, TArrowCollisionMesh);
+		if (direction)
+		{
+
+			Arrowtemp->SetActorScale3D(FVector(1.0f, 1.0f, 1.0f));
+		}
+		else
+		{
+			Arrowtemp->SetActorScale3D(FVector(1.0f, -1.0f, 1.0f));
+
+		}
+	}
+
 }
-void ADanceGameManager::MoveFromCurveToAnother() {
+
+void ADanceGameManager::SpawnArrowEnemy(FVector ArrowVector, FRotator ArrowRot, UStaticMesh* ArrowMesh, UStaticMesh* ArrowCollisionMesh) {
+
+	if (Arrowtemp) Arrowtemp->Destroy();
+	Arrowtemp = world->SpawnActor<AArrowEnemyActor>(Arrow_EnemyActor, ArrowVector, ArrowRot, spawnParams);
+	Arrowtemp->Arrow->SetStaticMesh(ArrowMesh);
+	Arrowtemp->ArrowCollision->SetStaticMesh(ArrowCollisionMesh);
+	Arrowtemp->Arrow->SetMaterial(0, opacity);
+	Arrowtemp->ArrowCollision->SetMaterial(0, opacity);
+	//Arrowtemp->SetLifeSpan(ArrowLifeSpan);
+
+}
+
+void ADanceGameManager::MoveFromCurveToAnotherHorizontal() {
+	EnemyIndex = 0;
+	DanceEnemies.Reset();
+	switch (CurveNum)
+	{
+	case 0:
+		spawnLocation.Z = PlayerLenH;
+		spawnLocation.X = 100.0f;
+		SpawnDanceEnemy(ExerciseTypes::Type(0), 90, true);
+		break;
+	case 1:
+		SpawnDanceEnemy(ExerciseTypes::Type(0), 90, false);
+		break;
+	case 2:
+		SpawnDanceEnemy(ExerciseTypes::Type(0), 0, true);
+		break;
+	default:
+		break;
+	}
+}
+
+
+
+
+void ADanceGameManager::MoveFromCurveToAnotherVertical() {
+	EnemyIndex = 0;
+	DanceEnemies.Reset();
+	switch (CurveNum)
+	{
+	case 0:
+		spawnLocation.Z = PlayerLenH;
+		spawnLocation.X = 100.0f;
+		spawnLocation.Y = 0.0f;
+		angle = 0;
+		SpawnDanceEnemy(ExerciseTypes::Type(1), 60, true);
+		break;
+	case 1:
+		SpawnDanceEnemy(ExerciseTypes::Type(1), 60, false);
+		break;
+	case 2:
+		SpawnDanceEnemy(ExerciseTypes::Type(1), 0, true);
+		break;
+
+	default:
+		break;
+	}
+}
+
+void ADanceGameManager::MoveFromCurveToAnotherHorizontalDown() {
 	EnemyIndex = 0;
 	DanceEnemies.Reset();
 
 	switch (CurveNum)
 	{
 	case 0:
-		SpawnDanceEnemyHorizontal(90, true);
-
-		break;
-	case 1:
-		SpawnDanceEnemyHorizontal(90, false);
-		break;
-	case 2:
-		SpawnDanceEnemyHorizontal(90, true);
-		break;
-	case 3:
-		spawnLocation.Z = PlayerLenH;
-		spawnLocation.X = 100.0f;
-		spawnLocation.Y = 0.0f;
-		angle = 0;
-		SpawnDanceEnemyVertical(60, true);
-		break;
-	case 4:
-		SpawnDanceEnemyVertical(60, false);
-		break;
-	case 5:
-		SpawnDanceEnemyVertical(60, true);
-		break;
-	case 6:
 		spawnLocation.Z = 100; //Down
 		spawnLocation.X = 100.0f;
 		spawnLocation.Y = 0.0f;
 		angle = 0;
-		SpawnDanceEnemyHorizontal(90, true);
+		SpawnDanceEnemy(ExerciseTypes::Type(2), 90, true);
 		break;
-	case 7:
-		SpawnDanceEnemyHorizontal(90, false);
+	case 1:
+		SpawnDanceEnemy(ExerciseTypes::Type(2), 90, false);
 		break;
-	case 8:
-		SpawnDanceEnemyHorizontal(90, true);
+	case 2:
+		SpawnDanceEnemy(ExerciseTypes::Type(2), 0, true);
 		break;
-	case 9:
+
+	default:
+		break;
+	}
+}
+
+
+void ADanceGameManager::MoveFromCurveToAnotherTriangle() {
+	EnemyIndex = 0;
+	DanceEnemies.Reset();
+	switch (CurveNum)
+	{
+	case 0:
 		spawnLocation.Z = PlayerLenH;
 		spawnLocation.X = 100.0f;
 		spawnLocation.Y = 0.0f;
 		angle = 0;
-		SpawnDanceEnemyTriangle(90, true);
+		SpawnDanceEnemy(ExerciseTypes::Type(3), 90, true);
 		break;
-	case 10:
-		SpawnDanceEnemyTriangle(90, false);
+	case 1:
+		SpawnDanceEnemy(ExerciseTypes::Type(3), 90, false);
 		break;
-	case 11:
-		SpawnDanceEnemyTriangle(90, true);
+	case 2:
+		SpawnDanceEnemy(ExerciseTypes::Type(3), 0, true);
 		break;
-	//case 12:
-	//	break;
-	//case 13:
-	//	break;
-	//case 14:
-	//	break;
-	//case 15:
-	//	break;
-	//case 16:
-	//	break;
-	//case 17:
-	//	break;
 	default:
 		break;
 	}
+}
+
+void ADanceGameManager::FromStartToDown() {
+	spawnLocation.Z = PlayerLenH;
+	spawnLocation.X = 100.0f;
+	spawnLocation.Y = 0.0f;
+	SpawnDanceEnemy(ExerciseTypes::Type(1), 60, false);
 
 }
-void ADanceGameManager::SetEnemyMaterial(class UMaterial* mat,int EnemyNum) {
-	EnemyDanceMesh = Cast <UStaticMeshComponent>(DanceEnemies[EnemyNum]->GetRootComponent());
+
+void ADanceGameManager::FromDownToStart() {
+	//Return from down to start
+	spawnLocation.Z = 113.4;
+	spawnLocation.X = 50.0f;
+	spawnLocation.Y = 0.0f;
+	angle = -60;
+	SpawnDanceEnemy(ExerciseTypes::Type(1), 0, true);
+}
+
+void ADanceGameManager::SetEnemyMaterial(class UMaterial* mat, int EnemyNum) {
+	EnemyDanceMesh = Cast <USkeletalMeshComponent>(DanceEnemies[EnemyNum]->GetRootComponent()->GetChildComponent(0));
 	if (mat) {
 
 		if (EnemyDanceMesh) {
@@ -415,14 +461,84 @@ void ADanceGameManager::SetEnemyMaterial(class UMaterial* mat,int EnemyNum) {
 		}
 	}
 }
-void  ADanceGameManager::RandMaterial(int randNum,int EnemyNum) {
-	if (randNum == 1) {
-		SetEnemyMaterial(EnemyMaterial_2 , EnemyNum);
-		DanceEnemies[EnemyNum]->MatChanged = true;
-	}
-	else {
-		SetEnemyMaterial(EnemyMaterial , EnemyNum);
-		DanceEnemies[EnemyNum]->MatChanged = false;
+
+
+void  ADanceGameManager::DataForDoctor() {
+	if (DanceEnemies[EnemyIndex]->GetLifeSpan() == 0)
+	{
+		HorizontalAngle = round((asin(DanceEnemies[EnemyIndex]->GetActorLocation().Y / FarPlayer)) * 180 / PI);
+		VerticalAngle = round((asin((round(DanceEnemies[EnemyIndex]->GetActorLocation().Z - PlayerLenH)) / FarPlayer)) * 180 / PI);
+		strInfoForDoctor = "HorizontalAngle: " + FString::SanitizeFloat(HorizontalAngle) + "  VerticalAngle: " + FString::SanitizeFloat(VerticalAngle);
+		strArrInfoForDoctor.Add(strInfoForDoctor);
+		UE_LOG(LogTemp, Warning, TEXT("----------------str---------------%s"), *strInfoForDoctor);
+		EnemyDanceMesh = Cast <USkeletalMeshComponent>(DanceEnemies[EnemyIndex]->GetRootComponent()->GetChildComponent(0));
+		//SetEnemyMaterial(StartMaterial, EnemyIndex);
 
 	}
+
+}
+
+
+void  ADanceGameManager::CheckTypeOfExercise() {
+
+	if (DoctorChoice[DoctorChoiceIndex].ExerciseType == ExerciseTypes::Type(0))
+		MoveFromCurveToAnotherHorizontal();
+	else if (DoctorChoice[DoctorChoiceIndex].ExerciseType == ExerciseTypes::Type(1))
+		MoveFromCurveToAnotherVertical();
+	else if (DoctorChoice[DoctorChoiceIndex].ExerciseType == ExerciseTypes::Type(2)) {
+		if (DoctorChoice[DoctorChoiceIndex].NumOfRepeating == 1 && bDown && bUp)
+		{
+
+			FromDownToStart();
+			CurveNum = 3;
+			bDown = false;
+			bUp = false;
+
+
+		}
+		else if (!bDown)
+		{
+
+			DoctorChoice[DoctorChoiceIndex].NumOfRepeating += 1;
+			FromStartToDown();
+			bDown = true;
+			CurveNum = 3;
+		}
+		else
+		{
+
+			MoveFromCurveToAnotherHorizontalDown();
+
+		}
+
+	}
+	else if (DoctorChoice[DoctorChoiceIndex].ExerciseType == ExerciseTypes::Type(3))
+		MoveFromCurveToAnotherTriangle();
+
+	//bUp = false;
+	//bDown = false;
+}
+
+void  ADanceGameManager::CheckEnemyDestroyed() {
+
+	if ((DanceEnemies[EnemyIndex] == nullptr || DanceEnemies[EnemyIndex]->DestroyedDone || DanceEnemies[EnemyIndex]->GetLifeSpan() == 0) && CharacterRef)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("----------------NOOOOOOOOOOOOOO--------------"));
+		if (DanceEnemies[EnemyIndex]->DestroyedDone) {
+			pointsScore += 50;
+			temppointsScore = pointsScore;
+			UE_LOG(LogTemp, Warning, TEXT("----------------pointsScore--------------%f"), pointsScore);
+			//DanceEnemies[EnemyIndex]->DestroyedDone = false;
+		}
+		EnemyIndex++;
+
+		if (DanceEnemies.IsValidIndex(EnemyIndex) && DanceEnemies[EnemyIndex]) {
+			//UE_LOG(LogTemp, Warning, TEXT("----------------indeeeex---------------%d"), EnemyIndex);
+			//SetEnemyMaterial(StartMaterial, EnemyIndex);
+			DanceEnemies[EnemyIndex]->bLaserFearAnim = true;
+			DanceEnemies[EnemyIndex]->canAttack = true;
+		}
+
+	}
+
 }

@@ -6,8 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "Components/DrawSphereComponent.h"
 #include "GameFramework/DefaultPawn.h"
+#include "DrumManger.h"
 #include "Drum.generated.h"
-
+class ADrumManger;
 UCLASS()
 class EBERS_API ADrum : public AActor
 {
@@ -19,7 +20,8 @@ public:
 		USceneComponent* Root;
 	UPROPERTY(VisibleAnywhere)
 		UStaticMeshComponent* Mesh;
-
+	UPROPERTY()
+		ADrumManger* DManager;
 	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Companents")
 		USceneComponent* sceneCompanent;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Companents")

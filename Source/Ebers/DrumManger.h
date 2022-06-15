@@ -13,6 +13,12 @@ class ADrum;
 class AEbersPlayer;
 class ADrumNPC;
 class ACage;
+
+
+
+
+
+
 UCLASS()
 class EBERS_API ADrumManger : public AActor
 {
@@ -97,6 +103,8 @@ protected:
 		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);*/
 	void DisolveDoor();
 
+	//void SpawnDrumHeadOneByOne(TArray<FVector> Locations);
+
 	bool GetCage();
 	
 public :
@@ -115,22 +123,48 @@ public :
 	void SetSpawnNextExercise(bool set);
 
 	UFUNCTION()
+		void SetNextPointSpawn(bool set);
+
+	UFUNCTION()
 		void UpdateCageDisolve(float Disolve , float OldDisolveValue);
 
 	UFUNCTION()
 		void AddToScore(float v);
 
+
+	UFUNCTION( BlueprintCallable, meta = (BindWidget))
+		float GetScore();
+
+	UPROPERTY(EditAnywhere , BlueprintReadWrite, meta = (BindWidget))
+		float Score = 0.0f;
+
 private :
 	TQueue<FName> SplinesTagsQueue;
-	FName TagName;
-	bool SpawnNextExercise = true ;
+	FName CurrentTagName;
+	TArray<FVector> SplineLocationsCompined; 
+	int32 CompinedPointsCount = 0;
+
+	bool SpawnNextExercise = true;
 	FTimerHandle TimerHandle;
+	FTimerHandle TimerHandleTwo;
+	FTimerHandle TimerHandleThree;
 	float DisolveStep = -0.1f;
 	int32 CurrentExerciseCount = 0;
 
-	float Score = 0.0f;
+	TArray<FVector> CurrentPointSet;
+	FVector CurrentPointToSpawn; 
+	bool IsFinalPoint();
 
+	int32 PointsCount = 0;
+	int32 CurrentPointIdx = 0;
 
-
+	int32 **x;
+	bool NextPointReady = true;
 	
+	void SpawnTrail(FVector Location);
+	void SpawnNPC(FVector Location);
+	
+	void Temp();
+
+	TArray<FVector> AllSpawnPoints;
 };

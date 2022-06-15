@@ -21,21 +21,12 @@ public:
 	FVector MiddlePoint;
 	UPROPERTY(EditAnywhere)
 	FVector Endpoint;
-
 	UPROPERTY(BlueprintReadWrite)
 	bool hittingg;
-	UPROPERTY(EditAnywhere)
 	float speed = 0;
-
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<AMimicGameManager> mangerspawner;    
-
 	FVector currntpos;
 	FVector Nextdestination;
-	FVector spawnpos;
-	FRotator rotation;
-	AMimicGameManager*manger;
-	bool _startGame;
+	
 	virtual void Tick(float DeltaTime) override;
 	
 	// Called to bind functionality to input
@@ -43,7 +34,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	void startGame();
 	
 	// Called every frame
 	

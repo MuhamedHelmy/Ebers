@@ -3,6 +3,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "MimicExSet.h"
+#include "WallActor.h"
+#include "Collectables.h"
 #include "MimicGameManager.generated.h"
 UENUM()
 enum SetSelection {
@@ -51,11 +53,12 @@ public:
 #pragma  endregion Enums
 
 #pragma region  Tsubclass
-//array of actors to spawn set of exercise
+	//array of actors to spawn set of exercise
 
 	UPROPERTY(EditAnywhere)
-		TArray<TSubclassOf<AMimicExSet>> SpawnActors;
-
+		TArray<TSubclassOf<AMimicExSet>> mimcEXsets;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ACollectables>collectables;
 #pragma  endregion Tsubclass
 
 #pragma region UPROPERTIES
@@ -71,30 +74,41 @@ public:
 	UPROPERTY(EditAnywhere)
 		float distance = 100;          //distance between walls 
 	UPROPERTY(EditAnywhere)
-	float Exrepeat;						//repeat exercise 
-#pragma endregion UPROPERTIES
+		float Exrepeat;
+	UPROPERTY(EditAnywhere)
+	bool _isGameStarted;
+	//repeat exercise 
 	
+#pragma endregion UPROPERTIES
+
 
 #pragma region privateVariables
 private:
 	float pos = 0;
-	//float iterations=5;
 	AMimicExSet* temp;
+	ACollectables* tempcollectables;
+	//float iterations=5;
 	int32 starter;
-	int32 repeat ;
+	int32 repeat;
 	int32 temprepet;
-	int32 repeatedIndex =-1;
+	int32 repeatedIndex = -1;
 	int32 selector;
+	TArray<AMimicExSet *>Spawnedwalles;
+
 #pragma endregion privateVariables
 
 protected:
 #pragma region Functions 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 	void spawnWAllsets();
 	void spawnRandomSets();
 	void returnJason();
 	void swapSetOfExersices(int32 num);
 	int32 repeatEx(int32 num);
+	void selectExersice();
+public:
+	FString exerciseName(AWallActor * wall);
 #pragma endregion Functions
 };

@@ -4,6 +4,8 @@
 
 #include "DrumNPC.h"
 #include <Runtime/Engine/Classes/Kismet/GameplayStatics.h>
+#include "NiagaraFunctionLibrary.h"
+
 
 // Sets default values
 ADrumNPC::ADrumNPC()
@@ -26,6 +28,13 @@ ADrumNPC::ADrumNPC()
 void ADrumNPC::BeginPlay()
 {
 	Super::BeginPlay();
+
+
+	//Mesh->SetSkeletalMesh(Koko);
+
+	//Mesh->SetRelativeScale3D(GetActorScale() * 2.0f);
+	//Mesh->SetAnimation(IDLEAnim);
+
 	Mesh->OnComponentBeginOverlap.AddDynamic(this, &ADrumNPC::OnCollision);
 	TArray<AActor*> Found;
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "DrumManager", Found);
@@ -33,7 +42,7 @@ void ADrumNPC::BeginPlay()
 		DManager = Cast<ADrumManger>(Found[0]);
 	}
 
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, 4.f, false, 4.0f);
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, 1.0f, false, 1.0f);
 }
 
 // Called every frame
@@ -44,17 +53,33 @@ void ADrumNPC::Tick(float DeltaTime)
 }
 void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
-	DManager->SetSpawnNextExercise(true);
-	DManager->AddToScore(5.f);
+		
+	
+	if ( (OtherComponent->GetFName().ToString() == "RightHand") || (OtherComponent->GetFName().ToString() == "LeftHand")) {
+		UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
+		DManager->SetSpawnNextExercise(true);
+		DManager->AddToScore(5.f);
+		
+		
+
+		Destroy();
+	}
 	
 
-	Destroy();
+
+	
 }
 
 void ADrumNPC::Kill()
 {
 	DManager->SetSpawnNextExercise(true);
+	if (NS_HitExplosion) {
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld() , NS_HitExplosion , GetActorLocation());
+	}
+	if (SB_HitSound) {
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SB_HitSound, GetActorLocation());
+	}
+	
 	Destroy();
 }
 

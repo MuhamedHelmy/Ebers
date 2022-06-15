@@ -18,9 +18,9 @@ public:
 
 #pragma region Uproperties
 		UPROPERTY(EditAnywhere)
-		TArray<TSubclassOf<AWallActor>> SpawnActors;    //array of spawning walls
+		TArray<TSubclassOf<AWallActor>> wallsShapes;    //array of spawning walls
 	    UPROPERTY(EditAnywhere)
-	    float walls_distance=100;                     // the distance between every wall
+	    float walls_distance=300;                     // the distance between every wall
 
 #pragma endregion Uproperties
 
@@ -28,6 +28,7 @@ public:
 
 	void spawnWAlls(float wallspeed,float rep); // spawn walls with repeating number 
 	void spawnWAlls(float wallspeed);        // spawn walls without repeating 
+	FString GetEXerciseName(AWallActor * wall) ;
 #pragma endregion publicFunctions
 
 #pragma  region privatesVariables
@@ -38,8 +39,8 @@ private:
 	AWallActor* walls;
 	FVector Spawnpos;
 	FRotator Spawnrotation;
-	 float setIterations=1;
-
+	float setIterations=1;
+    TArray<AWallActor*>wallArray;
 #pragma endregion  privatesVariables
 
 #pragma region protectedFunction
@@ -47,5 +48,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void returnJason();
+	void returnwallsnames();
 #pragma endregion  protectedFunction
 };
