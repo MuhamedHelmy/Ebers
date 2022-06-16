@@ -1,5 +1,4 @@
 #include "DrumNPC.h"
-// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "DrumNPC.h"
@@ -7,7 +6,6 @@
 #include "NiagaraFunctionLibrary.h"
 
 
-// Sets default values
 ADrumNPC::ADrumNPC()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -19,16 +17,17 @@ ADrumNPC::ADrumNPC()
 	Mesh->SetupAttachment(Root);
 
 	//Mesh->OnComponentBeginOverlap.AddDynamic(this  , &ADrum::OnOverlap);
-
+		
 
 	//UE_LOG(LogTemp, Error, TEXT("Doumy initiated !!! "));
 }
 
-// Called when the game starts or when spawned
 void ADrumNPC::BeginPlay()
 {
 	Super::BeginPlay();
 
+
+	//SetLifeSpan(KillDelayTime +1.5f); 
 
 	//Mesh->SetSkeletalMesh(Koko);
 
@@ -42,13 +41,19 @@ void ADrumNPC::BeginPlay()
 		DManager = Cast<ADrumManger>(Found[0]);
 	}
 
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, 1.0f, false, 1.0f);
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, KillDelayTime, false, KillDelayTime);
+
+	//HitVar = 0.0f;
 }
 
-// Called every frame
+
 void ADrumNPC::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (playHitAnim  && HitVar  < 2.5 ) {
+		HitVar += AnimationSwitchRate;
+	}
 
 }
 void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
@@ -57,17 +62,20 @@ void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 	
 	if ( (OtherComponent->GetFName().ToString() == "RightHand") || (OtherComponent->GetFName().ToString() == "LeftHand")) {
 		UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
-		DManager->SetSpawnNextExercise(true);
+		//DManager->SetSpawnNextExercise(true);
 		DManager->AddToScore(5.f);
+		playHitAnim = true;
+		GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Despawn, 1.0f, false, 1.0f);
 		
-		
-
-		Destroy();
 	}
 	
 
 
 	
+}
+
+void ADrumNPC::PlayHitAnimation()
+{
 }
 
 void ADrumNPC::Kill()
@@ -79,8 +87,13 @@ void ADrumNPC::Kill()
 	if (SB_HitSound) {
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SB_HitSound, GetActorLocation());
 	}
-	
 	Destroy();
 }
 
 
+
+void ADrumNPC::Despawn()
+{
+	DManager->SetSpawnNextExercise(true);
+	Destroy();
+}
