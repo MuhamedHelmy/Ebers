@@ -48,6 +48,15 @@ void ADrumManger::BeginPlay()
 
 		}
 
+		DrumArrows = PlayerClass->GetDrumArrows(4);
+
+		for (int32 i = 1; i < DrumArrows.Num(); i++) {
+			/*DrumArrows[i]->GetFName().ToString();
+			UE_LOG(LogTemp, Error, TEXT("3amr ====>%s ") ,* DrumArrows[i]->GetFName().ToString() );*/
+
+			DrumArrows[i]->SetHiddenInGame(true);
+		}
+
 		/*for (int32 i = 0; i < SplineLocationsCompined.Num(); i++) {*/
 			//UE_LOG(LogTemp, Warning, TEXT("3amr ====>%d ") , CompinedPointsCount );
 	/*	}*/
@@ -95,68 +104,28 @@ void ADrumManger::Tick(float DeltaTime)
 		if (CurrentPointIdx < CompinedPointsCount) {
 			SpawnNPC(SplineLocationsCompined[CurrentPointIdx]);
 			CurrentPointIdx++;
+
+			if (CurrentPointIdx % SplineTagsArray.Num() == 0) {
+				UE_LOG(LogTemp, Error, TEXT(" aaaaaaaaaaah"));
+				UE_LOG(LogTemp, Warning, TEXT(" CurrentExerciseCount : %d"), CurrentExerciseCount);
+				// show next arrows !
+				/*for (int32 i = 0; i < DrumArrows.Num(); i++) {
+					DrumArrows[i]->SetHiddenInGame(true);
+				}
+
+				DrumArrows[CurrentArrowIdx]->SetHiddenInGame(false);*/
+				ShowNextArrows();
+			}
+
+			/*UE_LOG(LogTemp, Warning, TEXT(" CurrentExerciseCount : %d"), CurrentExerciseCount)
+			UE_LOG(LogTemp, Warning, TEXT(" CurrentPointIdx : %d"), CurrentPointIdx);
+			UE_LOG(LogTemp, Warning, TEXT(" SplineTagsArray : %d"), SplineTagsArray.Num());*/
 		}
 
 
+		
 		SpawnNextExercise = false;
-		// spawn in next position 
 
-		/*if (!SplinesTagsQueue.IsEmpty()) {
-			if (CurrentPointIdx < PointsCount) {
-
-				CurrentPointToSpawn = CurrentPointSet[CurrentPointIdx];
-				CurrentPointIdx++;
-			}
-			else {
-				SplinesTagsQueue.Dequeue(CurrentTagName);
-				CurrentPointSet = GetSplinePointsLocationsByTag(CurrentTagName);
-
-				CurrentPointIdx = 0;
-
-				CurrentPointToSpawn = CurrentPointSet[CurrentPointIdx];
-			}
-		}
-
-
-
-		SpawnNPC(CurrentPointToSpawn);*/
-		/*if (CurrentPointSet.Num() == CurrentPointIdx-1 ) {
-			UE_LOG(LogTemp, Warning, TEXT("True "));
-			CurrentPointIdx = 0;
-			SplinesTagsQueue.Dequeue(CurrentTagName);
-			CurrentPointSet = GetSplinePointsLocationsByTag(CurrentTagName);
-
-		}
-		else {
-			UE_LOG(LogTemp, Warning, TEXT("faaaaaaaaaaaaalse"));
-			CurrentPointIdx++;
-		}
-
-		CurrentPointToSpawn = CurrentPointSet[CurrentPointIdx];
-
-		if (!SplinesTagsQueue.IsEmpty()) {
-			
-		}*/
-
-		
-		/*if (IsFinalPoint()) {
-			SpawnNPC(CurrentPointSet[CurrentPointIdx]);
-			CurrentPointIdx = 0;
-			SplinesTagsQueue.Dequeue(CurrentTagName);
-			CurrentPointSet = GetSplinePointsLocationsByTag(CurrentTagName);
-		}
-		else {
-			SpawnNPC(CurrentPointSet[CurrentPointIdx]);
-			CurrentPointIdx++;
-		}
-
-		if (IsFinalPoint()) {
-			UE_LOG(LogTemp, Warning, TEXT("True "));
-		}
-		else {
-			UE_LOG(LogTemp, Warning, TEXT("faaaaaaaaaaaaalse"));
-		}*/
-		
 	}
 
 	
@@ -403,6 +372,21 @@ void ADrumManger::SpawnTrail(FVector Location)
 void ADrumManger::SpawnNPC(FVector Location)
 {
 	DrumNPC = GetWorld()->SpawnActor<ADrumNPC>(DrumNPCClass, Location, FRotator(0, 90.f,0));
+}
+
+void ADrumManger::ShowNextArrows()
+{
+
+	for (int32 i = 0; i < DrumArrows.Num(); i++) {
+		DrumArrows[i]->SetHiddenInGame(true);
+	}
+
+	if (CurrentArrowIdx < 4) {
+		DrumArrows[CurrentArrowIdx]->SetHiddenInGame(false);
+	}
+	CurrentArrowIdx++;
+
+
 }
 
 void ADrumManger::Temp() {

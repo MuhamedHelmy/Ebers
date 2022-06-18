@@ -39,11 +39,17 @@ public:
 	UPROPERTY(EditAnywhere)
 		float AnimationSwitchRate = 0.08;
 
+	UPROPERTY(EditAnywhere)
+		float AfterHitDelay = 1.0f;
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
 		UNiagaraSystem* NS_HitExplosion;
 	UPROPERTY(EditDefaultsOnly)
 		USoundBase* SB_HitSound;
+
+	UPROPERTY()
+		UStaticMeshComponent* TempArrow; 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -72,4 +78,6 @@ private :
 	void Kill();
 
 	bool playHitAnim = false; 
+
+
 };

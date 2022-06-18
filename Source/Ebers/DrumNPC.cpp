@@ -43,6 +43,9 @@ void ADrumNPC::BeginPlay()
 
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, KillDelayTime, false, KillDelayTime);
 
+
+
+	//TempArrow = 
 	//HitVar = 0.0f;
 }
 
@@ -65,7 +68,7 @@ void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		//DManager->SetSpawnNextExercise(true);
 		DManager->AddToScore(5.f);
 		playHitAnim = true;
-		GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Despawn, 1.0f, false, 1.0f);
+		GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Despawn, AfterHitDelay, false, AfterHitDelay);
 		
 	}
 	

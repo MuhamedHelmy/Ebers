@@ -42,6 +42,9 @@ public:
 		AEbersPlayer* PlayerClass;
 
 	UPROPERTY()
+		TArray<UStaticMeshComponent* > DrumArrows;
+
+	UPROPERTY()
 		ADrum* DrumActor;
 
 	UPROPERTY()
@@ -157,13 +160,14 @@ private :
 
 	int32 PointsCount = 0;
 	int32 CurrentPointIdx = 0;
+	int32 CurrentArrowIdx = 1; 
 
 	int32 **x;
 	bool NextPointReady = true;
 	
 	void SpawnTrail(FVector Location);
 	void SpawnNPC(FVector Location);
-	
+	void ShowNextArrows();
 	void Temp();
 
 	TArray<FVector> AllSpawnPoints;

@@ -27,6 +27,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool LaserChanged;
 
+
 	
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite , meta = (BindWidget))
@@ -37,6 +38,7 @@ public:
 		USkeletalMeshComponent * rightHandMesh;
 
 
+
 	UPROPERTY()
 		USplineComponent* MySpline;
 
@@ -44,6 +46,13 @@ public:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		bool IsInCurve=true;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TArray<FName> ArrowTags;
+
+	UFUNCTION()
+		TArray<UStaticMeshComponent * > GetDrumArrows(int32 SplineNums);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
