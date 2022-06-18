@@ -23,7 +23,7 @@ void AEbersPlayer::BeginPlay()
 		
 		//UE_LOG(LogTemp, Error, TEXT("first %s"), *GetSplinePointsLocation(x)[0].ToString());
 	//MySpline->GetLocationAtSplinePoint(0);
-	//GetDrumArrows(4);
+
 }
 
 
@@ -109,30 +109,3 @@ FVector AEbersPlayer::GetPlayerBodyPartLocation(int32 LegFlag)
 //	return SplinePointsLocation;
 //}
 //
-
-
-TArray<UStaticMeshComponent * > AEbersPlayer::GetDrumArrows(int32 SplineNums )
-{
-
-	TArray<UStaticMeshComponent* > TempArr; 
-	UStaticMeshComponent* ComponentHolder; 
-	
-	for (int32 i = 0; i < SplineNums; i++) {
-		
-		if (ArrowTags.Num() > 0) {
-			TArray<UActorComponent* > Temp;
-			Temp = GetComponentsByTag(UStaticMeshComponent::StaticClass(), ArrowTags[i]);
-			//Temp = GetComponentByClass();
-			if (Temp.Num() > 0) {
-				ComponentHolder = Cast<UStaticMeshComponent>(Temp[0]);
-				TempArr.Add(ComponentHolder);
-			}
-		}
-		else {
-			UE_LOG(LogTemp, Error, TEXT("No Arrow Tags Found !!! "));
-		}
-	}
-
-
-	return TempArr;
-}
