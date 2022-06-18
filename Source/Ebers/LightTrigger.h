@@ -23,5 +23,9 @@ public:
 	// Called every frame
 	UPROPERTY(VisibleAnywhere, Category = "Light Switch")
 		class UPointLightComponent* PointLight;
+	void lighttriggeron();
+	void lighttriggerOff();
+	FTimerHandle TimerHandle;
+
 
 };

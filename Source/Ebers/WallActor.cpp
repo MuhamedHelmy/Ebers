@@ -32,6 +32,15 @@ void AWallActor::BeginPlay()
 		mypalyer = Cast<AEbersPlayer>(player[0]);
 		
 	}
+
+	TArray<AActor*> redlight;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "redlight", redlight);
+	if (redlight.Num() > 0) {
+		light = Cast<ALightTrigger>(redlight[0]);
+		UE_LOG(LogTemp, Error, TEXT("bhgfhfh"));
+	}
+
+
 	
 }
 
@@ -40,12 +49,11 @@ void AWallActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	updateposition(DeltaTime);
 	float dist = (GetActorLocation().Y - mypalyer->GetActorLocation().Y);
-
 	UE_LOG(LogTemp , Error  , TEXT ("Player dist ===>> %f "), (GetActorLocation().Y - mypalyer->GetActorLocation().Y));
-
 	if (dist <=-1) {
 		if (!righthandcollision || !lefthandcolllision) {
 			mypalyer->MimicScore = 0;
+			
 			TArray<AActor *> manger;
 			UGameplayStatics::GetAllActorsWithTag(GetWorld(), "manger", manger);
 			if (manger.Num() > 0) {
@@ -53,8 +61,8 @@ void AWallActor::Tick(float DeltaTime)
 		       temp11->exerciseName(this);
 
 			}
-		//	temp11->exerciseName(this);
-			//temp11->GetEXerciseName(this);
+			light->lighttriggeron();
+
 
 		}
 	}

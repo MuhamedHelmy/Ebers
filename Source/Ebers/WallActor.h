@@ -6,6 +6,7 @@
 #include "Engine/TriggerVolume.h"
 #include<Ebers//EbersPlayer.h>
 #include "GameFramework/Actor.h"
+#include <Ebers/LightTrigger.h>
 #include "Components/BoxComponent.h"
 #include "WallActor.generated.h"
 
@@ -28,6 +29,7 @@ public:
 	}
 };
 
+class ALightTrigger;
 UCLASS()
 class EBERS_API AWallActor : public AActor
 {
@@ -49,13 +51,14 @@ public:
 	AEbersPlayer* mypalyer;
 	UPROPERTY()
 	TArray<FAccuracyData>data;
-	//accuracyData>data;
 	class AMimicGameManager * temp11;
+	//class AlightTrigger* lightt;
+	UPROPERTY(VisibleAnywhere)
+	ALightTrigger *light;
+
 	bool getNamed;
 	virtual void Tick(float DeltaTime) override;
 	void updateposition(float time);
-	//UFUNCTION()
-	//void rightHandOnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
 	void leftHandOnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	void lefthandendoverlape(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -65,16 +68,9 @@ private :
 	bool lefthandcolllision;
 	bool rightHandscored;
 	bool leftHandScored;
-	
 	FAccuracyData  acdata;
 protected:
 	virtual void BeginPlay() override;
 
-	//UFUNCTION()
-	//	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	//UFUNCTION()
-	//	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
-		//void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
+	
 };
