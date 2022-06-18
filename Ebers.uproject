@@ -23,6 +23,14 @@
 			"Enabled": true
 		},
 		{
+			"Name": "ControlRig",
+			"Enabled": true
+		},
+		{
+			"Name": "HDRIBackdrop",
+			"Enabled": true
+		},
+		{
 			"Name": "OculusOpenXR",
 			"Enabled": true,
 			"SupportedTargetPlatforms": [
@@ -32,38 +40,37 @@
 			]
 		},
 		{
-			"Name": "OpenXRMsftHandInteraction",
-			"Enabled": true,
+			"Name": "OpenXRHandTracking",
+			"Enabled": false,
 			"SupportedTargetPlatforms": [
 				"Win32",
 				"Win64",
+				"Linux",
 				"HoloLens",
 				"Android"
 			]
 		},
 		{
-			"Name": "ControlRig",
-			"Enabled": true
-		},
-		{
-			"Name": "MixedRealityCaptureFramework",
-			"Enabled": true
-		},
-		{
-			"Name": "WindowsMixedReality",
-			"Enabled": true,
+			"Name": "OpenXREyeTracker",
+			"Enabled": false,
 			"SupportedTargetPlatforms": [
+				"Win32",
 				"Win64",
-				"HoloLens"
+				"Linux",
+				"HoloLens",
+				"Android"
 			]
 		},
 		{
-			"Name": "GoogleVRHMD",
-			"Enabled": true
-		},
-		{
-			"Name": "HDRIBackdrop",
-			"Enabled": true
+			"Name": "OpenXR",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"Win32",
+				"Win64",
+				"Linux",
+				"Android",
+				"HoloLens"
+			]
 		}
 	],
 	"TargetPlatforms": [

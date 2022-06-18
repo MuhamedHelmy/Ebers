@@ -356,11 +356,7 @@ float ADrumManger::GetScore()
 	return Score;
 }
 
-	if ((CurrentPointIdx ) == CurrentPointSet.Num())
-		return true;
-	else
-		return false;
-}
+
 
 void ADrumManger::SpawnTrail(FVector Location)
 {

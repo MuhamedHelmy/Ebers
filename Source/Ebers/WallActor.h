@@ -30,6 +30,8 @@ public:
 };
 
 UCLASS()
+class EBERS_API AWallActor : public AActor
+{
 	GENERATED_BODY()
 
 public:

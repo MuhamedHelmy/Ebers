@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-
 #include "LightTrigger.generated.h"
 
 UCLASS()

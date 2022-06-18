@@ -81,7 +81,5 @@ private :
 	bool playHitAnim = false; 
 
 
-private :
-	FTimerHandle TimerHandle;
-	void Kill();
+
 };

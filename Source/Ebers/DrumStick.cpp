@@ -7,7 +7,6 @@
 ADrumStick::ADrumStick()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
 
 }
 
@@ -18,10 +17,5 @@ void ADrumStick::BeginPlay()
 	
 }
 
-// Called every frame
-void ADrumStick::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 
-}
 
