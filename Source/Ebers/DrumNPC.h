@@ -3,13 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "GameFramework/Pawn.h"
 #include "DrumManger.h"
 #include "DrumNPC.generated.h"
 
+class UNiagaraSystem;
+class USoundBase;
 class ADrumManger;
 UCLASS()
-class EBERS_API ADrumNPC : public AActor
+class EBERS_API ADrumNPC : public APawn
 {
 	GENERATED_BODY()
 
@@ -27,10 +29,34 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		UAnimationAsset* IDLEAnim;
+	UPROPERTY()
+		ADrumManger* DManager;
+	UPROPERTY(EditAnywhere , BlueprintReadWrite)
+		float HitVar;
 
+	UPROPERTY(EditAnywhere)
+		float KillDelayTime = 3.0f;
+	UPROPERTY(EditAnywhere)
+		float AnimationSwitchRate = 0.08;
+
+	UPROPERTY(EditAnywhere)
+		float AfterHitDelay = 1.0f;
+	bool candoit;
+
+protected:
+	UPROPERTY(EditDefaultsOnly)
+		UNiagaraSystem* NS_HitExplosion;
+	UPROPERTY(EditDefaultsOnly)
+		USoundBase* SB_HitSound;
+
+	UPROPERTY()
+		UStaticMeshComponent* TempArrow; 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void Despawn();
+	
 
 	//ADrumManager* GetManager();
 
@@ -41,10 +67,19 @@ public:
 		void OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex,
 			bool bFromSweep, const FHitResult& Hit);
 
+	UFUNCTION(BlueprintCallable)
+		void PlayHitAnimation();
 	/*UPROPERTY()
 		ADrumManger* DrumManager;*/
-	UPROPERTY()
-		ADrumManger* DManager;
+	
+
+private :
+	FTimerHandle TimerHandle;
+	FTimerHandle KillTimerHandle;
+	void Kill();
+
+	bool playHitAnim = false; 
+
 
 private :
 	FTimerHandle TimerHandle;
