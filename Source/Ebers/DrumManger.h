@@ -145,6 +145,8 @@ public :
 		bool bEndGame;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bIsWin;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bPause;
 private :
 	TQueue<FName> SplinesTagsQueue;
 	FName CurrentTagName;

@@ -115,6 +115,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bIsWin;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bPause;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AEbersPlayer * mypalyer;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float  Mimicscore;
