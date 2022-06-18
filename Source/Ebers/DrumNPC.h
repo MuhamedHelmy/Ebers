@@ -41,6 +41,7 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		float AfterHitDelay = 1.0f;
+	bool candoit;
 
 protected:
 	UPROPERTY(EditDefaultsOnly)

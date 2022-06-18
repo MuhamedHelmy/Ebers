@@ -44,7 +44,7 @@ void ADrumNPC::BeginPlay()
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, KillDelayTime, false, KillDelayTime);
 
 
-
+	candoit = true;
 	//TempArrow = 
 	//HitVar = 0.0f;
 }
@@ -64,12 +64,25 @@ void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		
 	
 	if ( (OtherComponent->GetFName().ToString() == "RightHand") || (OtherComponent->GetFName().ToString() == "LeftHand")) {
+		if (candoit) {
+
 		UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
 		//DManager->SetSpawnNextExercise(true);
 		DManager->AddToScore(5.f);
 		playHitAnim = true;
-		GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Despawn, AfterHitDelay, false, AfterHitDelay);
-		
+		//GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Despawn, AfterHitDelay, false, AfterHitDelay);
+		Despawn();
+		if (NS_HitExplosion) {
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NS_HitExplosion, GetActorLocation());
+		}
+		if (SB_HitSound) {
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), SB_HitSound, GetActorLocation());
+		}
+		candoit = false;
+		DManager->SetSpawnNextExercise(true);
+
+
+		}
 	}
 	
 
@@ -97,6 +110,6 @@ void ADrumNPC::Kill()
 
 void ADrumNPC::Despawn()
 {
-	DManager->SetSpawnNextExercise(true);
+
 	Destroy();
 }
