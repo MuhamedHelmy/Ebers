@@ -38,7 +38,11 @@ void ADrum::BeginPlay()
 	Super::BeginPlay();
 
 	Mesh->OnComponentBeginOverlap.AddDynamic(this, &ADrum::OnCollision);
-
+	TArray<AActor*> Found;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "DrumManager", Found);
+	if (Found.Num() > 0) {
+		DManager = Cast<ADrumManger>(Found[0]);
+	}
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrum::Kill, 5.f, false, 5.0f);
 	//collider->OnComponentBeginOverlap.AddDynamic(this, &ADrum::OnOverlapBegin);
 
@@ -55,6 +59,7 @@ void ADrum::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 
 void ADrum::Kill()
 {
+	
 	Destroy();
 }
 
