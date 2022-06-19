@@ -29,8 +29,7 @@ void AMimicExSet::spawnWAlls(float wallspeed,float rep)
 			 walls->WallMovementSpeed = wallspeed;
 			 _Npos += walls_distance;
 		     wallArray.Add_GetRef(walls);
-			 if(wallArray.Num()!=0)
-				 UE_LOG(LogTemp, Error, TEXT("name : "));
+			
 		}
 	rep--;
 	}
