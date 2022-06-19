@@ -51,12 +51,15 @@ void ADrumManger::BeginPlay()
 		DrumArrows = PlayerClass->GetDrumArrows(4);
 
 		for (int32 i = 1; i < DrumArrows.Num(); i++) {
-			/*DrumArrows[i]->GetFName().ToString();
-			UE_LOG(LogTemp, Error, TEXT("3amr ====>%s ") ,* DrumArrows[i]->GetFName().ToString() );*/
+			DrumArrows[i]->GetFName().ToString();
+			UE_LOG(LogTemp, Error, TEXT("3amr ====>%s ") ,* DrumArrows[i]->GetFName().ToString() );
 
 			DrumArrows[i]->SetHiddenInGame(true);
 		}
 
+		SetPointsCount = SplineLocationsCompined.Num() / SplineTagsArray.Num();
+
+		
 		/*for (int32 i = 0; i < SplineLocationsCompined.Num(); i++) {*/
 			//UE_LOG(LogTemp, Warning, TEXT("3amr ====>%d ") , CompinedPointsCount );
 	/*	}*/
@@ -104,17 +107,32 @@ void ADrumManger::Tick(float DeltaTime)
 		if (CurrentPointIdx < CompinedPointsCount) {
 			SpawnNPC(SplineLocationsCompined[CurrentPointIdx]);
 			CurrentPointIdx++;
-
-			if (CurrentPointIdx % SplineTagsArray.Num() == 0) {
-				UE_LOG(LogTemp, Error, TEXT(" aaaaaaaaaaah"));
-				UE_LOG(LogTemp, Warning, TEXT(" CurrentExerciseCount : %d"), CurrentExerciseCount);
+			UE_LOG(LogTemp, Warning, TEXT(" CurrentPointIdx : %d"), CurrentPointIdx);
+			if ((CurrentPointIdx - 1) == SetPointsCount  || CurrentPointIdx == 1) {
+				SetPointsCount += SplineTagsArray.Num();
+			//	UE_LOG(LogTemp, Error, TEXT(" aaaaaaaaaaah"));
+			//	UE_LOG(LogTemp, Warning, TEXT(" CurrentExerciseCount : %d"), CurrentExerciseCount);
 				// show next arrows !
 				/*for (int32 i = 0; i < DrumArrows.Num(); i++) {
 					DrumArrows[i]->SetHiddenInGame(true);
 				}
 
 				DrumArrows[CurrentArrowIdx]->SetHiddenInGame(false);*/
+				UE_LOG(LogTemp, Warning, TEXT(" Show Next called  ") );
 				ShowNextArrows();
+			}
+			else if (CurrentPointIdx == 5) {
+				UE_LOG(LogTemp, Warning, TEXT(" Show second called "));
+				for (int32 i = 0; i < DrumArrows.Num(); i++) {
+					DrumArrows[i]->SetHiddenInGame(true);
+				}
+				DrumArrows[1]->SetHiddenInGame(false);
+				
+			}
+			else if(CurrentPointIdx == CompinedPointsCount){
+				for (int32 i = 0; i < DrumArrows.Num(); i++) {
+					DrumArrows[i]->SetHiddenInGame(true);
+				}
 			}
 
 			/*UE_LOG(LogTemp, Warning, TEXT(" CurrentExerciseCount : %d"), CurrentExerciseCount)
@@ -122,12 +140,18 @@ void ADrumManger::Tick(float DeltaTime)
 			UE_LOG(LogTemp, Warning, TEXT(" SplineTagsArray : %d"), SplineTagsArray.Num());*/
 		}
 
+		if (CurrentArrowIdx == CompinedPointsCount) {
+			for (int32 i = 0; i < DrumArrows.Num(); i++) {
+				DrumArrows[i]->SetHiddenInGame(true);
+			}
+		}
+
 
 		
 		SpawnNextExercise = false;
 
 	}
-
+	//DrumArrows[0]->SetHiddenInGame(false);
 	
 
 
@@ -145,59 +169,12 @@ void ADrumManger::Tick(float DeltaTime)
 
 
 		
-		/*SplinesTagsQueue.Dequeue(CurrentTagName);
-		TArray<FVector> SplineLocations = GetSplinePointsLocationsByTag(CurrentTagName);*/
-
-		//if (NextPointReady) {
-		//	// spawn trail point 
-		//}
-		//else {
-
-		//}
-		/*
-		if -> last trail => spawn NPC{
-			 1 - next tag
-			 2 - reset NextPointReady to true}
-
-		 
-		*/
-
-
-	/*	SpawnNPC(SplineLocations[0]);
-		SpawnNextExercise = false;*/
-
-		/*FName CurrentTag;
-		SplinesTagsQueue.Peek(CurrentTag);*/
-
-		// spawn domy one by one using the current tag 
-
-		//SpawnExerciseOneByOne(CurrentTag);
+		
 	}
 
 
 
-	//GetWorld()->LineTraceSingleByChannel(hit, StartLaser, EndLaser, ECollisionChannel::ECC_GameTraceChannel1);
-
-	//SpawnMusicTrailsAtLocation(GetSplinePointsLocationsByTag("ETwoLeft"));
 	
-	//if (SpawnNextExercise) {
-
-	//	CurrentExerciseCount++;
-
-	//	if (!SplinesTagsQueue.IsEmpty()) {
-	//		SplinesTagsQueue.Peek(TagName);
-	//		TArray<FVector> Locations = GetSplinePointsLocationsByTag(TagName);
-	//		SpawnMusicTrailsAtLocation(Locations);
-	//		SplinesTagsQueue.Pop();
-	//		//UE_LOG(LogTemp, Error, TEXT("Next Exercise Spawned : Exercise Cound ===> %d") , CurrentExerciseCount);
-	//	}
-	//	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumManger::DisolveDoor, 0.2f, false, 2.0f);
-
-	//	SpawnNextExercise = false;
-	//}
-
-
-	//UE_LOG(LogTemp, Error, TEXT("Score ===> %f")  , Score);
 	
 }
 
@@ -205,36 +182,7 @@ void ADrumManger::Tick(float DeltaTime)
 void ADrumManger::SpawnMusicTrailsAtLocation(TArray<FVector> Locations)
 {
 
-	//GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumManger::DisolveDoor, 0.2f, false, 2.0f);
-
-	//int32 j = 0;
-	//UStaticMeshComponent* x;
-	//for (int32 i = 0; i < Locations.Num(); i++)
-	//{
-	//	if (Locations.Num() -1 != i ) {
-	//		DrumActor = GetWorld()->SpawnActor<ADrum>(DrumClass, Locations[i], FRotator(0, 0, 0));
-
-	//		if (DrumActor) {
-	//			x = Cast<UStaticMeshComponent>(DrumActor->Root->GetChildComponent(0));
-
-	//			if (x) {
-	//				if (j < MusicTrialMeshes.Num()) {
-	//					x->SetStaticMesh(MusicTrialMeshes[j]);
-	//					j++;
-	//				}
-	//				else if (j == MusicTrialMeshes.Num()) {
-	//					j = 0;
-	//				}
-	//				else {
-	//					//UE_LOG(LogTemp, Warning, TEXT("Music trail array is empty"));
-	//				}
-	//			}
-	//		}
-	//	}
-	//	else {
-	//		DrumNPC = GetWorld()->SpawnActor<ADrumNPC>(DrumNPCClass, Locations[i], FRotator(0, 0, 0));
-	//	}
-	//}
+	
 }
 
 bool ADrumManger::GetScenePlayer()
@@ -305,7 +253,7 @@ void ADrumManger::DisolveDoor()
 	//SpawnNextExercise = true;
 	bool gotCage = GetCage();
 	if (gotCage) {
-		UpdateCageDisolve(DisolveStep *  CurrentExerciseCount , DisolveStep * (CurrentExerciseCount-1));
+		UpdateCageDisolve(DisolveStep *  CurrentArrowIdx , DisolveStep * (CurrentArrowIdx -1));
 		//UE_LOG(LogTemp, Warning, TEXT("Disolve Step =  %f  => %d") , DisolveStep , CurrentExerciseCount);
 	}
 }
@@ -319,6 +267,7 @@ bool ADrumManger::GetCage()
 		return true;
 	}
 	else {
+		UE_LOG(LogTemp, Warning, TEXT("No Cage Found"));
 		return false;
 	}
 }
@@ -343,7 +292,7 @@ void ADrumManger::SetNextPointSpawn(bool set)
 
 void ADrumManger::UpdateCageDisolve(float Disolve ,float OldDisolveValue)
 {
-	Cage->setDisolveValue(Disolve , OldDisolveValue);
+	Cage->OpenDoor();
 }
 
 void ADrumManger::AddToScore(float v)
@@ -376,7 +325,14 @@ void ADrumManger::ShowNextArrows()
 	}
 
 	if (CurrentArrowIdx < 4) {
-		DrumArrows[CurrentArrowIdx]->SetHiddenInGame(false);
+		//UE_LOG(LogTemp, Warning, TEXT("CurrentArrowIdx == %d ::: CurrentPointIdx = %d") , CurrentArrowIdx , CurrentPointIdx);
+		if (CurrentPointIdx == 1) {
+			DrumArrows[0]->SetHiddenInGame(false);
+
+		}
+		else {
+			DrumArrows[CurrentArrowIdx]->SetHiddenInGame(false);
+		}
 	}
 	CurrentArrowIdx++;
 

@@ -28,7 +28,12 @@ public:
 	UFUNCTION()
 	void setDisolveValue(float newDis  , float oldDis);
 
-	
+	UFUNCTION()
+		void OpenDoor();
+	UPROPERTY(EditAnyWhere)
+		float DisolveStep =0.2f;
+	UPROPERTY()
+		float DisolveVal;
 
 private :
 		/*UPROPERTY(EditAnywhere)

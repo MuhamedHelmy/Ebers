@@ -68,7 +68,7 @@ void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		if (candoit) {
 
 		UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
-		//DManager->SetSpawnNextExercise(true);
+		DManager->SetSpawnNextExercise(true);
 		DManager->AddToScore(5.f);
 		playHitAnim = true;
 		//GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Despawn, AfterHitDelay, false, AfterHitDelay);
@@ -81,6 +81,8 @@ void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		}
 		candoit = false;
 		DManager->SetSpawnNextExercise(true);
+		//DManager->UpdateCageDisolve(0.f , 0.f);
+	
 
 
 		}

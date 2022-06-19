@@ -104,7 +104,7 @@ protected:
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
 		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);*/
-	void DisolveDoor();
+	
 
 	//void SpawnDrumHeadOneByOne(TArray<FVector> Locations);
 
@@ -127,6 +127,8 @@ public :
 
 	UFUNCTION()
 		void SetNextPointSpawn(bool set);
+	UFUNCTION()
+	void DisolveDoor();
 
 	UFUNCTION()
 		void UpdateCageDisolve(float Disolve , float OldDisolveValue);
@@ -165,7 +167,7 @@ private :
 
 	TArray<FVector> CurrentPointSet;
 	FVector CurrentPointToSpawn; 
-	bool IsFinalPoint();
+	
 
 	int32 PointsCount = 0;
 	int32 CurrentPointIdx = 0;
@@ -180,4 +182,8 @@ private :
 	void Temp();
 
 	TArray<FVector> AllSpawnPoints;
+
+
+	bool setStarted = false; 
+	int32 SetPointsCount;
 };
