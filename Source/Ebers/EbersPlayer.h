@@ -69,4 +69,3 @@ public:
 	//TArray<FVector> GetSplinePointsLocation(FName TagName);
 };
 
-void DrawLeser();

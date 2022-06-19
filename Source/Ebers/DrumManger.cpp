@@ -59,40 +59,7 @@ void ADrumManger::BeginPlay()
 
 		SetPointsCount = SplineLocationsCompined.Num() / SplineTagsArray.Num();
 
-		
-		/*for (int32 i = 0; i < SplineLocationsCompined.Num(); i++) {*/
-			//UE_LOG(LogTemp, Warning, TEXT("3amr ====>%d ") , CompinedPointsCount );
-	/*	}*/
-
-
-		//CurrentPointIdx = 0;
-
-		/*
-		CurrentPointToSpawn = CurrentPointSet[CurrentPointIdx];*/
-
-
-
-
-
-
-
-		/*FName temp;
-		SplinesTagsQueue.Peek(temp);
-		TArray<FVector> tempArray = GetSplinePointsLocationsByTag(temp);
-
-		SpawnDrumHeadOneByOne(tempArray);*/
-
-		//	UE_LOG(LogTemp, Warning, TEXT("Tag array is empty !! Enter some tags !"));
-
-
-
-		/*for (int32 i = 0; i < 4 ; i++)
-		{
-			FName xx;
-			SplinesTagsQueue.Peek(xx);
-			UE_LOG(LogTemp, Warning, TEXT("Queue test : %s"), *xx.ToString()  );
-			SplinesTagsQueue.Pop();	
-		}*/
+	
 		GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumManger::Temp, 2.0f, true , 2.0f);
 
 }
@@ -101,82 +68,52 @@ void ADrumManger::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 
-	if (SpawnNextExercise) {
+	if (!bPause) {
+		if (SpawnNextExercise) {
+			if (CurrentPointIdx < CompinedPointsCount) {
+				SpawnNPC(SplineLocationsCompined[CurrentPointIdx]);
+				CurrentPointIdx++;
+				UE_LOG(LogTemp, Warning, TEXT(" CurrentPointIdx : %d"), CurrentPointIdx);
+				if ((CurrentPointIdx - 1) == SetPointsCount || CurrentPointIdx == 1) {
+					SetPointsCount += SplineTagsArray.Num();
 
-
-		if (CurrentPointIdx < CompinedPointsCount) {
-			SpawnNPC(SplineLocationsCompined[CurrentPointIdx]);
-			CurrentPointIdx++;
-			UE_LOG(LogTemp, Warning, TEXT(" CurrentPointIdx : %d"), CurrentPointIdx);
-			if ((CurrentPointIdx - 1) == SetPointsCount  || CurrentPointIdx == 1) {
-				SetPointsCount += SplineTagsArray.Num();
-			//	UE_LOG(LogTemp, Error, TEXT(" aaaaaaaaaaah"));
-			//	UE_LOG(LogTemp, Warning, TEXT(" CurrentExerciseCount : %d"), CurrentExerciseCount);
-				// show next arrows !
-				/*for (int32 i = 0; i < DrumArrows.Num(); i++) {
-					DrumArrows[i]->SetHiddenInGame(true);
+					UE_LOG(LogTemp, Warning, TEXT(" Show Next called  "));
+					ShowNextArrows();
 				}
+				else if (CurrentPointIdx == 5) {
+					UE_LOG(LogTemp, Warning, TEXT(" Show second called "));
+					for (int32 i = 0; i < DrumArrows.Num(); i++) {
+						DrumArrows[i]->SetHiddenInGame(true);
+					}
+					DrumArrows[1]->SetHiddenInGame(false);
 
-				DrumArrows[CurrentArrowIdx]->SetHiddenInGame(false);*/
-				UE_LOG(LogTemp, Warning, TEXT(" Show Next called  ") );
-				ShowNextArrows();
+				}
+				else if (CurrentPointIdx == CompinedPointsCount) {
+					for (int32 i = 0; i < DrumArrows.Num(); i++) {
+						DrumArrows[i]->SetHiddenInGame(true);
+					}
+				}
 			}
-			else if (CurrentPointIdx == 5) {
-				UE_LOG(LogTemp, Warning, TEXT(" Show second called "));
+
+			if (CurrentArrowIdx == CompinedPointsCount) {
 				for (int32 i = 0; i < DrumArrows.Num(); i++) {
 					DrumArrows[i]->SetHiddenInGame(true);
 				}
-				DrumArrows[1]->SetHiddenInGame(false);
-				
-			}
-			else if(CurrentPointIdx == CompinedPointsCount){
-				for (int32 i = 0; i < DrumArrows.Num(); i++) {
-					DrumArrows[i]->SetHiddenInGame(true);
-				}
 			}
 
-			/*UE_LOG(LogTemp, Warning, TEXT(" CurrentExerciseCount : %d"), CurrentExerciseCount)
-			UE_LOG(LogTemp, Warning, TEXT(" CurrentPointIdx : %d"), CurrentPointIdx);
-			UE_LOG(LogTemp, Warning, TEXT(" SplineTagsArray : %d"), SplineTagsArray.Num());*/
+			SpawnNextExercise = false;
+		}
+		if (CurrentPointIdx == 16 && nOfNPCHit > CurrentPointIdx / 2) {
+			bIsWin = true;
 		}
 
-		if (CurrentArrowIdx == CompinedPointsCount) {
-			for (int32 i = 0; i < DrumArrows.Num(); i++) {
-				DrumArrows[i]->SetHiddenInGame(true);
-			}
+		if (CurrentPointIdx == 16) {
+			bEndGame = true;
 		}
-
-
-		
-		SpawnNextExercise = false;
-
-	}
-	//DrumArrows[0]->SetHiddenInGame(false);
-	
-
-
-
-
-
-	if (NextPointReady) {
-		/*
-			1- spawn next trail .
-		*/
 	}
 
-	if (SpawnNextExercise) {
-
-
-
-		
-		
-	}
-
-
-
-	
-	
 }
+
 
 
 void ADrumManger::SpawnMusicTrailsAtLocation(TArray<FVector> Locations)
@@ -303,6 +240,13 @@ void ADrumManger::AddToScore(float v)
 float ADrumManger::GetScore()
 {
 	return Score;
+}
+
+void ADrumManger::AddToNumOfNpcHit(int32 n)
+{
+
+	nOfNPCHit += n;
+
 }
 
 

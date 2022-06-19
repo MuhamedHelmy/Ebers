@@ -1,7 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Camera/CameraComponent.h"
@@ -140,6 +137,9 @@ public :
 	UFUNCTION( BlueprintCallable, meta = (BindWidget))
 		float GetScore();
 
+	UFUNCTION()
+		void AddToNumOfNpcHit(int32 n);
+
 	UPROPERTY(EditAnywhere , BlueprintReadWrite, meta = (BindWidget))
 		float Score = 0.0f;
 
@@ -149,6 +149,9 @@ public :
 		bool bIsWin;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bPause;
+
+
+
 private :
 	TQueue<FName> SplinesTagsQueue;
 	FName CurrentTagName;
@@ -163,6 +166,7 @@ private :
 	int32 CurrentExerciseCount = 0;
 
 	
+	int32 nOfNPCHit = 0;
 
 
 	TArray<FVector> CurrentPointSet;

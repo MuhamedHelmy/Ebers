@@ -70,6 +70,7 @@ void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
 		DManager->SetSpawnNextExercise(true);
 		DManager->AddToScore(5.f);
+		DManager->AddToNumOfNpcHit(1);
 		playHitAnim = true;
 		//GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Despawn, AfterHitDelay, false, AfterHitDelay);
 		Despawn();

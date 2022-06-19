@@ -5,10 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include"EbersPlayer.h"
-//#include "Blueprint/UserWidget.h"
-#include <Runtime/UMG/Public/Components/TextBlock.h>
-//#include "../../../../Epic Games/UE_4.27/Engine/Plugins/Experimental/CommonUI/Source/CommonUI/Public/CommonTextBlock.h"
-
 #include "DanceGameManager.generated.h"
 
 UENUM()
@@ -79,6 +75,8 @@ public:
 	FVector ArrowHorizontalVector = FVector(-41.000000, -27.000000, 226.00000);
 	FVector ArrowTriangleVector = FVector( 106.0f, 0.0f, 93.0f);
 	FVector ArrowHorizontalDownVector = FVector(-48.000000, 18.000000, 129.000000);
+
+	FVector SoundLocation = FVector(-29.0f, 25.0f, 229.0f);
 
 	FRotator ArrowHorizontalRot = FRotator(0.0f, 180.0f, 90.0f);
 	FRotator ArrowVerticalRot = FRotator( 0.0f,  180.0f, 90.0f);
@@ -172,6 +170,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsWin;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		USoundBase* HitSound;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

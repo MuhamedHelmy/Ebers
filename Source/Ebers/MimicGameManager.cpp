@@ -33,7 +33,14 @@ void AMimicGameManager::Tick(float DeltaTime)
 	if (_isGameStarted) {
 		selectExersice();
 		_isGameStarted = false;
+
 	}
+	float dist = temp->lastwallpos.Y - mypalyer->GetActorLocation().Y;
+	if (dist < -1) {
+		UE_LOG(LogTemp,Error,TEXT("mesh sh8al"))
+	}
+//	redist = mypalyer->GetActorLocation().Y - poslast.Y;
+//	UE_LOG(LogTemp,Error,TEXT("distance %f"), redist)
 	
 }
 void AMimicGameManager::spawnWAllsets() {
@@ -46,6 +53,7 @@ void AMimicGameManager::spawnWAllsets() {
 			float collectablesdis = 0;
 			temp = Cast<AMimicExSet>(GetWorld()->SpawnActor<AMimicExSet>(mimcEXsets[i], GetActorLocation() + FVector(0,pos, 0), GetActorRotation()));
 			temp->walls_distance = distance;
+			//poslast = temp->lastwallpos;
 			Spawnedwalles.Add(temp);
 			if (i == repeatedIndex) {
 				Rip = temprepet;
@@ -86,6 +94,7 @@ void AMimicGameManager::spawnRandomSets()
 			float x = FMath::RandRange(0, mimcEXsets.Num() - 1);
 			temp = Cast<AMimicExSet>(GetWorld()->SpawnActor<AMimicExSet>(mimcEXsets[x],
 				GetActorLocation() + FVector(pos, 0, 0), GetActorRotation()));
+			//poslast = temp->lastwallpos;
 			temp->walls_distance = distance;
 			temp->spawnWAlls(speed, temprepet);
 			Spawnedwalles.Add(temp);

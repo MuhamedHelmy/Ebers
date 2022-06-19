@@ -6,6 +6,7 @@
 // Sets default values
 AMimicExSet::AMimicExSet()
 {
+	PrimaryActorTick.bCanEverTick = true;
 	Spawnrotation = GetActorRotation();
 	Spawnrotation.Yaw = -180;            //the wall rotation
 }
@@ -34,7 +35,8 @@ void AMimicExSet::spawnWAlls(float wallspeed,float rep)
 	rep--;
 	}
 	
-	
+	lastwall = walls;
+	lastwallpos = walls->GetActorLocation();
 
 }
 
@@ -50,6 +52,7 @@ void AMimicExSet::spawnWAlls(float wallspeed)
 		wallArray.Add_GetRef(walls);
 	
 	}
+	//walls = lastwall;
 }
 FString AMimicExSet::GetEXerciseName(AWallActor * wall) {
 	    FString exnam;
@@ -65,7 +68,11 @@ FString AMimicExSet::GetEXerciseName(AWallActor * wall) {
 }
 
 
+void AMimicExSet::Tick(float DeltaTime)
+{
+	lastwallpos = walls->GetActorLocation();
 
+}
 
 
 
