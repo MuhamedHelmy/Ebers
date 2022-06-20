@@ -30,18 +30,31 @@ void AMimicGameManager::BeginPlay()
 }
 void AMimicGameManager::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
 	if (_isGameStarted) {
 		selectExersice();
 		_isGameStarted = false;
 
 	}
-	float dist = temp->lastwallpos.Y - mypalyer->GetActorLocation().Y;
-	if (dist < -1) {
-		UE_LOG(LogTemp,Error,TEXT("mesh sh8al"))
-	}
-//	redist = mypalyer->GetActorLocation().Y - poslast.Y;
-//	UE_LOG(LogTemp,Error,TEXT("distance %f"), redist)
+	TArray<AActor*> wall;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "wall", wall);
 	
+	if (wall.Num() <= 0) {
+		if (!_isgameEnded) {
+			bEndGame = true;
+			if (mypalyer->MimicScore > 0) {
+				bIsWin = true;
+			}
+			else
+			{
+				bIsWin = false;
+			UE_LOG(LogTemp, Error, TEXT("win"));
+
+			}
+			_isgameEnded = true;
+
+		}
+	}
 }
 void AMimicGameManager::spawnWAllsets() {
 	while (wavesnum > 0)
@@ -53,7 +66,6 @@ void AMimicGameManager::spawnWAllsets() {
 			float collectablesdis = 0;
 			temp = Cast<AMimicExSet>(GetWorld()->SpawnActor<AMimicExSet>(mimcEXsets[i], GetActorLocation() + FVector(0,pos, 0), GetActorRotation()));
 			temp->walls_distance = distance;
-			//poslast = temp->lastwallpos;
 			Spawnedwalles.Add(temp);
 			if (i == repeatedIndex) {
 				Rip = temprepet;

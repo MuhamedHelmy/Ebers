@@ -15,7 +15,6 @@ class EBERS_API AMimicExSet : public AActor
 
 public:
 	    AMimicExSet();
-		virtual void Tick(float DeltaTime) override;
 #pragma region Uproperties
 		UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<AWallActor>> wallsShapes;    //array of spawning walls

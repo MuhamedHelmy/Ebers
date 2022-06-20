@@ -77,6 +77,7 @@ public:
 		float Exrepeat;
 	UPROPERTY(EditAnywhere)
 	bool _isGameStarted;
+	bool _isgameEnded;
 	//repeat exercise 
 	float redist=0;
 #pragma endregion UPROPERTIES
