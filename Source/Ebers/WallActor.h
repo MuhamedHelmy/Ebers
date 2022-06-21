@@ -54,6 +54,8 @@ public:
 	//class AlightTrigger* lightt;
 	UPROPERTY(VisibleAnywhere)
 	ALightTrigger *light;
+	UPROPERTY(VisibleAnywhere)
+		ALightTrigger* greenlight;
 
 	bool getNamed;
 	virtual void Tick(float DeltaTime) override;

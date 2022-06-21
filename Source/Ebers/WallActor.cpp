@@ -37,9 +37,15 @@ void AWallActor::BeginPlay()
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "redlight", redlight);
 	if (redlight.Num() > 0) {
 		light = Cast<ALightTrigger>(redlight[0]);
-		UE_LOG(LogTemp, Error, TEXT("bhgfhfh"));
+	//	UE_LOG(LogTemp, Error, TEXT("bhgfhfh"));
 	}
 
+	TArray<AActor*> glight;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "greenlight", glight);
+	if (glight.Num() > 0) {
+		greenlight = Cast<ALightTrigger>(glight[0]);
+		//UE_LOG(LogTemp, Error, TEXT("bhgfhfh"));
+	}
 
 	
 }
@@ -98,8 +104,10 @@ void AWallActor::leftHandOnOverlapBegin(UPrimitiveComponent * OverlappedComp, AA
 	}
 	if (rightHandscored&&leftHandScored)
 	{
+		greenlight->lighttriggeron();
 
 		mypalyer->MimicScore += 10;
+
 		rightHandscored=false;
 	}
 	data.Add(acdata);
