@@ -24,7 +24,7 @@ void ALightTrigger::BeginPlay()
 
 void ALightTrigger::lighttriggeron()
 {
-	PointLight->SetVisibility(true);
+	    PointLight->SetVisibility(true);
 		GetWorldTimerManager().SetTimer(TimerHandle, this, &ALightTrigger::lighttriggerOff, 0.5, false, 0.5f);
 
 }
