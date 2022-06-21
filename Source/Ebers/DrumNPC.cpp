@@ -1,11 +1,10 @@
-#include "DrumNPC.h"
-// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "DrumNPC.h"
 #include <Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 #include "NiagaraFunctionLibrary.h"
 
+#include "DrumManger.h"
 
 ADrumNPC::ADrumNPC()
 {
@@ -44,8 +43,10 @@ void ADrumNPC::BeginPlay()
 
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, KillDelayTime, false, KillDelayTime);
 
-	UE_LOG(LogTemp, Error, TEXT("Doumy initiated !!! "));
+	//UE_LOG(LogTemp, Error, TEXT("Doumy initiated !!! "));
 	candoit = true;
+
+	GotCage = GetCage();
 	//TempArrow = 
 	//HitVar = 0.0f;
 }
@@ -64,10 +65,10 @@ void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 {
 		
 	
-	if ( (OtherComponent->GetFName().ToString() == "RightHand") || (OtherComponent->GetFName().ToString() == "LeftHand")) {
+	//if ( (OtherComponent->GetFName().ToString() == "RightHand") || (OtherComponent->GetFName().ToString() == "LeftHand")) {
 		if (candoit) {
 
-		UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
+		//	UE_LOG(LogTemp, Error, TEXT("Drum have hit =====>  : %s "), *OtherActor->GetFName().ToString());
 		DManager->SetSpawnNextExercise(true);
 		DManager->AddToScore(5.f);
 		DManager->AddToNumOfNpcHit(1);
@@ -82,11 +83,21 @@ void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		}
 		candoit = false;
 		DManager->SetSpawnNextExercise(true);
-		//DManager->UpdateCageDisolve(0.f , 0.f);
-	
 
 
+		if (GotCage)
+		{
+			//Cage->OpenDoor();
+			UE_LOG(LogTemp, Error, TEXT("gadooooooooooo"));
 		}
+		else {
+			UE_LOG(LogTemp, Error, TEXT("No Cage "));
+		}
+		//DManager->UpdateCageDisolve(0.f , 0.f);
+		DManager->UpdateCageDisolve();
+
+
+		//}
 	}
 	
 
@@ -108,6 +119,22 @@ void ADrumNPC::Kill()
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SB_HitSound, GetActorLocation());
 	}
 	Destroy();
+}
+
+bool ADrumNPC::GetCage()
+{
+
+	TArray<AActor*> Found;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "Cage", Found);
+	if (Found.Num() > 0) {
+		Cage = Cast<ACage>(Found[0]);
+		return true;
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("No Cage Found"));
+		return false;
+	}
+	//return false;
 }
 
 

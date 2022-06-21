@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "DrumManger.h"
 #include "DrumNPC.generated.h"
 
 class UNiagaraSystem;
 class USoundBase;
 class ADrumManger;
+class ACage;
 UCLASS()
 class EBERS_API ADrumNPC : public APawn
 {
@@ -43,6 +43,8 @@ public:
 		float AfterHitDelay = 1.0f;
 	bool candoit;
 
+	UPROPERTY()
+		ACage* Cage;
 protected:
 	UPROPERTY(EditDefaultsOnly)
 		UNiagaraSystem* NS_HitExplosion;
@@ -56,7 +58,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	void Despawn();
-	
+	bool GotCage = false;
 
 	//ADrumManager* GetManager();
 
@@ -81,5 +83,7 @@ private :
 	bool playHitAnim = false; 
 
 
+	bool GetCage();
 
+	
 };

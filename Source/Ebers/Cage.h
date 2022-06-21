@@ -18,6 +18,8 @@ public:
 	// Sets default values for this actor's properties
 	ACage();
 
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -29,11 +31,20 @@ public:
 	void setDisolveValue(float newDis  , float oldDis);
 
 	UFUNCTION()
-		void OpenDoor();
+		void OpenDoor(int32 NPCNum);
+
+
 	UPROPERTY(EditAnyWhere)
 		float DisolveStep =0.2f;
 	UPROPERTY()
 		float DisolveVal;
+
+	UPROPERTY(EditAnyWhere)
+		float FullyVisableValue;
+
+	UPROPERTY(EditAnyWhere)
+		float FullyDisovedValue;
+
 
 private :
 		/*UPROPERTY(EditAnywhere)

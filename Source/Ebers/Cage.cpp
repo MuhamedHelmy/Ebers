@@ -49,9 +49,9 @@ void ACage::Tick(float DeltaTime)
 
 	if (startdesolve) {
 		FHashedMaterialParameterInfo test;
-		CageDoorDynamicMat->SetScalarParameterValue("Disolve" , DisolveVal);
+		//CageDoorDynamicMat->SetScalarParameterValue("Disolve" , DisolveVal);
 		//CageDoorDynamicMat->SetScalarParameterValue("Disolve", FMath::Lerp(OldDisolveValue , DisolveValue , 0.001f * DeltaTime));
-		UE_LOG(LogTemp , Error , TEXT("Disolved"));
+		
 		/*if (xx) {
 
 		}*/
@@ -66,11 +66,15 @@ void ACage::setDisolveValue(float newDis,float  oldDis)
 	this->OldDisolveValue = oldDis;
 }
 
-void ACage::OpenDoor()
+void ACage::OpenDoor(int32 NPCNum)
 {
-	DisolveVal += DisolveStep;
-	startdesolve = true;
+	float  disolveStep =  (FullyVisableValue - FullyDisovedValue) / NPCNum;
+	//UE_LOG(LogTemp, Error, TEXT("pppppppppppppppppppppppppppp : %f"), disolveStep);
+	DisolveVal -= disolveStep;
+	//UE_LOG(LogTemp, Error, TEXT("ooooooooooooooooooooooooooooooooooooooo : %f"), DisolveVal);
+	CageDoorDynamicMat->SetScalarParameterValue("Disolve", DisolveVal);
 	
 }
+
 
 

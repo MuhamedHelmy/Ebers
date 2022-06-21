@@ -128,7 +128,7 @@ public :
 	void DisolveDoor();
 
 	UFUNCTION()
-		void UpdateCageDisolve(float Disolve , float OldDisolveValue);
+		void UpdateCageDisolve( );
 
 	UFUNCTION()
 		void AddToScore(float v);

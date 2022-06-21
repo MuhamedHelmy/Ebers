@@ -62,6 +62,8 @@ void ADrumManger::BeginPlay()
 	
 		GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumManger::Temp, 2.0f, true , 2.0f);
 
+		bool gotCage = GetCage();
+
 }
 void ADrumManger::Tick(float DeltaTime)
 {
@@ -69,13 +71,13 @@ void ADrumManger::Tick(float DeltaTime)
 
 
 	if (!bPause) {
-		UE_LOG(LogTemp, Error, TEXT(" Cpasrt urrentPoxxxxxxxxxxxxxxxxxxxx"));
+		//UE_LOG(LogTemp, Error, TEXT(" Cpasrt urrentPoxxxxxxxxxxxxxxxxxxxx"));
 		if (SpawnNextExercise) {
-			UE_LOG(LogTemp, Error, TEXT(" CurrentPoxxxxxxxxxxxxxxxxxxxx"));
+			//UE_LOG(LogTemp, Error, TEXT(" CurrentPoxxxxxxxxxxxxxxxxxxxx"));
 			if (CurrentPointIdx < CompinedPointsCount) {
 				SpawnNPC(SplineLocationsCompined[CurrentPointIdx]);
 				CurrentPointIdx++;
-				UE_LOG(LogTemp, Warning, TEXT(" CurrentPointIdx : %d"), CurrentPointIdx);
+				//UE_LOG(LogTemp, Warning, TEXT(" CurrentPointIdx : %d"), CurrentPointIdx);
 				if ((CurrentPointIdx - 1) == SetPointsCount || CurrentPointIdx == 1) {
 					SetPointsCount += SplineTagsArray.Num();
 
@@ -192,7 +194,7 @@ void ADrumManger::DisolveDoor()
 	//SpawnNextExercise = true;
 	bool gotCage = GetCage();
 	if (gotCage) {
-		UpdateCageDisolve(DisolveStep *  CurrentArrowIdx , DisolveStep * (CurrentArrowIdx -1));
+		//UpdateCageDisolve(DisolveStep *  CurrentArrowIdx , DisolveStep * (CurrentArrowIdx -1));
 		//UE_LOG(LogTemp, Warning, TEXT("Disolve Step =  %f  => %d") , DisolveStep , CurrentExerciseCount);
 	}
 }
@@ -229,9 +231,9 @@ void ADrumManger::SetNextPointSpawn(bool set)
 
 }
 
-void ADrumManger::UpdateCageDisolve(float Disolve ,float OldDisolveValue)
+void ADrumManger::UpdateCageDisolve()
 {
-	Cage->OpenDoor();
+	Cage->OpenDoor(CompinedPointsCount);
 }
 
 void ADrumManger::AddToScore(float v)
