@@ -18,7 +18,7 @@ void ADrumManger::BeginPlay()
 	Super::BeginPlay();
 	
 	GetScenePlayer();
-	
+	UE_LOG(LogTemp, Error, TEXT(" Cpasrt urrentPoxxxxxxxxxxxxxxxxxxxx"));
 		if (SplineTagsArray.Num() > 0) { // Initializing the queue with the splines added from the BP
 			for (int32 i = 0; i < SplineTagsArray.Num(); i++)
 			{
@@ -68,9 +68,10 @@ void ADrumManger::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 
-	//if (!bPause) {
+	if (!bPause) {
+		UE_LOG(LogTemp, Error, TEXT(" Cpasrt urrentPoxxxxxxxxxxxxxxxxxxxx"));
 		if (SpawnNextExercise) {
-			UE_LOG(LogTemp, Warning, TEXT(" CurrentPoxxxxxxxxxxxxxxxxxxxx"));
+			UE_LOG(LogTemp, Error, TEXT(" CurrentPoxxxxxxxxxxxxxxxxxxxx"));
 			if (CurrentPointIdx < CompinedPointsCount) {
 				SpawnNPC(SplineLocationsCompined[CurrentPointIdx]);
 				CurrentPointIdx++;
@@ -111,7 +112,7 @@ void ADrumManger::Tick(float DeltaTime)
 		if (CurrentPointIdx == 16) {
 			bEndGame = true;
 		}
-	//}
+	}
 
 }
 

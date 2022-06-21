@@ -148,7 +148,7 @@ public :
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bIsWin;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bPause;
+		bool bPause = false ;
 
 
 
