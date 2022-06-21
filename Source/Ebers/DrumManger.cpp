@@ -68,8 +68,9 @@ void ADrumManger::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 
-	if (!bPause) {
+	//if (!bPause) {
 		if (SpawnNextExercise) {
+			UE_LOG(LogTemp, Warning, TEXT(" CurrentPoxxxxxxxxxxxxxxxxxxxx"));
 			if (CurrentPointIdx < CompinedPointsCount) {
 				SpawnNPC(SplineLocationsCompined[CurrentPointIdx]);
 				CurrentPointIdx++;
@@ -110,7 +111,7 @@ void ADrumManger::Tick(float DeltaTime)
 		if (CurrentPointIdx == 16) {
 			bEndGame = true;
 		}
-	}
+	//}
 
 }
 

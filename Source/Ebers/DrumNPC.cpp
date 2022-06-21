@@ -20,7 +20,7 @@ ADrumNPC::ADrumNPC()
 	//Mesh->OnComponentBeginOverlap.AddDynamic(this  , &ADrum::OnOverlap);
 		
 
-	//UE_LOG(LogTemp, Error, TEXT("Doumy initiated !!! "));
+		
 }
 
 void ADrumNPC::BeginPlay()
@@ -44,7 +44,7 @@ void ADrumNPC::BeginPlay()
 
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Kill, KillDelayTime, false, KillDelayTime);
 
-
+	UE_LOG(LogTemp, Error, TEXT("Doumy initiated !!! "));
 	candoit = true;
 	//TempArrow = 
 	//HitVar = 0.0f;
