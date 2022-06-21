@@ -141,25 +141,12 @@ public:
 		class UMaterial* ArrowInCurveMaterial;
 	UPROPERTY(EditAnywhere)
 		class UMaterial* ArrowNotInCurveMaterial;
-
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AActor* LaserScore;
 
-	//UPROPERTY( BlueprintReadWrite)
-	//SCompoundWidget* LaserScoreWidgetComponent;
-	//UPROPERTY( BlueprintReadWrite, meta = (BindWidget))
-	//	UTextBlock* MyTxt_Score;
-
-	//UPROPERTY(BlueprintReadWrite)
-	//	 UTextBlock* MyTxt_Score;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	FText MyTxt_Score;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float pointsScore;
 		int temppointsScore;
-	//SWidget* LaserScoreWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float totalScore;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -179,12 +166,8 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	//void SpawnDanceEnemyHorizontal(float maxAngle, bool direction);
-	//void SpawnDanceEnemyVertical(float maxAngle, bool direction);
-	//void SpawnDanceEnemyTriangle(float maxAngle, bool direction);
 	void SpawnDanceEnemy(ExerciseTypes::Type type,float maxAngle, bool direction);
 
-	//void MoveFromCurveToAnother();
 	void MoveFromCurveToAnotherHorizontal();
 	void MoveFromCurveToAnotherVertical();
 	void MoveFromCurveToAnotherHorizontalDown();
