@@ -515,7 +515,7 @@ void  ADanceGameManager::CheckEnemyDestroyed() {
 	if ((DanceEnemies[EnemyIndex] == nullptr || DanceEnemies[EnemyIndex]->DestroyedDone || DanceEnemies[EnemyIndex]->GetLifeSpan() == 0) && CharacterRef)
 	{
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), HitSound, SoundLocation);
-
+		//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticleSystem, HitLocation, HitRot, true);
 
 		if (DanceEnemies[EnemyIndex]->DestroyedDone) {
 			pointsScore += 50;

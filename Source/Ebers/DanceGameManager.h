@@ -159,6 +159,15 @@ public:
 	bool bIsWin;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		USoundBase* HitSound;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//	UParticleSystem* HitParticleSystem;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//	FVector HitLocation;
+
+	//FRotator HitRot = FRotator(0.0f, 0.0f, 0.0f);
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
