@@ -3,6 +3,8 @@
 
 
 #include "Cage.h"
+#include <Runtime/Engine/Classes/Kismet/GameplayStatics.h>
+
 #include <Runtime/Engine/Classes/Components/BoxComponent.h>
 
 // Sets default values
@@ -38,7 +40,10 @@ void ACage::BeginPlay()
 
 	CageDoorMeshComponent->SetMaterial(0,CageDoorDynamicMat );
 	
-
+	FVector Loc(1120.0f, -1070.0f, -30.00f);
+	if (CageEffect) {
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), CageEffect, Loc, GetActorRotation() , FVector(0.7f,0.7f,0.7f));
+	}
 	//setDisolveValue(-1.f );
 }
 
@@ -73,6 +78,9 @@ void ACage::OpenDoor(int32 NPCNum)
 	DisolveVal -= disolveStep;
 	//UE_LOG(LogTemp, Error, TEXT("ooooooooooooooooooooooooooooooooooooooo : %f"), DisolveVal);
 	CageDoorDynamicMat->SetScalarParameterValue("Disolve", DisolveVal);
+
+	//(X = 1080.000000, Y = -1070.000000, Z = 100.000000)
+	
 	
 }
 

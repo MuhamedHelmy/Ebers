@@ -190,4 +190,8 @@ private :
 
 	bool setStarted = false; 
 	int32 SetPointsCount;
+
+
+
+	//bool GameEnded
 };

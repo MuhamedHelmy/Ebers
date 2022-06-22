@@ -46,6 +46,10 @@ public:
 		float FullyDisovedValue;
 
 
+	UPROPERTY(EditAnywhere)
+		UParticleSystem* CageEffect;
+
+
 private :
 		/*UPROPERTY(EditAnywhere)
 			UStaticMesh* CageDoorMesh;*/

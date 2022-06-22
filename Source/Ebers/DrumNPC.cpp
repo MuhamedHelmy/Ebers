@@ -75,8 +75,11 @@ void ADrumNPC::OnCollision(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		playHitAnim = true;
 		//GetWorldTimerManager().SetTimer(TimerHandle, this, &ADrumNPC::Despawn, AfterHitDelay, false, AfterHitDelay);
 		Despawn();
-		if (NS_HitExplosion) {
+		/*if (NS_HitExplosion) {
 			UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NS_HitExplosion, GetActorLocation());
+		}*/
+		if (DomyHitEffect) {
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DomyHitEffect, GetActorLocation(), GetActorRotation());
 		}
 		if (SB_HitSound) {
 			UGameplayStatics::PlaySoundAtLocation(GetWorld(), SB_HitSound, GetActorLocation());

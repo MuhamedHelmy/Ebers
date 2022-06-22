@@ -10,6 +10,7 @@ class UNiagaraSystem;
 class USoundBase;
 class ADrumManger;
 class ACage;
+class UParticleSystem;
 UCLASS()
 class EBERS_API ADrumNPC : public APawn
 {
@@ -41,6 +42,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		float AfterHitDelay = 1.0f;
+
+	UPROPERTY(EditAnywhere)
+		UParticleSystem* DomyHitEffect;
 	bool candoit;
 
 	UPROPERTY()
