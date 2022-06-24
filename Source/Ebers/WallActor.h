@@ -29,7 +29,6 @@ public:
 	}
 };
 
-class ALightTrigger;
 UCLASS()
 class EBERS_API AWallActor : public AActor
 {
@@ -68,9 +67,17 @@ private :
 	bool lefthandcolllision;
 	bool rightHandscored;
 	bool leftHandScored;
+	
 	FAccuracyData  acdata;
 protected:
 	virtual void BeginPlay() override;
 
 	
+	//UFUNCTION()
+	//	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	//UFUNCTION()
+	//	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+		//void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 };

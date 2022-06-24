@@ -15,12 +15,14 @@ class EBERS_API AMimicExSet : public AActor
 
 public:
 	    AMimicExSet();
-
 #pragma region Uproperties
 		UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<AWallActor>> wallsShapes;    //array of spawning walls
 	    UPROPERTY(EditAnywhere)
 	    float walls_distance=300;                     // the distance between every wall
+
+		AWallActor * lastwall;
+		FVector lastwallpos;
 
 #pragma endregion Uproperties
 
@@ -41,6 +43,8 @@ private:
 	FRotator Spawnrotation;
 	float setIterations=1;
     TArray<AWallActor*>wallArray;
+
+	
 #pragma endregion  privatesVariables
 
 #pragma region protectedFunction
@@ -49,5 +53,6 @@ protected:
 	virtual void BeginPlay() override;
 	void returnJason();
 	void returnwallsnames();
+
 #pragma endregion  protectedFunction
 };

@@ -1,7 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Camera/CameraComponent.h"
@@ -13,6 +10,12 @@ class ADrum;
 class AEbersPlayer;
 class ADrumNPC;
 class ACage;
+
+
+
+
+
+
 UCLASS()
 class EBERS_API ADrumManger : public AActor
 {
@@ -34,6 +37,9 @@ public:
 
 	UPROPERTY()
 		AEbersPlayer* PlayerClass;
+
+	UPROPERTY()
+		TArray<UStaticMeshComponent* > DrumArrows;
 
 	UPROPERTY()
 		ADrum* DrumActor;
@@ -95,7 +101,9 @@ protected:
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
 		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);*/
-	void DisolveDoor();
+	
+
+	//void SpawnDrumHeadOneByOne(TArray<FVector> Locations);
 
 	bool GetCage();
 	
@@ -115,6 +123,11 @@ public :
 	void SetSpawnNextExercise(bool set);
 
 	UFUNCTION()
+		void SetNextPointSpawn(bool set);
+	UFUNCTION()
+	void DisolveDoor();
+
+	UFUNCTION()
 		void UpdateCageDisolve(float Disolve , float OldDisolveValue);
 
 	UFUNCTION()
@@ -124,6 +137,9 @@ public :
 	UFUNCTION( BlueprintCallable, meta = (BindWidget))
 		float GetScore();
 
+	UFUNCTION()
+		void AddToNumOfNpcHit(int32 n);
+
 	UPROPERTY(EditAnywhere , BlueprintReadWrite, meta = (BindWidget))
 		float Score = 0.0f;
 
@@ -131,17 +147,47 @@ public :
 		bool bEndGame;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bIsWin;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bPause;
+
+
+
 private :
 	TQueue<FName> SplinesTagsQueue;
-	FName TagName;
-	bool SpawnNextExercise = true ;
+	FName CurrentTagName;
+	TArray<FVector> SplineLocationsCompined; 
+	int32 CompinedPointsCount = 0;
+
+	bool SpawnNextExercise = true;
 	FTimerHandle TimerHandle;
+	FTimerHandle TimerHandleTwo;
+	FTimerHandle TimerHandleThree;
 	float DisolveStep = -0.1f;
 	int32 CurrentExerciseCount = 0;
 
 	
+	int32 nOfNPCHit = 0;
 
 
-
+	TArray<FVector> CurrentPointSet;
+	FVector CurrentPointToSpawn; 
 	
+
+	int32 PointsCount = 0;
+	int32 CurrentPointIdx = 0;
+	int32 CurrentArrowIdx = 1; 
+
+	int32 **x;
+	bool NextPointReady = true;
+	
+	void SpawnTrail(FVector Location);
+	void SpawnNPC(FVector Location);
+	void ShowNextArrows();
+	void Temp();
+
+	TArray<FVector> AllSpawnPoints;
+
+
+	bool setStarted = false; 
+	int32 SetPointsCount;
 };

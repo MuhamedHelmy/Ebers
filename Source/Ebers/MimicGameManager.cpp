@@ -30,11 +30,31 @@ void AMimicGameManager::BeginPlay()
 }
 void AMimicGameManager::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
 	if (_isGameStarted) {
 		selectExersice();
 		_isGameStarted = false;
+
 	}
+	TArray<AActor*> wall;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "wall", wall);
 	
+	if (wall.Num() <= 0) {
+		if (!_isgameEnded) {
+			bEndGame = true;
+			if (mypalyer->MimicScore > 0) {
+				bIsWin = true;
+			}
+			else
+			{
+				bIsWin = false;
+			UE_LOG(LogTemp, Error, TEXT("win"));
+
+			}
+			_isgameEnded = true;
+
+		}
+	}
 }
 void AMimicGameManager::spawnWAllsets() {
 	while (wavesnum > 0)
@@ -86,6 +106,7 @@ void AMimicGameManager::spawnRandomSets()
 			float x = FMath::RandRange(0, mimcEXsets.Num() - 1);
 			temp = Cast<AMimicExSet>(GetWorld()->SpawnActor<AMimicExSet>(mimcEXsets[x],
 				GetActorLocation() + FVector(pos, 0, 0), GetActorRotation()));
+			//poslast = temp->lastwallpos;
 			temp->walls_distance = distance;
 			temp->spawnWAlls(speed, temprepet);
 			Spawnedwalles.Add(temp);

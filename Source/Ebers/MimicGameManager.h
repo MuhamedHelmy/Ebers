@@ -77,8 +77,9 @@ public:
 		float Exrepeat;
 	UPROPERTY(EditAnywhere)
 	bool _isGameStarted;
+	bool _isgameEnded;
 	//repeat exercise 
-	
+	float redist=0;
 #pragma endregion UPROPERTIES
 
 
@@ -87,6 +88,7 @@ private:
 	float pos = 0;
 	AMimicExSet* temp;
 	ACollectables* tempcollectables;
+
 	//float iterations=5;
 	int32 starter;
 	int32 repeat;
@@ -115,9 +117,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bIsWin;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bPause;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AEbersPlayer * mypalyer;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float  Mimicscore;
 
+	FVector poslast;
 #pragma endregion Functions
 };
