@@ -1,6 +1,5 @@
-#include "Collectables.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "Collectables.h"
 
 // Sets default values
 ACollectables::ACollectables()

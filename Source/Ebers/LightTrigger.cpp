@@ -1,8 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "LightTrigger.h"
 #include "Components/PointLightComponent.h"
-
+#include "LightTrigger.h"
 
 // Sets default values
 ALightTrigger::ALightTrigger()
